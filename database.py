@@ -7,6 +7,7 @@ class DatabaseManager:
 		self.user = 'root'
 		self.password = 'password'
 		database = 'mynewdb'
+		print("Database Manager Print")
 
 		self.connection = pymysql.connect(host=self.host,
                              user=self.user,
@@ -16,52 +17,35 @@ class DatabaseManager:
                              cursorclass=pymysql.cursors.DictCursor)
 
 
-	def create_database(self, databaseName):
+	def create_database(self):
 		cur = self.connection.cursor()
-		cur.execute("CREATE DATABASE " + databaseName)
+		cur.execute("CREATE DATABASE test")
 		self.connection.commit()
 		cur.close()
 
 
-	def delete_database(self, databaseName):
+	def delete_database(self):
 		cur = self.connection.cursor()
-		cur.execute("DROP DATABASE " + databaseName)
+		cur.execute("DROP DATABASE test")
 		self.connection.commit()
 		cur.close()
 
-	def create_table(self, databaseName):
-		self.connection = pymysql.connect(host=self.host,
+	def create_table(self):
+		connection = pymysql.connect(host=self.host,
                              user=self.user,
                              password=self.password,
-                             database=databaseName,
+                             database="test",
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)		
-		cur = self.connection.cursor()
+		cur = connection.cursor()
 		cur.execute("CREATE TABLE testtable (name VARCHAR(255), address VARCHAR(255))")
-		self.connection.commit()
-		cur.close()
-
-	def submit_to_table(self, tableName, firstName, lastName):
-		cur = connection.cursor()
-		cur.execute("INSERT INTO " + tableName + " (firstName, lastName) VALUES (%s, %s)", (firstName, lastName))
-		connection.commit()
-		cur.close()
-
-	def remove_from_table(self, tableName):
-		cur = connection.cursor()
-		cur.execute("DELETE FROM " + tableName +" WHERE firstName=%s", (firstName,))
 		connection.commit()
 		cur.close()
 
 
+database_manager = DatabaseManager()
 
 
-data = DatabaseManager()
-
-
-#data.create_database("test")
-#data.create_table("test")
-#data.delete_database("test")
 
 
 

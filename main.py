@@ -1,8 +1,13 @@
 from flask import Flask, render_template, request
 import pymysql.cursors
+from table_manipulation import TattooManager
 
 
 app = Flask(__name__)
+
+tattoo_manager = TattooManager()
+
+
 
 connection = pymysql.connect(host='localhost',
                              user='root',
@@ -10,6 +15,8 @@ connection = pymysql.connect(host='localhost',
                              db='mynewdb',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
+
+connection.autocommit(True)
 
 @app.route('/hey')
 def users():
@@ -25,17 +32,12 @@ def index():
     if request.method == "POST":
         details = request.form
         firstName = details['fname']
-        tableName = "MyUsers"
         lastName = details['lname']
         action = details['action']
-
-        cur = connection.cursor()
         if action == "submit":
-        	cur.execute("INSERT INTO " + tableName + "(firstName, lastName) VALUES (%s, %s)", (firstName, lastName))
+        	tattoo_manager.add_tattoo("MyUsers", firstName, lastName)
         if action == "remove":
-            cur.execute("DELETE FROM MyUsers WHERE firstName=%s", (firstName,))
-        connection.commit()
-        cur.close()
+        	tattoo_manager.remove_tattoo("MyUsers", firstName)
         return 'success'
     return render_template('index.html')
 
