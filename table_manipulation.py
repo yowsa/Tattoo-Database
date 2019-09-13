@@ -3,36 +3,29 @@ from database import database_manager
 
 class TattooManager():
 
-	#def __init__(self):
-	#find connection
+	def add_tattoo(self, name, img_path):
+		database_manager.execute("INSERT INTO tattoos (name, img_path) VALUES (%s, %s)", (name, img_path))
 
+	def remove_tattoo(self, name):
+		database_manager.execute("DELETE FROM tattos WHERE name=%s", (name,))
 
-	def add_tattoo(self, tableName, firstName, lastName):
-		cur = database_manager.connection.cursor()
-		cur.execute("INSERT INTO " + tableName + " (firstname, lastname) VALUES (%s, %s)", (firstName, lastName))
-		database_manager.connection.commit()
-		cur.close()
-
-	def remove_tattoo(self, tableName, firstName):
-		cur = database_manager.connection.cursor()
-		cur.execute("DELETE FROM " + tableName +" WHERE firstname=%s", (firstName,))
-		database_manager.connection.commit()
-		cur.close()
+	def get_tattoo_id(self):
+		database_manager.execute("SELECT LAST_INSERT_ID() FROM tattoos")
 
 
 
 
 
-"""
+
+#def execute(a,b, *args, g=1, **kwargs):
+#	cur.execute(*, **kwarg)
+
+
 class TagManager():
-	def __init__(self):
-
-
 
 	def add_tag(self):
-
+		database_manager.execute("INSERT INTO tags (tag, tattoo_id) VALUES (%s, %s)", (tag, tattoo_id))
 
 
 	def remove_tag(self):
-"""
-
+		database_manager.execute("DELETE FROM tags WHERE name=%s", (name,))

@@ -6,7 +6,7 @@ class DatabaseManager:
 		self.host = 'localhost'
 		self.user = 'root'
 		self.password = 'password'
-		database = 'mynewdb'
+		database = 'tattoo_db'
 		print("Database Manager Print")
 
 		self.connection = pymysql.connect(host=self.host,
@@ -40,6 +40,12 @@ class DatabaseManager:
 		cur = connection.cursor()
 		cur.execute("CREATE TABLE testtable (name VARCHAR(255), address VARCHAR(255))")
 		connection.commit()
+		cur.close()
+
+	def execute(self, *args):
+		cur = database_manager.connection.cursor()
+		cur.execute(*args)
+		database_manager.connection.commit()
 		cur.close()
 
 
