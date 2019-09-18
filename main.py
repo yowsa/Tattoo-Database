@@ -25,7 +25,6 @@ def users():
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    tattoo_manager.get_next_tattoo_id("tattoos", "tattoo_db")
     if request.method == "POST":
         details = request.form
         file = request.files['vector_file']

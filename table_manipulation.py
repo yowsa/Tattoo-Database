@@ -13,13 +13,6 @@ class TattooManager():
 	def remove_tattoo(self, name):
 		self.database_manager.execute("DELETE FROM tattos WHERE name=%s", (name,))
 
-	def get_next_tattoo_id(self, table, database):
-		cur = self.database_manager.connection.cursor()
-		cur.execute("SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE table_name = %s AND table_schema=%s", (table, database))
-		rv = cur.fetchall()
-		cur.connection.commit()
-		cur.close()
-		print(rv)
 
 
 class TagManager():
