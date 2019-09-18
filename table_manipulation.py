@@ -7,8 +7,8 @@ class TattooManager():
 			from database import database_manager
 		self.database_manager = database_manager
 
-	def add_tattoo(self, img_path):
-		self.database_manager.execute("INSERT INTO tattoos (img_path) VALUES (%s)", (img_path))
+	def add_tattoo(self, vector_path):
+		self.database_manager.execute("INSERT INTO tattoos (vector_path, png_path) VALUES (%s, %s)", (vector_path, vector_path))
 
 	def remove_tattoo(self, name):
 		self.database_manager.execute("DELETE FROM tattos WHERE name=%s", (name,))

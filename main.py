@@ -3,6 +3,7 @@ from flask import Flask, render_template, request
 import pymysql.cursors
 from table_manipulation import TattooManager
 from database import database_manager
+import uuid
 
 app = Flask(__name__)
 
@@ -30,10 +31,10 @@ def index():
         file = request.files['vector_file']
         tags = details['tag']
         action = details['action']
+        random_id_name = str(uuid.uuid4())
         if action == "submit":
-            #tattoo_manager.add_tattoo(img_path)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
-            #print(tattoo_manager.get_tattoo_id())
+            tattoo_manager.add_tattoo(random_id_name)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], random_id_name))
  #       if action == "remove":
   #          tattoo_manager.remove_tattoo(tattoo_name)
         return 'success'
