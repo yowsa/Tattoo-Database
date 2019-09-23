@@ -1,12 +1,13 @@
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+let data = "";
+
 
 $.ajax({
 	type:"GET",
 	dataType: "json",
-	url: "/"
+	url: "/all",
 	data: data,
 	success: function(x){
-		alert(x):
+		console.log(x);
 
 	}
 

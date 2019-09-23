@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import pymysql.cursors
 from table_manipulation import TattooManager
 from database import database_manager
@@ -21,6 +21,14 @@ def users():
     cur.execute('''SELECT * FROM tattoos''')
     rv = cur.fetchall()
     return str(rv)
+
+
+@app.route('/all')
+def all_data():
+    cur = database_manager.connection.cursor()
+    cur.execute('''SELECT * FROM tattoos''')
+    rv = cur.fetchall()
+    return jsonify(rv)
 
 
 @app.route('/', methods=['GET', 'POST'])
