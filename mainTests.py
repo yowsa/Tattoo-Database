@@ -12,6 +12,8 @@ class TestDatabaseManager(unittest.TestCase):
 		self.database_creation_for_test = DatabaseCreationForTest()
 
 	def setUp(self):
+		self.database_creation_for_test.create_test_database()
+		self.database_creation_for_test.set_test_database()
 		self.database_creation_for_test.create_test_table("test")
 
 #	def test_submit_to_table(self):

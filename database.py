@@ -21,14 +21,16 @@ class DatabaseManager:
 class DatabaseCreationForTest:
 
 	def __init__(self):
-		self.create_test_database()
-		self.test_database_manager = DatabaseManager(database='test')
+		self.test_database_manager = DatabaseManager()
 
 	def create_test_database(self):
-		cur = database_manager.connection.cursor()
+		cur = test_database_manager.connection.cursor()
 		cur.execute("CREATE DATABASE test")
-		database_manager.connection.commit()
+		test_database_manager.connection.commit()
 		cur.close()
+
+	def set_test_database(self):
+		self.test_database_manager = DatabaseManager(database='test')
 
 	def delete_test_database(self):
 		cur = self.test_database_manager.connection.cursor()
