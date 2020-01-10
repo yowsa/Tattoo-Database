@@ -3,10 +3,10 @@ class DatabaseManager:
     def __init__(self, connection):
         self.connection = connection
 
-    def getCursor(self, connection):
+    def get_cursor(self, connection):
         return connection.cursor()
 
-    def commitChanges(self, connection):
+    def commit_changes(self, connection):
         connection.commit()
 
 

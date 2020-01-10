@@ -8,9 +8,11 @@ class DatabaseConnector:
         self.db = database
         self.charset = 'utf8mb4'
         self.cursorclass = pymysql.cursors.DictCursor
-
     
-    def getConnection(self):
+    def set_database(self, database):
+        self.db = database
+    
+    def get_connection(self):
         connection = pymysql.connect(host=self.host,
                                      user=self.user,
                                      password=self.password,
@@ -19,7 +21,7 @@ class DatabaseConnector:
                                      cursorclass=self.cursorclass)
         return connection
     
-    def closeConnection(self, connection):
+    def close_connection(self, connection):
         connection.close()
 
 
