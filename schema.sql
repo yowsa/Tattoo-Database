@@ -1,0 +1,12 @@
+CREATE TABLE items (
+	item_id INT NOT NULL PRIMARY KEY, 
+	vector_path VARCHAR(255) NOT NULL,
+	png_path VARCHAR(255) NOT NULL
+);
+
+
+CREATE TABLE tags (
+	tag_id INT NOT NULL PRIMARY KEY, 
+	tag VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+	item_id INT NOT NULL
+	);
