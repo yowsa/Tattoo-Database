@@ -10,8 +10,8 @@ class ItemManager:
         self.database_connector.execute("INSERT INTO items (item_id, vector_path, png_path) VALUES (%s, %s, %s)", (item_id, item_id+"_vector", item_id+"_png"))
         return item_id
 
-    # def delete_item(self):
-    #     self.database_connector.execute()
+    def delete_item(self, item_id):
+        self.database_connector.execute("DELETE FROM items WHERE item_id=%s", (item_id))
     
     # def edit_item(self):
     #     self.database_connector.execute()
