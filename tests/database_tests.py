@@ -58,7 +58,7 @@ class TestDatabaseManager(unittest.TestCase):
         self.assertEqual(count['COUNT(*)'], 1)
         self.test_item_manager.delete_item(item_id)
         count = self.test_database_connector.execute("SELECT COUNT(*) FROM items;")
-        self.assertEqual(count['COUNT(*)'], 0)
+        self.assertEqual(count['COUNT(*)'], 3)
 
     def tearDown(self):
         set_database_to_none(self.test_database_connector)
