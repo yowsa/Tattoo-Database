@@ -214,6 +214,24 @@ class TestDatabaseManager(unittest.TestCase):
         self.assertEqual(get_item[0]['vector_path'],item_id+'_vector')
         self.assertEqual(get_item[0]['png_path'],item_id+'_png')
 
+    def test_get_all_maching_products(self):
+        item_id = self.test_item_manager.add_item()
+        self.test_tag_manager.add_tag("bird", item_id)
+        item_id = self.test_item_manager.add_item()
+        self.test_tag_manager.add_tag("bird2", item_id)
+        item_id = self.test_item_manager.add_item()
+        self.test_tag_manager.add_tag("bird3", item_id)
+        item_id = self.test_item_manager.add_item()
+        self.test_tag_manager.add_tag("hey", item_id)
+        item_id = self.test_item_manager.add_item()
+        self.test_tag_manager.add_tag("h", item_id)
+        all_maching_products = self.test_search_manager.get_all_maching_products("bir")
+        self.assertEqual(len(all_maching_products), 3)
+        all_maching_products = self.test_search_manager.get_all_maching_products("h")
+        self.assertEqual(len(all_maching_products), 2)
+
+        
+
     def tearDown(self):
         tear_down_database_setup(self.test_database_connector)
 
