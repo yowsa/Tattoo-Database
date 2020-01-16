@@ -13,6 +13,8 @@ class ItemManager:
     def delete_item(self, item_id):
         self.database_connector.execute("DELETE FROM items WHERE item_id=%s", (item_id))
     
+
+    
     # def edit_item(self):
     #     self.database_connector.execute()
 
@@ -24,9 +26,13 @@ class TagManager:
     def add_tag(self, tag_name, item_id):
         tag_id = database_helper.get_uuid()
         self.database_connector.execute("INSERT INTO tags (tag_id, tag, item_id) VALUES (%s, %s, %s)", (tag_id, tag_name, item_id))
+    
+    def get_all_matches(self, search_word):
+        all_matches = self.database_connector.execute("SELECT * FROM tags WHERE tag LIKE %s;", ('%'+search_word+'%'))
+        return all_matches
 
-    # def delete_tag(self):
-    #     self.database_connector.execute()
+    # def delete_tag_all_instances(self, tag_name):
+    #     self.database_connector.execute("DELETE FROM items WHERE tag=%s", (tag_name))
     
     # def edit_tag(self):
     #     self.database_connector.execute()
