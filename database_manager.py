@@ -13,6 +13,10 @@ class ItemManager:
     def delete_item(self, item_id):
         self.database_connector.execute("DELETE FROM items WHERE item_id=%s", (item_id))
     
+    def get_item(self, item_id):
+        item = self.database_connector.execute("SELECT vector_path, png_path from items WHERE item_id=%s", (item_id))
+        return item
+    
 
     
     # def edit_item(self):

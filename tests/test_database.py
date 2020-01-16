@@ -71,13 +71,9 @@ class TestDatabaseManager(unittest.TestCase):
     def test_get_all_matches(self):
         item_id = self.test_item_manager.add_item()
         self.test_tag_manager.add_tag("bird", item_id)
-        item_id = self.test_item_manager.add_item()
-        self.test_tag_manager.add_tag("bird", item_id)
-        item_id = self.test_item_manager.add_item()
-        self.test_tag_manager.add_tag("bird", item_id)
-        item_id = self.test_item_manager.add_item()
+        self.test_tag_manager.add_tag("bird2", item_id)
+        self.test_tag_manager.add_tag("bird3", item_id)
         self.test_tag_manager.add_tag("swan", item_id)
-        item_id = self.test_item_manager.add_item()
         self.test_tag_manager.add_tag("sw", item_id)
         matches_len = len(self.test_tag_manager.get_all_matches("bird"))
         self.assertEqual(matches_len, 3)
@@ -92,6 +88,13 @@ class TestDatabaseManager(unittest.TestCase):
                 swan = True
         self.assertEqual(sw, True)
         self.assertEqual(swan, True)
+
+    def test_get_item(self):
+        item_id = self.test_item_manager.add_item()
+        get_item = self.test_item_manager.get_item(item_id)
+        self.assertEqual(len(get_item), 1)
+        self.assertEqual(get_item[0]['vector_path'],item_id+'_vector')
+        self.assertEqual(get_item[0]['png_path'],item_id+'_png')
 
     def tearDown(self):
         set_database_to_none(self.test_database_connector)
