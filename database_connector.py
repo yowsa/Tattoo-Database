@@ -30,4 +30,4 @@ class DatabaseConnector:
             connection.commit()
         finally:
             connection.close()
-        return cursor.fetchone()
+        return cursor.fetchall()
