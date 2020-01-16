@@ -74,6 +74,31 @@ class TestDatabaseManager(unittest.TestCase):
             "SELECT COUNT(*) FROM Tags;")
         self.assertEqual(count['COUNT(*)'], 1)
 
+    def test_get_all_matches(self):
+        item_id = self.test_item_manager.add_item()
+        self.test_tag_manager.add_tag("bird", item_id)
+        item_id = self.test_item_manager.add_item()
+        self.test_tag_manager.add_tag("bird", item_id)
+        item_id = self.test_item_manager.add_item()
+        self.test_tag_manager.add_tag("bird", item_id)
+        item_id = self.test_item_manager.add_item()
+        self.test_tag_manager.add_tag("swan", item_id)
+        item_id = self.test_item_manager.add_item()
+        self.test_tag_manager.add_tag("sw", item_id)
+        matches_len = len(self.test_tag_manager.get_all_matches("bird"))
+        self.assertEqual(matches_len, 3)
+        matches = self.test_tag_manager.get_all_matches("sw")
+        self.assertEqual(len(matches), 2)
+        sw = False
+        swan = False
+        for match in matches:
+            if "sw" in match.values():
+                sw = True
+            if "swan" in match.values():
+                swan = True
+        self.assertEqual(sw, True)
+        self.assertEqual(swan, True)
+
     def tearDown(self):
         tear_down_database_setup(self.test_database_connector)
 

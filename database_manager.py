@@ -22,7 +22,10 @@ class TagManager:
     def add_tag(self, tag_name, item_id):
         tag_id = database_helper.get_uuid()
         self.database_connector.execute("INSERT INTO Tags (TagId, Tag, ItemId) VALUES (%s, %s, %s)", (tag_id, tag_name, item_id))
-
+    
+    def get_all_matches(self, search_word):
+        all_matches = self.database_connector.execute("SELECT * FROM tags WHERE tag LIKE %s;", ('%'+search_word+'%'))
+        return all_matches
 
 
     
