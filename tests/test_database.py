@@ -126,6 +126,11 @@ class TestDatabaseManager(unittest.TestCase):
         self.assertEqual(len(all_maching_products), 3)
         all_maching_products = self.test_search_manager.get_all_maching_products("h")
         self.assertEqual(len(all_maching_products), 4)
+    
+    def test_get_id(self):
+        id = database_helper.get_id()
+        self.assertEqual(type(id), str)
+        self.assertEqual(len(id), 36)
 
         
 
