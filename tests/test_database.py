@@ -133,6 +133,30 @@ class TestDatabaseManager(unittest.TestCase):
         id = database_helper.get_id()
         self.assertEqual(type(id), str)
         self.assertEqual(len(id), 36)
+    
+
+    def test_get_unique_tags_list(self):
+        item_id = database_helper.get_id()
+        self.test_item_manager.add_item(item_id)
+        self.test_tag_manager.add_tag("bird", item_id)
+        item_id = database_helper.get_id()
+        self.test_item_manager.add_item(item_id)
+        self.test_tag_manager.add_tag("bird", item_id)
+        item_id = database_helper.get_id()
+        self.test_item_manager.add_item(item_id)
+        self.test_tag_manager.add_tag("bird", item_id)
+        item_id = database_helper.get_id()
+        self.test_item_manager.add_item(item_id)
+        self.test_tag_manager.add_tag("hey", item_id)
+        item_id = database_helper.get_id()
+        self.test_item_manager.add_item(item_id)
+        self.test_tag_manager.add_tag("h", item_id)
+        self.test_tag_manager.add_tag("hiya", item_id)
+        self.test_tag_manager.add_tag("hello", item_id)
+        count = self.test_database_connector.execute("SELECT COUNT(*) FROM tags;")
+        self.assertEqual(count[0]['COUNT(*)'], 7)
+        unique_tags = self.test_tag_manager.get_unique_tags_list()
+        self.assertEqual(len(unique_tags), 5)
 
     def tearDown(self):
         tear_down_database_setup(self.test_database_connector)

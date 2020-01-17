@@ -8,7 +8,7 @@ class SearchManager:
         all_tag_maches = self.tag_manager.get_all_matches(search_word)
         for match in all_tag_maches:
             item_id = match["item_id"]
-            item_tag_list = self.tag_manager.get_tags_list(item_id)
+            item_tag_list = self.tag_manager.get_item_tags_list(item_id)
             item_details = self.item_manager.get_item_details(item_id)
             item_details.update({'tags' : item_tag_list})
             all_maching_products.append(item_details)

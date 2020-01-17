@@ -34,10 +34,9 @@ class TagManager:
         all_matches = self.database_connector.execute(
             "SELECT * FROM tags WHERE tag LIKE %s;", ('%'+search_word+'%'))
         return all_matches
-
-    def get_tags_list(self, item_id):
-        item_tags = self.database_connector.execute(
-            "SELECT tag FROM tags WHERE item_id=%s", (item_id))
+    
+    def get_item_tags_list(self, item_id):
+        item_tags = self.database_connector.execute("SELECT tag FROM tags WHERE item_id=%s", (item_id))
         tags_list = self._collate_tags_to_list(item_tags)
         return tags_list
 
@@ -46,3 +45,9 @@ class TagManager:
         for tag in item_tags:
             tags_list.append(tag['tag'])
         return tags_list
+    
+    def get_unique_tags_list(self):
+        unique_tags = self.database_connector.execute("SELECT DISTINCT tag FROM tags")
+        unique_tags_list = self._collate_tags_to_list(unique_tags)
+        return unique_tags_list
+
