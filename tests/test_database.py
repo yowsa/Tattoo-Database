@@ -174,7 +174,6 @@ class TestDatabaseManager(unittest.TestCase):
         # assert
         self.assertEqual(len(unique_tags), 5)
 
-
     def test_delete_tags_for_item(self):
         # arrange
         item_ids = test_items_tags_setup(
@@ -184,53 +183,8 @@ class TestDatabaseManager(unittest.TestCase):
         self.test_tag_manager.delete_tags_for_item(item_ids[3])
 
         # assert
-        self.assertEqual(count_entries(self.test_database_connector, "Tags"), 3)
-
-    def test_get_all_matches(self):
-        item_id = self.test_item_manager.add_item()
-        self.test_tag_manager.add_tag("bird", item_id)
-        self.test_tag_manager.add_tag("bird2", item_id)
-        self.test_tag_manager.add_tag("bird3", item_id)
-        self.test_tag_manager.add_tag("swan", item_id)
-        self.test_tag_manager.add_tag("sw", item_id)
-        matches_len = len(self.test_tag_manager.get_all_matches("bird"))
-        self.assertEqual(matches_len, 3)
-        matches = self.test_tag_manager.get_all_matches("sw")
-        self.assertEqual(len(matches), 2)
-        sw = False
-        swan = False
-        for match in matches:
-            if "sw" in match.values():
-                sw = True
-            if "swan" in match.values():
-                swan = True
-        self.assertEqual(sw, True)
-        self.assertEqual(swan, True)
-
-    def test_get_item(self):
-        item_id = self.test_item_manager.add_item()
-        get_item = self.test_item_manager.get_item(item_id)
-        self.assertEqual(len(get_item), 1)
-        self.assertEqual(get_item[0]['vector_path'],item_id+'_vector')
-        self.assertEqual(get_item[0]['png_path'],item_id+'_png')
-
-    def test_get_all_maching_products(self):
-        item_id = self.test_item_manager.add_item()
-        self.test_tag_manager.add_tag("bird", item_id)
-        item_id = self.test_item_manager.add_item()
-        self.test_tag_manager.add_tag("bird2", item_id)
-        item_id = self.test_item_manager.add_item()
-        self.test_tag_manager.add_tag("bird3", item_id)
-        item_id = self.test_item_manager.add_item()
-        self.test_tag_manager.add_tag("hey", item_id)
-        item_id = self.test_item_manager.add_item()
-        self.test_tag_manager.add_tag("h", item_id)
-        all_maching_products = self.test_search_manager.get_all_maching_products("bir")
-        self.assertEqual(len(all_maching_products), 3)
-        all_maching_products = self.test_search_manager.get_all_maching_products("h")
-        self.assertEqual(len(all_maching_products), 2)
-
-        
+        self.assertEqual(count_entries(
+            self.test_database_connector, "Tags"), 3)
 
     def tearDown(self):
         tear_down_database_setup(self.test_database_connector)
