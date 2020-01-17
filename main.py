@@ -45,8 +45,10 @@ def add_product():
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
-    if request.method == 'POST':
-        return 'Word has been search and heres the result'
+    #TODO: hook up actual request argument below ones FE is a built and update to POST
+    search_word = "sw" 
+    if request.method == 'GET':
+        return jsonify(search_manager.get_all_maching_products(search_word))
     else:
         return "no word submitted yet"
 
