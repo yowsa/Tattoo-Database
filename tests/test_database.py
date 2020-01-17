@@ -3,6 +3,7 @@ import unittest
 import database_connector
 import database_manager
 import search_manager
+import database_helper
 
 
 def create_test_database_setup(database_connector):
@@ -46,39 +47,38 @@ class TestDatabaseManager(unittest.TestCase):
         create_test_database_setup(self.test_database_connector)
 
     def test_add_item(self):
-        count = self.test_database_connector.execute(
-            "SELECT COUNT(*) FROM Items;")
-        self.assertEqual(count['COUNT(*)'], 0)
-        self.test_item_manager.add_item()
-        count = self.test_database_connector.execute(
-            "SELECT COUNT(*) FROM Items;")
-        self.assertEqual(count['COUNT(*)'], 1)
-
+        count = self.test_database_connector.execute("SELECT COUNT(*) FROM items;")
+        self.assertEqual(count[0]['COUNT(*)'], 0)
+        item_id = database_helper.get_id()
+        self.test_item_manager.add_item(item_id)
+        count = self.test_database_connector.execute("SELECT COUNT(*) FROM items;")
+        self.assertEqual(count[0]['COUNT(*)'], 1)
+    
     def test_delete_item(self):
-        count = self.test_database_connector.execute(
-            "SELECT COUNT(*) FROM Items;")
-        self.assertEqual(count['COUNT(*)'], 0)
-        item_id = self.test_item_manager.add_item()
-        count = self.test_database_connector.execute(
-            "SELECT COUNT(*) FROM Items;")
-        self.assertEqual(count['COUNT(*)'], 1)
+        count = self.test_database_connector.execute("SELECT COUNT(*) FROM items;")
+        self.assertEqual(count[0]['COUNT(*)'], 0)
+        item_id = database_helper.get_id()
+        self.test_item_manager.add_item(item_id)
+        count = self.test_database_connector.execute("SELECT COUNT(*) FROM items;")
+        self.assertEqual(count[0]['COUNT(*)'], 1)
         self.test_item_manager.delete_item(item_id)
         count = self.test_database_connector.execute(
             "SELECT COUNT(*) FROM Items;")
         self.assertEqual(count['COUNT(*)'], 0)
 
     def test_add_tag(self):
-        count = self.test_database_connector.execute(
-            "SELECT COUNT(*) FROM Tags;")
-        self.assertEqual(count['COUNT(*)'], 0)
-        item_id = self.test_item_manager.add_item()
+        count = self.test_database_connector.execute("SELECT COUNT(*) FROM tags;")
+        self.assertEqual(count[0]['COUNT(*)'], 0)
+        item_id = database_helper.get_id()
+        self.test_item_manager.add_item(item_id)
         self.test_tag_manager.add_tag("test tag", item_id)
         count = self.test_database_connector.execute(
             "SELECT COUNT(*) FROM Tags;")
         self.assertEqual(count['COUNT(*)'], 1)
 
     def test_get_all_matches(self):
-        item_id = self.test_item_manager.add_item()
+        item_id = database_helper.get_id()
+        self.test_item_manager.add_item(item_id)
         self.test_tag_manager.add_tag("bird", item_id)
         self.test_tag_manager.add_tag("bird2", item_id)
         self.test_tag_manager.add_tag("bird3", item_id)
@@ -98,30 +98,36 @@ class TestDatabaseManager(unittest.TestCase):
         self.assertEqual(sw, True)
         self.assertEqual(swan, True)
 
-    def test_get_item(self):
-        item_id = self.test_item_manager.add_item()
-        get_item = self.test_item_manager.get_item(item_id)
-        self.assertEqual(len(get_item), 1)
-        self.assertEqual(get_item[0]['vector_path'], item_id+'_vector')
-        self.assertEqual(get_item[0]['png_path'], item_id+'_png')
+    def test_get_item_details(self):
+        item_id = database_helper.get_id()
+        self.test_item_manager.add_item(item_id)
+        item_details = self.test_item_manager.get_item_details(item_id)
+        self.assertEqual(len(item_details), 3)
+        self.assertEqual(item_details['vector_path'],item_id+'_vector')
+        self.assertEqual(item_details['png_path'],item_id+'_png')
 
     def test_get_all_maching_products(self):
-        item_id = self.test_item_manager.add_item()
+        item_id = database_helper.get_id()
+        self.test_item_manager.add_item(item_id)
         self.test_tag_manager.add_tag("bird", item_id)
-        item_id = self.test_item_manager.add_item()
+        item_id = database_helper.get_id()
+        self.test_item_manager.add_item(item_id)
         self.test_tag_manager.add_tag("bird2", item_id)
-        item_id = self.test_item_manager.add_item()
+        item_id = database_helper.get_id()
+        self.test_item_manager.add_item(item_id)
         self.test_tag_manager.add_tag("bird3", item_id)
-        item_id = self.test_item_manager.add_item()
+        item_id = database_helper.get_id()
+        self.test_item_manager.add_item(item_id)
         self.test_tag_manager.add_tag("hey", item_id)
-        item_id = self.test_item_manager.add_item()
+        item_id = database_helper.get_id()
+        self.test_item_manager.add_item(item_id)
         self.test_tag_manager.add_tag("h", item_id)
-        all_maching_products = self.test_search_manager.get_all_maching_products(
-            "bir")
+        self.test_tag_manager.add_tag("hiya", item_id)
+        self.test_tag_manager.add_tag("hello", item_id)
+        all_maching_products = self.test_search_manager.get_all_maching_products("bir")
         self.assertEqual(len(all_maching_products), 3)
-        all_maching_products = self.test_search_manager.get_all_maching_products(
-            "h")
-        self.assertEqual(len(all_maching_products), 2)
+        all_maching_products = self.test_search_manager.get_all_maching_products("h")
+        self.assertEqual(len(all_maching_products), 4)
 
     def tearDown(self):
         tear_down_database_setup(self.test_database_connector)
