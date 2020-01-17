@@ -47,7 +47,6 @@ class TagManager:
         return tags_list
     
     def get_unique_tags_list(self):
-        unique_tags = self.database_connector.execute("SELECT DISTINCT tag FROM tags")
-        unique_tags_list = self._collate_tags_to_list(unique_tags)
-        return unique_tags_list
+        unique_tags = self.database_connector.execute("SELECT tag, count(*) as count FROM tags GROUP By tag;")
+        return unique_tags
 
