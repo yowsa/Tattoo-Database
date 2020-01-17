@@ -1,12 +1,15 @@
 from database_connector import DatabaseConnector
 from database_manager import ItemManager, TagManager
 from search_manager import SearchManager
+from product_manager import ProductManager
 
 database_connector = DatabaseConnector('db')
 connection = database_connector.get_connection()
 item_manager = ItemManager(database_connector)
 tag_manager = TagManager(database_connector)
 search_manager = SearchManager(tag_manager, item_manager)
+product_manager = ProductManager(item_manager, tag_manager)
+
 
 <<<<<<< HEAD
 item_id = item_manager.add_item()
@@ -41,7 +44,10 @@ def unique_tags():
 
 @app.route('/add_product', methods=['GET', 'POST'])
 def add_product():
-    if request.method == 'POST':
+    if request.method == 'GET':
+        #TODO: updated tags below to get data from FE
+        tags = ["bird", "fineline", "hello"]
+        product_manager.add_product(tags)
         return 'A product has been added'
     else:
         return "no button clicked yet to add a product"
