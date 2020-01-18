@@ -35,16 +35,8 @@
 ehthumbs.db
 Thumbs.db
 
-
-#
-#
-#
-# PYTHON SPECIFIC
-#
-#
-#
-
-
+# Python specific files #
+######################
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
