@@ -158,6 +158,18 @@ class TestDatabaseManager(unittest.TestCase):
         unique_tags = self.test_tag_manager.get_unique_tags_list()
         self.assertEqual(len(unique_tags), 5)
 
+    def test_delete_tags_for_item(self):
+        item_id = database_helper.get_id()
+        self.test_item_manager.add_item(item_id)
+        self.test_tag_manager.add_tag("hey", item_id)
+        self.test_tag_manager.add_tag("hi", item_id)
+        self.test_tag_manager.add_tag("hello", item_id)
+        count = self.test_database_connector.execute("SELECT COUNT(*) FROM tags;")
+        self.assertEqual(count[0]['COUNT(*)'], 3)
+        self.test_tag_manager.delete_tags_for_item(item_id)
+        count = self.test_database_connector.execute("SELECT COUNT(*) FROM tags;")
+        self.assertEqual(count[0]['COUNT(*)'], 0)
+
     def tearDown(self):
         tear_down_database_setup(self.test_database_connector)
 
