@@ -4,31 +4,17 @@ import unittest
 import database_connector
 import database_manager
 
-
-def create_test_database(database_connector):
-    database_connector.execute("CREATE DATABASE test_db")
-
-
-def set_test_database(database_connector):
-    database_connector.set_database("test_db")
-
-def set_database_to_none(database_connector):
-    database_connector.set_database(None)
-
-
-def delete_test_database(database_connector):
-    database_connector.execute("DROP DATABASE test_db")
-
-
-def create_items_test_table(database_connector):
+def create_test_database_setup(database_connector):
+    database_connector.execute("CREATE DATABASE test_db") #create database
+    database_connector.set_database("test_db") #set database
     database_connector.execute(
-        "CREATE TABLE items (item_id VARCHAR(45) NOT NULL PRIMARY KEY, vector_path VARCHAR(255) NOT NULL, png_path VARCHAR(255) NOT NULL);")
-
-
-def create_tags_test_table(database_connector):
+        "CREATE TABLE items (item_id VARCHAR(45) NOT NULL PRIMARY KEY, vector_path VARCHAR(255) NOT NULL, png_path VARCHAR(255) NOT NULL);") #create items table
     database_connector.execute(
-        "CREATE TABLE tags (tag_id VARCHAR(45) NOT NULL PRIMARY KEY, tag VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE utf8mb4_unicode_ci NOT NULL,item_id VARCHAR(45) NOT NULL);")
+        "CREATE TABLE tags (tag_id VARCHAR(45) NOT NULL PRIMARY KEY, tag VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE utf8mb4_unicode_ci NOT NULL,item_id VARCHAR(45) NOT NULL);") #create tags table
 
+def tear_down_database_setup(database_connector):
+    database_connector.set_database(None) #setting datbase to None again
+    database_connector.execute("DROP DATABASE test_db") #deleting test database
 
 class TestDatabaseManager(unittest.TestCase):
     @classmethod
@@ -38,10 +24,7 @@ class TestDatabaseManager(unittest.TestCase):
         self.test_tag_manager = database_manager.TagManager(self.test_database_connector)
 
     def setUp(self):
-        create_test_database(self.test_database_connector)
-        set_test_database(self.test_database_connector)
-        create_items_test_table(self.test_database_connector)
-        create_tags_test_table(self.test_database_connector)
+        create_test_database_setup(self.test_database_connector)
     
     def test_add_item(self):
         count = self.test_database_connector.execute("SELECT COUNT(*) FROM items;")
@@ -69,8 +52,7 @@ class TestDatabaseManager(unittest.TestCase):
         self.assertEqual(count['COUNT(*)'], 1)
 
     def tearDown(self):
-        set_database_to_none(self.test_database_connector)
-        delete_test_database(self.test_database_connector)
+        tear_down_database_setup(self.test_database_connector)
 
     @classmethod
     def tearDownClass(self):
