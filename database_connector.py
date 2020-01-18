@@ -2,25 +2,27 @@ import pymysql.cursors
 
 
 class DatabaseConnector:
+    host = 'localhost'
+    user = 'root'
+    password = ''
+    db = None
+    charset = 'utf8mb4'
+    cursorclass = pymysql.cursors.DictCursor
+    
     def __init__(self, database=None):
-        self.host = 'localhost'
-        self.user = 'root'
-        self.password = ''
-        self.db = database
-        self.charset = 'utf8mb4'
-        self.cursorclass = pymysql.cursors.DictCursor
+        if database != None:
+            self.db = database
 
     def set_database(self, database):
         self.db = database
 
     def get_connection(self):
-        connection = pymysql.connect(host=self.host,
+        return pymysql.connect(host=self.host,
                                      user=self.user,
                                      password=self.password,
                                      db=self.db,
                                      charset=self.charset,
                                      cursorclass=self.cursorclass)
-        return connection
 
     def execute(self, *args):
         connection = self.get_connection()
