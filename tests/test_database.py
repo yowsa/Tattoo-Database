@@ -5,16 +5,16 @@ import database_connector
 import database_manager
 
 def create_test_database_setup(database_connector):
-    database_connector.execute("CREATE DATABASE test_db") #create database
-    database_connector.set_database("test_db") #set database
+    database_connector.execute("CREATE DATABASE TestDB") #create database
+    database_connector.set_database("TestDB") #set database
     database_connector.execute(
-        "CREATE TABLE items (item_id VARCHAR(45) NOT NULL PRIMARY KEY, vector_path VARCHAR(255) NOT NULL, png_path VARCHAR(255) NOT NULL);") #create items table
+        "CREATE TABLE Items (ItemId VARCHAR(45) NOT NULL PRIMARY KEY, VectorPath VARCHAR(255) NOT NULL, PngPath VARCHAR(255) NOT NULL);") #create items table
     database_connector.execute(
-        "CREATE TABLE tags (tag_id VARCHAR(45) NOT NULL PRIMARY KEY, tag VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE utf8mb4_unicode_ci NOT NULL,item_id VARCHAR(45) NOT NULL);") #create tags table
+        "CREATE TABLE Tags (TagId VARCHAR(45) NOT NULL PRIMARY KEY, Tag VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE utf8mb4_unicode_ci NOT NULL,ItemId VARCHAR(45) NOT NULL);") #create tags table
 
 def tear_down_database_setup(database_connector):
     database_connector.set_database(None) #setting datbase to None again
-    database_connector.execute("DROP DATABASE test_db") #deleting test database
+    database_connector.execute("DROP DATABASE TestDB") #deleting test database
 
 class TestDatabaseManager(unittest.TestCase):
     @classmethod
@@ -27,28 +27,28 @@ class TestDatabaseManager(unittest.TestCase):
         create_test_database_setup(self.test_database_connector)
     
     def test_add_item(self):
-        count = self.test_database_connector.execute("SELECT COUNT(*) FROM items;")
+        count = self.test_database_connector.execute("SELECT COUNT(*) FROM Items;")
         self.assertEqual(count['COUNT(*)'], 0)
         self.test_item_manager.add_item()
-        count = self.test_database_connector.execute("SELECT COUNT(*) FROM items;")
+        count = self.test_database_connector.execute("SELECT COUNT(*) FROM Items;")
         self.assertEqual(count['COUNT(*)'], 1)
     
     def test_delete_item(self):
-        count = self.test_database_connector.execute("SELECT COUNT(*) FROM items;")
+        count = self.test_database_connector.execute("SELECT COUNT(*) FROM Items;")
         self.assertEqual(count['COUNT(*)'], 0)
         item_id = self.test_item_manager.add_item()
-        count = self.test_database_connector.execute("SELECT COUNT(*) FROM items;")
+        count = self.test_database_connector.execute("SELECT COUNT(*) FROM Items;")
         self.assertEqual(count['COUNT(*)'], 1)
         self.test_item_manager.delete_item(item_id)
-        count = self.test_database_connector.execute("SELECT COUNT(*) FROM items;")
+        count = self.test_database_connector.execute("SELECT COUNT(*) FROM Items;")
         self.assertEqual(count['COUNT(*)'], 0)
     
     def test_add_tag(self):
-        count = self.test_database_connector.execute("SELECT COUNT(*) FROM tags;")
+        count = self.test_database_connector.execute("SELECT COUNT(*) FROM Tags;")
         self.assertEqual(count['COUNT(*)'], 0)
         item_id = self.test_item_manager.add_item()
         self.test_tag_manager.add_tag("test tag", item_id)
-        count = self.test_database_connector.execute("SELECT COUNT(*) FROM tags;")
+        count = self.test_database_connector.execute("SELECT COUNT(*) FROM Tags;")
         self.assertEqual(count['COUNT(*)'], 1)
 
     def tearDown(self):
