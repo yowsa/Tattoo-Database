@@ -18,8 +18,7 @@ class ItemManager:
         item_details = self.database_connector.execute(
             "SELECT * from items WHERE item_id=%s", (item_id))
         return item_details[0]
-
-
+    
 class TagManager:
 
     def __init__(self, database_connector):
@@ -49,4 +48,10 @@ class TagManager:
     def get_unique_tags_list(self):
         unique_tags = self.database_connector.execute("SELECT tag, count(*) as count FROM tags GROUP By tag;")
         return unique_tags
+    
+    def delete_tags_for_item(self, item_id):
+        self.database_connector.execute("DELETE FROM tags WHERE item_id=%s", (item_id))
+
+
+    
 
