@@ -48,6 +48,15 @@ def add_product():
     else:
         return "no button clicked yet to add a product"
 
+@app.route('/delete_product', methods=['GET', 'POST'])
+def delete_product():
+    if request.method == 'POST':
+        item_id = "hello"
+        product_manager.delete_product(item_id)
+        return 'A product has been deleted"
+    else:
+        return "no button clicked yet to delete a product"
+
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
