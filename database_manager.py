@@ -13,8 +13,6 @@ class ItemManager:
     def delete_item(self, item_id):
         self.database_connector.execute("DELETE FROM items WHERE item_id=%s", (item_id))
     
-    # def edit_item(self):
-    #     self.database_connector.execute()
 
 class TagManager:
 
@@ -25,11 +23,6 @@ class TagManager:
         tag_id = database_helper.get_uuid()
         self.database_connector.execute("INSERT INTO tags (tag_id, tag, item_id) VALUES (%s, %s, %s)", (tag_id, tag_name, item_id))
 
-    # def delete_tag(self):
-    #     self.database_connector.execute()
-    
-    # def edit_tag(self):
-    #     self.database_connector.execute()
 
 
     
