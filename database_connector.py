@@ -2,16 +2,14 @@ import pymysql.cursors
 
 
 class DatabaseConnector:
-    host = 'localhost'
-    user = 'root'
-    password = ''
-    db = None
     charset = 'utf8mb4'
     cursorclass = pymysql.cursors.DictCursor
     
-    def __init__(self, database=None):
-        if database != None:
-            self.db = database
+    def __init__(self, database=None, host="localhost", user="root", password=""):
+        self.db = database
+        self.host = host
+        self.user = user
+        self.password = password
 
     def set_database(self, database):
         self.db = database
