@@ -8,7 +8,7 @@ class ItemManager:
 
     def add_item(self, item_id):
         self.database_connector.execute(
-            "INSERT INTO items (item_id, vector_path, png_path) VALUES (%s, %s, %s)", (item_id, item_id+"_vector", item_id+"_png"))
+            "INSERT INTO items (ItemId, VectorPath, PngPath) VALUES (%s, %s, %s)", (item_id, item_id+"_vector", item_id+"_png"))
 
     def delete_item(self, item_id):
         self.database_connector.execute(
@@ -16,7 +16,7 @@ class ItemManager:
 
     def get_item_details(self, item_id):
         item_details = self.database_connector.execute(
-            "SELECT * from items WHERE item_id=%s", (item_id))
+            "SELECT * from Items WHERE ItemId=%s", (item_id))
         return item_details[0]
     
 class TagManager:
@@ -31,26 +31,26 @@ class TagManager:
 
     def get_all_matches(self, search_word):
         all_matches = self.database_connector.execute(
-            "SELECT * FROM tags WHERE tag LIKE %s;", ('%'+search_word+'%'))
+            "SELECT * FROM Tags WHERE Tag LIKE %s;", ('%'+search_word+'%'))
         return all_matches
     
     def get_item_tags_list(self, item_id):
-        item_tags = self.database_connector.execute("SELECT tag FROM tags WHERE item_id=%s", (item_id))
+        item_tags = self.database_connector.execute("SELECT Tag FROM Tags WHERE ItemId=%s", (item_id))
         tags_list = self._collate_tags_to_list(item_tags)
         return tags_list
 
     def _collate_tags_to_list(self, item_tags):
         tags_list = []
         for tag in item_tags:
-            tags_list.append(tag['tag'])
+            tags_list.append(tag['Tag'])
         return tags_list
     
     def get_unique_tags_list(self):
-        unique_tags = self.database_connector.execute("SELECT tag, count(*) as count FROM tags GROUP By tag;")
+        unique_tags = self.database_connector.execute("SELECT Tag, count(*) as count FROM Tags GROUP By Tag;")
         return unique_tags
     
     def delete_tags_for_item(self, item_id):
-        self.database_connector.execute("DELETE FROM tags WHERE item_id=%s", (item_id))
+        self.database_connector.execute("DELETE FROM Tags WHERE ItemId=%s", (item_id))
 
 
     
