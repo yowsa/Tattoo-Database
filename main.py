@@ -1,3 +1,6 @@
+from flask import request
+from flask import Flask, jsonify
+
 from database_connector import DatabaseConnector
 from database_manager import ItemManager, TagManager
 from search_manager import SearchManager
@@ -10,18 +13,6 @@ tag_manager = TagManager(database_connector)
 search_manager = SearchManager(tag_manager, item_manager)
 product_manager = ProductManager(item_manager, tag_manager)
 
-
-# item_id = item_manager.add_item()
-# tag_manager.add_tag("fineline", "00c33513-0248-433e-ba9c-91b1ba7a4f12")
-# print(tag_manager.get_all_matches("bird"))
-# print(item_manager.get_item("0064c184-b226-4a39-8259-343794104020"))
-# print(search_manager.get_all_maching_products("sw"))
-# print(tag_manager.get_item_tags("9d26bffc-0f7e-464f-874d-ce721bd1f015"))
-# print(tag_manager.get_unique_tags_list())
-
-
-from flask import Flask, jsonify
-from flask import request
 app = Flask(__name__)
 
 
@@ -41,31 +32,34 @@ def unique_tags():
 @app.route('/add_product', methods=['GET', 'POST'])
 def add_product():
     if request.method == 'GET':
-        #TODO: updated tags below to get data from FE
-        tags = ["bird", "fineline", "hello"]
+        # TODO: updated tags below to get data from FE
+        tags = ["bird", "hello"]
         product_manager.add_product(tags)
         return 'A product has been added'
     else:
         return "no button clicked yet to add a product"
 
+
 @app.route('/delete_product', methods=['GET', 'POST'])
 def delete_product():
-    if request.method == 'POST':
-        item_id = "hello"
+    if request.method == 'GET':
+        # TODO: update POST and to recieve item_id from FE
+        item_id = "6baa81a4-5a9d-4130-bc5f-1e842d1ecb53"
         product_manager.delete_product(item_id)
-        return 'A product has been deleted"
+        return "A product has been deleted"
     else:
         return "no button clicked yet to delete a product"
 
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
-    #TODO: hook up actual request argument below ones FE is a built and update to POST
-    search_word = "sw" 
+    # TODO: hook up actual request argument below ones FE is a built and update to POST
+    search_word = "sw"
     if request.method == 'GET':
         return jsonify(search_manager.get_all_maching_products(search_word))
     else:
         return "no word submitted yet"
 
-# if __name__ == '__main__':
-#     app.run(debug=True)
+
+if __name__ == '__main__':
+    app.run(debug=True)

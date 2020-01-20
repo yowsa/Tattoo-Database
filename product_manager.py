@@ -12,5 +12,6 @@ class ProductManager:
             self.tag_manager.add_tag(tag, item_id)
     
     def delete_product(self, item_id):
+        self.tag_manager.delete_tags_for_item(item_id)
         self.item_manager.delete_item(item_id)
-        
+
