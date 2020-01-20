@@ -11,10 +11,6 @@ search_manager = SearchManager(tag_manager, item_manager)
 product_manager = ProductManager(item_manager, tag_manager)
 
 
-<<<<<<< HEAD
-item_id = item_manager.add_item()
-tag_manager.add_tag("bird", item_id)
-=======
 # item_id = item_manager.add_item()
 # tag_manager.add_tag("fineline", "00c33513-0248-433e-ba9c-91b1ba7a4f12")
 # print(tag_manager.get_all_matches("bird"))
@@ -73,4 +69,3 @@ def search():
 
 # if __name__ == '__main__':
 #     app.run(debug=True)
->>>>>>> updated unique tags function to include count for each tag, set up flask apis in main as a start to deliver data to the FE
