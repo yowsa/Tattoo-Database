@@ -3,7 +3,7 @@ class SearchManager:
         self.tag_manager = tag_manager
         self.item_manager = item_manager
     
-    def get_all_maching_products(self, search_word):
+    def get_all_matching_products(self, search_word):
         all_maching_products = []
         all_tag_maches = self.tag_manager.get_all_matches(search_word)
         for match in all_tag_maches:
@@ -13,6 +13,3 @@ class SearchManager:
             item_details.update({'Tags' : item_tag_list})
             all_maching_products.append(item_details)
         return all_maching_products
-
-
-
