@@ -25,43 +25,53 @@ def create_test_database_setup(database_connector):
          "ItemId VARCHAR(45) NOT NULL);"))
 
 
-def count_entries(database_connector, table_name):
+def assertCount(database_connector, table_name, count):
     sql_query = "SELECT COUNT(*) FROM " + table_name
-    count = database_connector.execute(sql_query)
-    return count[0]['COUNT(*)']
+    result = database_connector.execute(sql_query)
+    if result[0]['COUNT(*)'] == count:
+        return True
+    return False
 
 
-def test_items_tags_setup(test_item_manager, test_tag_manager):
+def test_items_tags_setup(item_manager, tag_manager):
+    """ 
+    Note: Adds 4 items to use during testing
+    item 1-3: with tag 1 tag
+    item 4: with 3 tags
+
+    Return: list of ids of the added items
+    """
     item_ids = []
 
     item_id = database_helper.get_id()
     item_ids.append(item_id)
-    test_item_manager.add_item(item_id)
-    test_tag_manager.add_tag("bird", item_id)
+    item_manager.add_item(item_id)
+    tag_manager.add_tag("bird", item_id)
 
     item_id = database_helper.get_id()
     item_ids.append(item_id)
-    test_item_manager.add_item(item_id)
-    test_tag_manager.add_tag("bird", item_id)
+    item_manager.add_item(item_id)
+    tag_manager.add_tag("bird", item_id)
 
     item_id = database_helper.get_id()
     item_ids.append(item_id)
-    test_item_manager.add_item(item_id)
-    test_tag_manager.add_tag("bird3", item_id)
+    item_manager.add_item(item_id)
+    tag_manager.add_tag("bird3", item_id)
 
     item_id = database_helper.get_id()
     item_ids.append(item_id)
-    test_item_manager.add_item(item_id)
-    test_tag_manager.add_tag("h", item_id)
-    test_tag_manager.add_tag("hiya", item_id)
-    test_tag_manager.add_tag("hello", item_id)
+    item_manager.add_item(item_id)
+    tag_manager.add_tag("h", item_id)
+    tag_manager.add_tag("hiya", item_id)
+    tag_manager.add_tag("hello", item_id)
     return item_ids
 
 
-def is_tag_in_result(tag, result):
+def assertTagExists(tag, result):
     for val in result:
         if val['Tag'] == tag:
             return True
+    return False
 
 
 def tear_down_database_setup(database_connector):
@@ -74,16 +84,16 @@ def tear_down_database_setup(database_connector):
 class TestDatabaseManager(unittest.TestCase):
     @classmethod
     def setUpClass(self):
-        self.test_database_connector = database_connector.DatabaseConnector()
-        self.test_item_manager = database_manager.ItemManager(
-            self.test_database_connector)
-        self.test_tag_manager = database_manager.TagManager(
-            self.test_database_connector)
-        self.test_search_manager = search_manager.SearchManager(
-            self.test_tag_manager, self.test_item_manager)
+        self.database_connector = database_connector.DatabaseConnector()
+        self.item_manager = database_manager.ItemManager(
+            self.database_connector)
+        self.tag_manager = database_manager.TagManager(
+            self.database_connector)
+        self.search_manager = search_manager.SearchManager(
+            self.tag_manager, self.item_manager)
 
     def setUp(self):
-        create_test_database_setup(self.test_database_connector)
+        create_test_database_setup(self.database_connector)
 
     def test_get_id(self):
         # arrange & act
@@ -98,102 +108,99 @@ class TestDatabaseManager(unittest.TestCase):
         item_id = database_helper.get_id()
 
         # act
-        self.test_item_manager.add_item(item_id)
+        self.item_manager.add_item(item_id)
 
         # assert
-        self.assertEqual(count_entries(
-            self.test_database_connector, 'Items'), 1)
+        self.assertTrue(assertCount(self.database_connector, 'Items', 1))
 
     def test_delete_item(self):
         # arrange
         item_ids = test_items_tags_setup(
-            self.test_item_manager, self.test_tag_manager)
+            self.item_manager, self.tag_manager)
 
         # act
-        self.test_item_manager.delete_item(item_ids[0])
+        self.item_manager.delete_item(item_ids[0])
 
         # assert
-        self.assertEqual(count_entries(
-            self.test_database_connector, 'Items'), 3)
+        self.assertTrue(assertCount(self.database_connector, 'Items', 3))
 
     def test_add_tag(self):
         # arrange
         item_id = database_helper.get_id()
 
         # act
-        self.test_tag_manager.add_tag("TestTag", item_id)
+        self.tag_manager.add_tag("TestTag", item_id)
 
         # assert
-        self.assertEqual(count_entries(
-            self.test_database_connector, 'Tags'), 1)
+        self.assertTrue(assertCount(self.database_connector, 'Tags', 1))
 
     def test_get_all_matches(self):
         # arrange
         test_items_tags_setup(
-            self.test_item_manager, self.test_tag_manager)
+            self.item_manager, self.tag_manager)
+
         # act
-        matches = self.test_tag_manager.get_all_matches("h")
+        matches = self.tag_manager.get_all_matches("h")
 
         # assert
         self.assertEqual(len(matches), 3)
-        self.assertEqual(is_tag_in_result("hello", matches), True)
+        self.assertTrue(assertTagExists("hello", matches))
 
     def test_get_item_details(self):
         # arrange
         item_id = database_helper.get_id()
-        self.test_item_manager.add_item(item_id)
+        self.item_manager.add_item(item_id)
 
         # act
-        item_details = self.test_item_manager.get_item_details(item_id)
+        item_details = self.item_manager.get_item_details(item_id)
 
         # assert
         self.assertEqual(len(item_details), 3)
-        self.assertEqual(item_details['VectorPath'], item_id+'_vector')
-        self.assertEqual(item_details['PngPath'], item_id+'_png')
+        self.assertEqual(item_details['VectorPath'], item_id + '_vector')
+        self.assertEqual(item_details['PngPath'], item_id + '_png')
 
-    def test_get_all_maching_products(self):
+    def test_get_all_matching_products(self):
         # arrange
         test_items_tags_setup(
-            self.test_item_manager, self.test_tag_manager)
+            self.item_manager, self.tag_manager)
 
         # act
-        all_maching_products = self.test_search_manager.get_all_maching_products(
+        all_matching_products = self.search_manager.get_all_matching_products(
             "bir")
 
         # assert
-        self.assertEqual(len(all_maching_products), 3)
+        self.assertEqual(len(all_matching_products), 3)
 
     def test_get_unique_tags_list(self):
         # arrange
         test_items_tags_setup(
-            self.test_item_manager, self.test_tag_manager)
+            self.item_manager, self.tag_manager)
 
         # act
-        unique_tags = self.test_tag_manager.get_unique_tags_list()
+        unique_tags = self.tag_manager.get_unique_tags_list()
 
         # assert
         self.assertEqual(len(unique_tags), 5)
 
-
     def test_delete_tags_for_item(self):
         # arrange
         item_ids = test_items_tags_setup(
-            self.test_item_manager, self.test_tag_manager)
+            self.item_manager, self.tag_manager)
 
         # act
-        self.test_tag_manager.delete_tags_for_item(item_ids[3])
+        self.tag_manager.delete_tags_for_item(item_ids[3])
 
         # assert
-        self.assertEqual(count_entries(self.test_database_connector, "Tags"), 3)
+        self.assertTrue(assertCount(self.database_connector, 'Tags', 3))
 
     def tearDown(self):
-        tear_down_database_setup(self.test_database_connector)
+        tear_down_database_setup(self.database_connector)
 
     @classmethod
     def tearDownClass(self):
-        self.test_database_connector = None
-        self.test_item_manager = None
-        self.test_tag_manager = None
+        self.database_connector = None
+        self.item_manager = None
+        self.tag_manager = None
 
 
 if __name__ == '__main__':
