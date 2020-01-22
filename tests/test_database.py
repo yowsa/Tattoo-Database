@@ -2,7 +2,7 @@
 import unittest
 import database_connector
 import database_manager
-import search_manager
+import product_manager
 import database_helper
 
 
@@ -89,8 +89,8 @@ class TestDatabaseManager(unittest.TestCase):
             self.database_connector)
         self.tag_manager = database_manager.TagManager(
             self.database_connector)
-        self.search_manager = search_manager.SearchManager(
-            self.tag_manager, self.item_manager)
+        self.product_manager = product_manager.ProductManager(
+            self.item_manager, self.tag_manager)
 
     def setUp(self):
         create_test_database_setup(self.database_connector)
@@ -165,7 +165,7 @@ class TestDatabaseManager(unittest.TestCase):
             self.item_manager, self.tag_manager)
 
         # act
-        all_matching_products = self.search_manager.get_all_matching_products(
+        all_matching_products = self.product_manager.get_all_matching_products(
             "bir")
 
         # assert
