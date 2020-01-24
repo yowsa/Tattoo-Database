@@ -193,7 +193,7 @@ class TestDatabaseManager(unittest.TestCase):
         self.tag_manager.delete_tags_for_item(item_ids[3])
 
         # assert
-        assertCount(self.database_connector, "Tags", 3)
+        self.assertTrue(assertCount(self.database_connector, 'Tags', 3))
 
     def tearDown(self):
         tear_down_database_setup(self.database_connector)

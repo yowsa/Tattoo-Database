@@ -8,7 +8,7 @@ class ItemManager:
 
     def add_item(self, item_id, vector, small_img):
         self.database_connector.execute(
-            "INSERT INTO items (ItemId, VectorPath, PngPath) VALUES (%s, %s, %s)",
+            "INSERT INTO Items (ItemId, VectorPath, PngPath) VALUES (%s, %s, %s)",
             (item_id, vector, small_img))
 
     def delete_item(self, item_id):

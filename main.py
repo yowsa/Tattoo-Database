@@ -44,15 +44,6 @@ def products():
         small_img = request.files['small_img']
         product_manager.add_product(tags, vector, small_img)
 
-@app.route('/delete_product', methods=['GET', 'POST'])
-def delete_product():
-    if request.method == 'POST':
-        item_id = "hello"
-        product_manager.delete_product(item_id)
-        return 'A product has been deleted"
-    else:
-        return "no button clicked yet to delete a product"
-
 
 @app.route('/product/<string:item_id>', methods=['GET', 'PUT', 'DELETE'])
 def product(item_id):
