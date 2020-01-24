@@ -3,7 +3,7 @@ import unittest
 import database_connector
 import database_manager
 import product_manager
-import database_helper
+import helper
 import image_manager
 
 
@@ -44,22 +44,22 @@ def test_items_tags_setup(item_manager, tag_manager):
     """
     item_ids = []
 
-    item_id = database_helper.get_id()
+    item_id = helper.get_id()
     item_ids.append(item_id)
     item_manager.add_item(item_id, item_id, item_id)
     tag_manager.add_tag("bird", item_id)
 
-    item_id = database_helper.get_id()
+    item_id = helper.get_id()
     item_ids.append(item_id)
     item_manager.add_item(item_id, item_id, item_id)
     tag_manager.add_tag("bird", item_id)
 
-    item_id = database_helper.get_id()
+    item_id = helper.get_id()
     item_ids.append(item_id)
     item_manager.add_item(item_id, item_id, item_id)
     tag_manager.add_tag("bird3", item_id)
 
-    item_id = database_helper.get_id()
+    item_id = helper.get_id()
     item_ids.append(item_id)
     item_manager.add_item(item_id, item_id, item_id)
     tag_manager.add_tag("h", item_id)
@@ -97,26 +97,9 @@ class TestDatabaseManager(unittest.TestCase):
     def setUp(self):
         create_test_database_setup(self.database_connector)
 
-    def test_get_id(self):
-        # arrange & act
-        id = database_helper.get_id()
-
-        # assert
-        self.assertEqual(type(id), str)
-        self.assertEqual(len(id), 36)
-    
-    def test_is_valid_id(self):
-        #arrange
-        id = database_helper.get_id()
-        invalid_id = "1234"
-        
-        #act & assert
-        self.assertTrue(database_helper.is_valid_id(id))
-        self.assertFalse(database_helper.is_valid_id(invalid_id))
-
     def test_add_item(self):
         # arrange
-        item_id = database_helper.get_id()
+        item_id = helper.get_id()
 
         # act
         self.item_manager.add_item(item_id, item_id, item_id)
@@ -137,7 +120,7 @@ class TestDatabaseManager(unittest.TestCase):
 
     def test_add_tag(self):
         # arrange
-        item_id = database_helper.get_id()
+        item_id = helper.get_id()
 
         # act
         self.tag_manager.add_tag("TestTag", item_id)
@@ -159,7 +142,7 @@ class TestDatabaseManager(unittest.TestCase):
 
     def test_get_item_details(self):
         # arrange
-        item_id = database_helper.get_id()
+        item_id = helper.get_id()
         self.item_manager.add_item(item_id, item_id, item_id)
 
         # act

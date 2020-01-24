@@ -1,6 +1,6 @@
 import boto3
 import os.path
-import database_helper
+import helper
 
 
 class ImageManager:
@@ -19,7 +19,7 @@ class ImageManager:
         return new_file_name
 
     def delete_image(self, item_id):
-        if database_helper.is_valid_id(item_id):
+        if helper.is_valid_id(item_id):
             self.bucket.objects.filter(Prefix=item_id).delete()
             return "All matching images (if any) deleted"
         return "Not a valid id"

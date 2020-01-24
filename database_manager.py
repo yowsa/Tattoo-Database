@@ -1,4 +1,4 @@
-import database_helper
+import helper
 
 
 class ItemManager:
@@ -32,7 +32,7 @@ class TagManager:
         self.database_connector = database_connector
 
     def add_tag(self, tag_name, item_id):
-        tag_id = database_helper.get_id()
+        tag_id = helper.get_id()
         self.database_connector.execute(
             "INSERT INTO Tags (TagId, Tag, ItemId) VALUES (%s, %s, %s)",
             (tag_id, tag_name, item_id))

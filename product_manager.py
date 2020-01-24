@@ -1,4 +1,4 @@
-import database_helper
+import helper
 from image_manager import ImageManager
 
 
@@ -9,7 +9,7 @@ class ProductManager:
         self.image_manager = image_manager
 
     def add_product(self, tags, vector, png):
-        item_id = database_helper.get_id()
+        item_id = helper.get_id()
         vector_path = self.image_manager.add_image(vector, item_id, True)
         png_path = self.image_manager.add_image(png, item_id, False)
         self.item_manager.add_item(item_id, vector_path, png_path)
