@@ -8,7 +8,6 @@ import helper
 import image_manager
 
 
-
 class TestDatabaseManager(unittest.TestCase):
     @classmethod
     def setUpClass(self):
@@ -17,9 +16,6 @@ class TestDatabaseManager(unittest.TestCase):
             self.database_connector)
         self.tag_manager = database_manager.TagManager(
             self.database_connector)
-        self.image_manager = image_manager.ImageManager()
-        self.product_manager = product_manager.ProductManager(
-            self.item_manager, self.tag_manager, self.image_manager)
 
     def setUp(self):
         setup_test.create_test_database_setup(self.database_connector)
@@ -32,7 +28,8 @@ class TestDatabaseManager(unittest.TestCase):
         self.item_manager.add_item(item_id, item_id, item_id)
 
         # assert
-        self.assertTrue(setup_test.assertCount(self.database_connector, 'Items', 1))
+        self.assertTrue(setup_test.assertCount(
+            self.database_connector, 'Items', 1))
 
     def test_delete_item(self):
         # arrange
@@ -43,7 +40,8 @@ class TestDatabaseManager(unittest.TestCase):
         self.item_manager.delete_item(item_ids[0])
 
         # assert
-        self.assertTrue(setup_test.assertCount(self.database_connector, 'Items', 3))
+        self.assertTrue(setup_test.assertCount(
+            self.database_connector, 'Items', 3))
 
     def test_get_item_details(self):
         # arrange
@@ -77,7 +75,8 @@ class TestDatabaseManager(unittest.TestCase):
         self.tag_manager.add_tag("TestTag", item_id)
 
         # assert
-        self.assertTrue(setup_test.assertCount(self.database_connector, 'Tags', 1))
+        self.assertTrue(setup_test.assertCount(
+            self.database_connector, 'Tags', 1))
 
     def test_get_all_matches(self):
         # arrange
@@ -134,19 +133,8 @@ class TestDatabaseManager(unittest.TestCase):
         self.tag_manager.delete_tags_for_item(item_ids[3])
 
         # assert
-        self.assertTrue(setup_test.assertCount(self.database_connector, 'Tags', 3))
-
-    def test_get_all_matching_products(self):
-        # arrange
-        setup_test.test_items_tags_setup(
-            self.item_manager, self.tag_manager)
-
-        # act
-        all_matching_products = self.product_manager.get_all_matching_products(
-            "bir")
-
-        # assert
-        self.assertEqual(len(all_matching_products), 3)
+        self.assertTrue(setup_test.assertCount(
+            self.database_connector, 'Tags', 3))
 
     def tearDown(self):
         setup_test.tear_down_database_setup(self.database_connector)
