@@ -108,9 +108,11 @@ class TestDatabaseManager(unittest.TestCase):
     def test_is_valid_id(self):
         #arrange
         id = database_helper.get_id()
-
+        invalid_id = "1234"
+        
         #act & assert
         self.assertTrue(database_helper.is_valid_id(id))
+        self.assertFalse(database_helper.is_valid_id(invalid_id))
 
     def test_add_item(self):
         # arrange

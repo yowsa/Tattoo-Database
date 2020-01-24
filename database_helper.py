@@ -6,6 +6,11 @@ def get_id():
 
 
 def is_valid_id(id):
-    if str(uuid.UUID(id)) == id:
-        return True
-    return False
+    try:
+        test_id = uuid.UUID(id)
+        if str(test_id) == id:
+            return True
+        else:
+            return False
+    except ValueError:
+        return False
