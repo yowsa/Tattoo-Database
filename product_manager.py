@@ -8,11 +8,11 @@ class ProductManager:
         self.tag_manager = tag_manager
         self.image_manager = image_manager
 
-    def add_product(self, tags, vector, small_img):
+    def add_product(self, tags, vector, png):
         item_id = database_helper.get_id()
-        vector_path = self.image_manager.add_image(vector, item_id)
-        small_img_path = self.image_manager.add_image(small_img, item_id)
-        self.item_manager.add_item(item_id, vector_path, small_img_path)
+        vector_path = self.image_manager.add_image(vector, item_id, True)
+        png_path = self.image_manager.add_image(png, item_id, False)
+        self.item_manager.add_item(item_id, vector_path, png_path)
         for tag in tags:
             self.tag_manager.add_tag(tag, item_id)
 
