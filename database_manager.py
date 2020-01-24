@@ -6,10 +6,10 @@ class ItemManager:
     def __init__(self, database_connector):
         self.database_connector = database_connector
 
-    def add_item(self, item_id):
+    def add_item(self, item_id, vector, small_img):
         self.database_connector.execute(
             "INSERT INTO items (ItemId, VectorPath, PngPath) VALUES (%s, %s, %s)",
-            (item_id, item_id+"_vector", item_id+"_png"))
+            (item_id, vector, small_img))
 
     def delete_item(self, item_id):
         self.database_connector.execute(

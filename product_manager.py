@@ -3,19 +3,23 @@ from image_manager import ImageManager
 
 
 class ProductManager:
-    def __init__(self, item_manager, tag_manager):
+    def __init__(self, item_manager, tag_manager, image_manager):
         self.item_manager = item_manager
         self.tag_manager = tag_manager
+        self.image_manager = image_manager
 
-    def add_product(self, tags):
+    def add_product(self, tags, vector, small_img):
         item_id = database_helper.get_id()
-        self.item_manager.add_item(item_id)
+        vector_path = self.image_manager.add_image(vector, item_id)
+        small_img_path = self.image_manager.add_image(small_img, item_id)
+        self.item_manager.add_item(item_id, vector_path, small_img_path)
         for tag in tags:
             self.tag_manager.add_tag(tag, item_id)
 
     def delete_product(self, item_id):
         self.tag_manager.delete_tags_for_item(item_id)
         self.item_manager.delete_item(item_id)
+        self.image_manager.delete_image(item_id)
     
     def get_all_products(self):
         all_items = self.item_manager.get_all_items()

@@ -4,6 +4,7 @@ import database_connector
 import database_manager
 import product_manager
 import database_helper
+import image_manager
 
 
 def create_test_database_setup(database_connector):
@@ -45,22 +46,22 @@ def test_items_tags_setup(item_manager, tag_manager):
 
     item_id = database_helper.get_id()
     item_ids.append(item_id)
-    item_manager.add_item(item_id)
+    item_manager.add_item(item_id, item_id, item_id)
     tag_manager.add_tag("bird", item_id)
 
     item_id = database_helper.get_id()
     item_ids.append(item_id)
-    item_manager.add_item(item_id)
+    item_manager.add_item(item_id, item_id, item_id)
     tag_manager.add_tag("bird", item_id)
 
     item_id = database_helper.get_id()
     item_ids.append(item_id)
-    item_manager.add_item(item_id)
+    item_manager.add_item(item_id, item_id, item_id)
     tag_manager.add_tag("bird3", item_id)
 
     item_id = database_helper.get_id()
     item_ids.append(item_id)
-    item_manager.add_item(item_id)
+    item_manager.add_item(item_id, item_id, item_id)
     tag_manager.add_tag("h", item_id)
     tag_manager.add_tag("hiya", item_id)
     tag_manager.add_tag("hello", item_id)
@@ -89,8 +90,9 @@ class TestDatabaseManager(unittest.TestCase):
             self.database_connector)
         self.tag_manager = database_manager.TagManager(
             self.database_connector)
+        self.image_manager = image_manager.ImageManager()
         self.product_manager = product_manager.ProductManager(
-            self.item_manager, self.tag_manager)
+            self.item_manager, self.tag_manager, self.image_manager)
 
     def setUp(self):
         create_test_database_setup(self.database_connector)
@@ -108,7 +110,7 @@ class TestDatabaseManager(unittest.TestCase):
         item_id = database_helper.get_id()
 
         # act
-        self.item_manager.add_item(item_id)
+        self.item_manager.add_item(item_id, item_id, item_id)
 
         # assert
         self.assertTrue(assertCount(self.database_connector, 'Items', 1))
@@ -149,15 +151,15 @@ class TestDatabaseManager(unittest.TestCase):
     def test_get_item_details(self):
         # arrange
         item_id = database_helper.get_id()
-        self.item_manager.add_item(item_id)
+        self.item_manager.add_item(item_id, item_id, item_id)
 
         # act
         item_details = self.item_manager.get_item_details(item_id)
 
         # assert
         self.assertEqual(len(item_details), 3)
-        self.assertEqual(item_details['VectorPath'], item_id + '_vector')
-        self.assertEqual(item_details['PngPath'], item_id + '_png')
+        self.assertIn(item_id, item_details['VectorPath'])
+        self.assertIn(item_id, item_details['PngPath'])
 
     def test_get_all_matching_products(self):
         # arrange

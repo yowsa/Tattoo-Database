@@ -4,12 +4,14 @@ from flask import Flask, jsonify
 from database_connector import DatabaseConnector
 from database_manager import ItemManager, TagManager
 from product_manager import ProductManager
+from image_manager import ImageManager
 
 database_connector = DatabaseConnector('db')
 connection = database_connector.get_connection()
 item_manager = ItemManager(database_connector)
 tag_manager = TagManager(database_connector)
-product_manager = ProductManager(item_manager, tag_manager)
+image_manager = ImageManager()
+product_manager = ProductManager(item_manager, tag_manager, image_manager)
 
 app = Flask(__name__)
 
@@ -27,7 +29,7 @@ def tags():
 
 @app.route('/search', methods=['GET'])
 def search():
-    search_word = "sw"  # TODO: hook up to actual input
+    search_word = request.query_string.decode("utf-8")
     if request.method == "GET":
         return jsonify(product_manager.get_all_matching_products(search_word))
 
@@ -35,12 +37,12 @@ def search():
 @app.route('/products', methods=['GET', 'POST'])
 def products():
     if request.method == "GET":
-        # TODO: Get all items with assosiated tags, just like with search words but all items
-        return None
+        return product_manager.get_all_products()
     elif request.method == 'POST':
-        # TODO: updated tags below to get data from FE
-        tags = ["bird", "hello"]
-        product_manager.add_product(tags)
+        tags = request.form['tags']
+        vector = request.files['vector']
+        small_img = request.files['small_img']
+        product_manager.add_product(tags, vector, small_img)
 
 @app.route('/delete_product', methods=['GET', 'POST'])
 def delete_product():
