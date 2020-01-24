@@ -104,6 +104,13 @@ class TestDatabaseManager(unittest.TestCase):
         # assert
         self.assertEqual(type(id), str)
         self.assertEqual(len(id), 36)
+    
+    def test_is_valid_id(self):
+        #arrange
+        id = database_helper.get_id()
+
+        #act & assert
+        self.assertTrue(database_helper.is_valid_id(id))
 
     def test_add_item(self):
         # arrange
