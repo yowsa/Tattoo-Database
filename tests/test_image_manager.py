@@ -1,5 +1,6 @@
 import unittest
 import boto3
+from boto3.resources.base import ServiceResource
 from image_manager import AWSConnector
 from image_manager import ImageManager
 from moto import mock_s3
@@ -11,8 +12,8 @@ class TestImageManager(unittest.TestCase):
     bucket = 'jf-test555-bucket'
 
     def setUp(self):
-        # aws_connector = AWSConnector()
-        self.s3_resource = boto3.resource('s3')
+        aws_connector = AWSConnector()
+        self.s3_resource = aws_connector.get_s3_resource()
         self.s3_resource.create_bucket(Bucket=self.bucket, CreateBucketConfiguration={
             'LocationConstraint': 'eu-west-2'},)
         self.image_manager = ImageManager(self.s3_resource, self.bucket)
@@ -46,7 +47,7 @@ class TestImageManager(unittest.TestCase):
 
         # assert
         self.assertTrue(return_message)
-    
+
     def test__set_img_name(self):
         # arrange
         filename = "tests/test2.jpg"
@@ -55,7 +56,7 @@ class TestImageManager(unittest.TestCase):
         # act
         img_name = self.image_manager._set_img_name(filename, item_id)
 
-        #assert
+        # assert
         self.assertTrue(img_name.endswith('.jpg'))
         self.assertEqual(img_name, item_id + '.jpg')
 
