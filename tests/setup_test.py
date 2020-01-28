@@ -1,5 +1,15 @@
 import helper
 
+ITEM_ID_1 = "1e852a2d-35c2-409e-ac86-38224f5ac2d7"
+ITEM_ID_2 = "90e484d5-1f74-4596-97cb-9c6a8733f01c"
+ITEM_ID_3 = "b0bd7389-ac55-4c3f-bbc1-0c4b06a856ed"
+ITEM_ID_4 = "c0a8e5af-2c3c-43f9-916f-0eda4d5e89f6"
+
+PNG_PATH_1 = "test.png"
+
+VECTOR_PATH_1 = "test.vector"
+
+
 def create_test_database_setup(database_connector):
     # create database
     database_connector.execute("CREATE DATABASE TestDB")
@@ -22,9 +32,13 @@ def create_test_database_setup(database_connector):
 def assertCount(database_connector, table_name, count):
     sql_query = "SELECT COUNT(*) FROM " + table_name
     result = database_connector.execute(sql_query)
-    if result[0]['COUNT(*)'] == count:
-        return True
-    return False
+    return result[0]['COUNT(*)'] == count
+
+
+def add_test_item_with_tags(item_manager, tag_manager, item_id, tags: tuple):
+    item_manager.add_item(item_id, item_id, item_id)
+    for tag in tags:
+        tag_manager.add_tag(tag, item_id)
 
 
 def test_items_tags_setup(item_manager, tag_manager):
@@ -35,37 +49,21 @@ def test_items_tags_setup(item_manager, tag_manager):
 
     Return: list of ids of the added items
     """
-    item_ids = []
+    item_ids = (ITEM_ID_1, ITEM_ID_2, ITEM_ID_3, ITEM_ID_4)
 
-    item_id = helper.get_id()
-    item_ids.append(item_id)
-    item_manager.add_item(item_id, item_id, item_id)
-    tag_manager.add_tag("bird", item_id)
+    add_test_item_with_tags(item_manager, tag_manager, ITEM_ID_1, ('bird',))
 
-    item_id = helper.get_id()
-    item_ids.append(item_id)
-    item_manager.add_item(item_id, item_id, item_id)
-    tag_manager.add_tag("bird", item_id)
+    add_test_item_with_tags(item_manager, tag_manager, ITEM_ID_2, ('bird',))
 
-    item_id = helper.get_id()
-    item_ids.append(item_id)
-    item_manager.add_item(item_id, item_id, item_id)
-    tag_manager.add_tag("bird3", item_id)
+    add_test_item_with_tags(item_manager, tag_manager, ITEM_ID_3, ('bird3',))
 
-    item_id = helper.get_id()
-    item_ids.append(item_id)
-    item_manager.add_item(item_id, item_id, item_id)
-    tag_manager.add_tag("h", item_id)
-    tag_manager.add_tag("hiya", item_id)
-    tag_manager.add_tag("hello", item_id)
+    add_test_item_with_tags(item_manager, tag_manager,
+                            ITEM_ID_4, ('h', 'hiya', 'hello'))
     return item_ids
 
 
 def assertTagExists(tag, result):
-    for val in result:
-        if val['Tag'] == tag:
-            return True
-    return False
+    return any(val['Tag'] == tag for val in result)
 
 
 def tear_down_database_setup(database_connector):
