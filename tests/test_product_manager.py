@@ -41,10 +41,10 @@ class TestProductManager(unittest.TestCase):
         self.product_manager.add_product(tags, vector_file, png_file)
 
         # assert
-        self.assertTrue(setup_test.assertCount(
-            self.database_connector, 'Items', 1))
-        self.assertTrue(setup_test.assertCount(
-            self.database_connector, 'Tags', 2))
+        self.assertEqual(setup_test.count_rows(
+            self.database_connector, 'Items'), 1)
+        self.assertEqual(setup_test.count_rows(
+            self.database_connector, 'Tags'), 2)
 
     def test_delete_product(self):
         # arrange
@@ -57,10 +57,10 @@ class TestProductManager(unittest.TestCase):
         self.product_manager.delete_product(item_id)
 
         # assert
-        self.assertTrue(setup_test.assertCount(
-            self.database_connector, 'Items', 0))
-        self.assertTrue(setup_test.assertCount(
-            self.database_connector, 'Tags', 0))
+        self.assertEqual(setup_test.count_rows(
+            self.database_connector, 'Items'), 0)
+        self.assertEqual(setup_test.count_rows(
+            self.database_connector, 'Tags'), 0)
 
     def test_get_all_products(self):
         # arrange

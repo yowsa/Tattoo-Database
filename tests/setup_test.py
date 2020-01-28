@@ -29,10 +29,10 @@ def create_test_database_setup(database_connector):
          "ItemId VARCHAR(45) NOT NULL);"))
 
 
-def assertCount(database_connector, table_name, count):
+def count_rows(database_connector, table_name):
     sql_query = "SELECT COUNT(*) FROM " + table_name
     result = database_connector.execute(sql_query)
-    return result[0]['COUNT(*)'] == count
+    return result[0]['COUNT(*)']
 
 
 def add_test_item_with_tags(item_manager, tag_manager, item_id, tags: tuple):

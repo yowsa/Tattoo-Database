@@ -28,8 +28,8 @@ class TestDatabaseManager(unittest.TestCase):
         self.item_manager.add_item(item_id, item_id, item_id)
 
         # assert
-        self.assertTrue(setup_test.assertCount(
-            self.database_connector, 'Items', 1))
+        self.assertEqual(setup_test.count_rows(
+            self.database_connector, 'Items'), 1)
 
     def test_delete_item(self):
         # arrange
@@ -40,8 +40,8 @@ class TestDatabaseManager(unittest.TestCase):
         self.item_manager.delete_item(item_ids[0])
 
         # assert
-        self.assertTrue(setup_test.assertCount(
-            self.database_connector, 'Items', 3))
+        self.assertEqual(setup_test.count_rows(
+            self.database_connector, 'Items'), 3)
 
     def test_get_item_details(self):
         # arrange
@@ -75,8 +75,8 @@ class TestDatabaseManager(unittest.TestCase):
         self.tag_manager.add_tag("TestTag", item_id)
 
         # assert
-        self.assertTrue(setup_test.assertCount(
-            self.database_connector, 'Tags', 1))
+        self.assertEqual(setup_test.count_rows(
+            self.database_connector, 'Tags'), 1)
 
     def test_get_all_matches(self):
         # arrange
@@ -133,8 +133,8 @@ class TestDatabaseManager(unittest.TestCase):
         self.tag_manager.delete_tags_for_item(item_ids[3])
 
         # assert
-        self.assertTrue(setup_test.assertCount(
-            self.database_connector, 'Tags', 3))
+        self.assertEqual(setup_test.count_rows(
+            self.database_connector, 'Tags'), 3)
 
     def tearDown(self):
         setup_test.tear_down_database_setup(self.database_connector)
