@@ -22,8 +22,8 @@ class TestImageManager(unittest.TestCase):
         # arrange
         id = helper.get_id()
         filename = "tests/test2.jpg"
-        vector_img = "vector/" + self.image_manager._set_img_name(filename, id)
-        png_img = "png/" + self.image_manager._set_img_name(filename, id)
+        vector_img = "vector/" + self.image_manager._get_img_name(filename, id)
+        png_img = "png/" + self.image_manager._get_img_name(filename, id)
 
         # act
         self.image_manager.add_image(filename, id)
@@ -48,13 +48,13 @@ class TestImageManager(unittest.TestCase):
         # assert
         self.assertTrue(return_message)
 
-    def test__set_img_name(self):
+    def test__get_img_name(self):
         # arrange
         filename = "tests/test2.jpg"
         item_id = helper.get_id()
 
         # act
-        img_name = self.image_manager._set_img_name(filename, item_id)
+        img_name = self.image_manager._get_img_name(filename, item_id)
 
         # assert
         self.assertTrue(img_name.endswith('.jpg'))
