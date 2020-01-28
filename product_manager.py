@@ -27,7 +27,7 @@ class ProductManager:
         for item in all_items:
             item_id = item["ItemId"]
             item_tag_list = self.tag_manager.get_item_tags(item_id)
-            item.update({'Tags': item_tag_list})
+            item["Tags"] = item_tag_list
         return all_items
 
     def get_all_matching_products(self, search_word):
