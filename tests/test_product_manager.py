@@ -30,6 +30,13 @@ class TestProductManager(unittest.TestCase):
         setup_test.create_test_database_setup(self.database_connector)
         self.s3_resource.create_bucket(Bucket=self.bucket, CreateBucketConfiguration={
             'LocationConstraint': 'eu-west-2'},)
+    
+    def tearDown(self):
+        setup_test.tear_down_database_setup(self.database_connector)
+        bucket = self.s3_resource.Bucket(self.bucket)
+        for key in bucket.objects.all():
+            key.delete()
+        bucket.delete()
 
     def test_add_product(self):
         # arrange
@@ -83,13 +90,6 @@ class TestProductManager(unittest.TestCase):
 
         # assert
         self.assertEqual(len(all_matching_products), 3)
-
-    def tearDown(self):
-        setup_test.tear_down_database_setup(self.database_connector)
-        bucket = self.s3_resource.Bucket(self.bucket)
-        for key in bucket.objects.all():
-            key.delete()
-        bucket.delete()
 
 
 if __name__ == '__main__':

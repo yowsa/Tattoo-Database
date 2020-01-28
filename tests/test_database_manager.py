@@ -19,6 +19,9 @@ class TestDatabaseManager(unittest.TestCase):
 
     def setUp(self):
         setup_test.create_test_database_setup(self.database_connector)
+    
+    def tearDown(self):
+        setup_test.tear_down_database_setup(self.database_connector)
 
     def test_add_item(self):
         # arrange
@@ -135,9 +138,6 @@ class TestDatabaseManager(unittest.TestCase):
         # assert
         self.assertEqual(setup_test.count_rows(
             self.database_connector, 'Tags'), 3)
-
-    def tearDown(self):
-        setup_test.tear_down_database_setup(self.database_connector)
 
 
 if __name__ == '__main__':

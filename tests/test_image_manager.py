@@ -10,6 +10,7 @@ import helper
 @mock_s3
 class TestImageManager(unittest.TestCase):
     bucket = 'jf-test555-bucket'
+    FILENAME_TO_UPLOAD = "tests/test2.jpg"
 
     def setUp(self):
         aws_connector = AwsConnector()
@@ -18,16 +19,21 @@ class TestImageManager(unittest.TestCase):
             'LocationConstraint': 'eu-west-2'},)
         self.image_manager = ImageManager(self.s3_resource, self.bucket)
 
+    def tearDown(self):
+        bucket = self.s3_resource.Bucket(self.bucket)
+        for key in bucket.objects.all():
+            key.delete()
+        bucket.delete()
+
     def test_add_image(self):
         # arrange
         id = helper.get_id()
-        filename = "tests/test2.jpg"
-        vector_img = self.image_manager._get_img_path(filename, id)
-        png_img = self.image_manager._get_img_path(filename, id, False)
+        vector_img = self.image_manager._get_img_path(self.FILENAME_TO_UPLOAD, id)
+        png_img = self.image_manager._get_img_path(self.FILENAME_TO_UPLOAD, id, False)
 
         # act
-        self.image_manager.add_image(filename, id, True)
-        self.image_manager.add_image(filename, id, False)
+        self.image_manager.add_image(self.FILENAME_TO_UPLOAD, id, True)
+        self.image_manager.add_image(self.FILENAME_TO_UPLOAD, id, False)
         images = tuple(
             img.key for img in self.image_manager.bucket.objects.all())
 
@@ -39,11 +45,10 @@ class TestImageManager(unittest.TestCase):
     def test_add_vector_image(self):
         # arrange
         id = helper.get_id()
-        filename = "tests/test2.jpg"
-        vector_img = self.image_manager._get_img_path(filename, id)
+        vector_img = self.image_manager._get_img_path(self.FILENAME_TO_UPLOAD, id)
 
         # act
-        self.image_manager.add_vector_image(filename, id)
+        self.image_manager.add_vector_image(self.FILENAME_TO_UPLOAD, id)
         images = tuple(
             img.key for img in self.image_manager.bucket.objects.all())
 
@@ -53,11 +58,10 @@ class TestImageManager(unittest.TestCase):
     def test_add_png_image(self):
         # arrange
         id = helper.get_id()
-        filename = "tests/test2.jpg"
-        png_img = self.image_manager._get_img_path(filename, id, False)
+        png_img = self.image_manager._get_img_path(self.FILENAME_TO_UPLOAD, id, False)
 
         # act
-        self.image_manager.add_png_image(filename, id)
+        self.image_manager.add_png_image(self.FILENAME_TO_UPLOAD, id)
         images = tuple(
             img.key for img in self.image_manager.bucket.objects.all())
 
@@ -67,8 +71,7 @@ class TestImageManager(unittest.TestCase):
     def test_delete_image(self):
         # arrange
         id = helper.get_id()
-        filename = "tests/test2.jpg"
-        self.image_manager.add_vector_image(filename, id)
+        self.image_manager.add_vector_image(self.FILENAME_TO_UPLOAD, id)
 
         # act
         return_message = self.image_manager.delete_image(id)
@@ -78,18 +81,11 @@ class TestImageManager(unittest.TestCase):
 
     def test__get_img_path(self):
         # arrange
-        filename = "tests/test2.jpg"
         item_id = helper.get_id()
 
         # act
-        img_name = self.image_manager._get_img_path(filename, item_id, True)
+        img_name = self.image_manager._get_img_path(self.FILENAME_TO_UPLOAD, item_id, True)
 
         # assert
         self.assertTrue(img_name.endswith('.jpg'))
         self.assertEqual(img_name, "vector/" + item_id + '.jpg')
-
-    def tearDown(self):
-        bucket = self.s3_resource.Bucket(self.bucket)
-        for key in bucket.objects.all():
-            key.delete()
-        bucket.delete()
