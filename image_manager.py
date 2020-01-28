@@ -20,7 +20,7 @@ class ImageManager:
 
     def add_image(self, file_name, item_id, vector=True):
         folder = self.vector_folder if vector else self.png_folder
-        new_file_name = self._set_img_name(file_name, item_id)
+        new_file_name = self._get_img_path(file_name, item_id)
         self.bucket.upload_file(
             file_name, folder + new_file_name)
         return new_file_name
@@ -33,6 +33,6 @@ class ImageManager:
             return True
         return False
 
-    def _set_img_name(self, file_name, item_id):
+    def _get_img_path(self, file_name, item_id):
         ext = os.path.splitext(file_name)[1]
         return item_id + ext
