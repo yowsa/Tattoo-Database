@@ -32,14 +32,13 @@ def tags():
 @app.route('/search', methods=['GET'])
 def search():
     search_word = request.args.get("word")
-    if request.method == "GET":
-        return jsonify(product_manager.get_all_matching_products(search_word))
+    return jsonify(product_manager.get_all_matching_products(search_word))
 
 
 @app.route('/products', methods=['GET', 'POST'])
 def products():
     if request.method == "GET":
-        return product_manager.get_all_products()
+        return jsonify(product_manager.get_all_products())
     elif request.method == 'POST':
         tags = request.form['tags']
         vector = request.files['vector']
