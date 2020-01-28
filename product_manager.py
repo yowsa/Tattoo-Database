@@ -10,8 +10,8 @@ class ProductManager:
 
     def add_product(self, tags, vector_file, png_file):
         item_id = helper.get_id()
-        vector_path = self.image_manager.add_image(vector_file, item_id, True)
-        png_path = self.image_manager.add_image(png_file, item_id, False)
+        vector_path = self.image_manager.add_vector_image(vector_file, item_id)
+        png_path = self.image_manager.add_png_image(png_file, item_id)
         self.item_manager.add_item(item_id, vector_path, png_path)
         for tag in tags:
             self.tag_manager.add_tag(tag, item_id)

@@ -36,32 +36,60 @@ class TestImageManager(unittest.TestCase):
         self.assertIn(vector_img, images)
         self.assertIn(png_img, images)
 
+    def test_add_vector_image(self):
+        # arrange
+        id = helper.get_id()
+        filename = "tests/test2.jpg"
+        vector_img = self.image_manager._get_img_path(filename, id)
+
+        # act
+        self.image_manager.add_vector_image(filename, id)
+        images = tuple(
+            img.key for img in self.image_manager.bucket.objects.all())
+
+        # assert
+        self.assertIn(vector_img, images)
+
+    def test_add_png_image(self):
+        # arrange
+        id = helper.get_id()
+        filename = "tests/test2.jpg"
+        png_img = self.image_manager._get_img_path(filename, id, False)
+
+        # act
+        self.image_manager.add_png_image(filename, id)
+        images = tuple(
+            img.key for img in self.image_manager.bucket.objects.all())
+
+        # assert
+        self.assertIn(png_img, images)
+
     def test_delete_image(self):
         # arrange
         id = helper.get_id()
         filename = "tests/test2.jpg"
-        self.image_manager.add_image(filename, id, True)
+        self.image_manager.add_vector_image(filename, id)
 
         # act
-        return_message=self.image_manager.delete_image(id)
+        return_message = self.image_manager.delete_image(id)
 
         # assert
         self.assertTrue(return_message)
 
     def test__get_img_path(self):
         # arrange
-        filename="tests/test2.jpg"
-        item_id=helper.get_id()
+        filename = "tests/test2.jpg"
+        item_id = helper.get_id()
 
         # act
-        img_name=self.image_manager._get_img_path(filename, item_id, True)
+        img_name = self.image_manager._get_img_path(filename, item_id, True)
 
         # assert
         self.assertTrue(img_name.endswith('.jpg'))
         self.assertEqual(img_name, "vector/" + item_id + '.jpg')
 
     def tearDown(self):
-        bucket=self.s3_resource.Bucket(self.bucket)
+        bucket = self.s3_resource.Bucket(self.bucket)
         for key in bucket.objects.all():
             key.delete()
         bucket.delete()

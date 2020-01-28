@@ -23,6 +23,12 @@ class ImageManager:
         self.bucket.upload_file(
             file_name, new_file_name)
         return new_file_name
+    
+    def add_vector_image(self, file_name, item_id):
+        return self.add_image(file_name, item_id, vector=True)
+    
+    def add_png_image(self, file_name, item_id):
+        return self.add_image(file_name, item_id, vector=False)
 
     def delete_image(self, item_id, vector=True):
         folder = self.vector_folder if vector else self.png_folder
