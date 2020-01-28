@@ -91,14 +91,6 @@ class TestProductManager(unittest.TestCase):
             key.delete()
         bucket.delete()
 
-    @classmethod
-    def tearDownClass(self):
-        self.database_connector = None
-        self.item_manager = None
-        self.tag_manager = None
-        self.image_manager = None
-        self.product_manager = None
-
 
 if __name__ == '__main__':
     unittest.main()

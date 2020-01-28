@@ -139,12 +139,6 @@ class TestDatabaseManager(unittest.TestCase):
     def tearDown(self):
         setup_test.tear_down_database_setup(self.database_connector)
 
-    @classmethod
-    def tearDownClass(self):
-        self.database_connector = None
-        self.item_manager = None
-        self.tag_manager = None
-
 
 if __name__ == '__main__':
     unittest.main()
