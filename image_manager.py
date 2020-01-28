@@ -3,7 +3,7 @@ import os.path
 import helper
 
 
-class AWSConnector:
+class AwsConnector:
 
     def get_s3_resource(self):
         return boto3.resource('s3')

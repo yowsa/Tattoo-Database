@@ -6,7 +6,7 @@ import database_connector
 import database_manager
 import product_manager
 from image_manager import ImageManager
-from image_manager import AWSConnector
+from image_manager import AwsConnector
 
 
 @mock_s3
@@ -20,7 +20,7 @@ class TestProductManager(unittest.TestCase):
             self.database_connector)
         self.tag_manager = database_manager.TagManager(
             self.database_connector)
-        aws_connector = AWSConnector()
+        aws_connector = AwsConnector()
         self.s3_resource = aws_connector.get_s3_resource()
         self.image_manager = ImageManager(self.s3_resource, self.bucket)
         self.product_manager = product_manager.ProductManager(

@@ -1,7 +1,7 @@
 import unittest
 import boto3
 from boto3.resources.base import ServiceResource
-from image_manager import AWSConnector
+from image_manager import AwsConnector
 from image_manager import ImageManager
 from moto import mock_s3
 import helper
@@ -12,7 +12,7 @@ class TestImageManager(unittest.TestCase):
     bucket = 'jf-test555-bucket'
 
     def setUp(self):
-        aws_connector = AWSConnector()
+        aws_connector = AwsConnector()
         self.s3_resource = aws_connector.get_s3_resource()
         self.s3_resource.create_bucket(Bucket=self.bucket, CreateBucketConfiguration={
             'LocationConstraint': 'eu-west-2'},)
