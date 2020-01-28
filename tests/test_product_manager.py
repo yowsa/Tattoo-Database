@@ -40,7 +40,7 @@ class TestProductManager(unittest.TestCase):
 
     def test_add_product(self):
         # arrange
-        tags = ['bird', 'fineline']
+        tags = ('bird', 'fineline')
         vector_file = "tests/test2.jpg"
         png_file = "tests/test2.jpg"
 
