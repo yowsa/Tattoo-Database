@@ -49,7 +49,6 @@ def test_items_tags_setup(item_manager, tag_manager):
 
     Return: list of ids of the added items
     """
-    item_ids = (ITEM_ID_1, ITEM_ID_2, ITEM_ID_3, ITEM_ID_4)
 
     add_test_item_with_tags(item_manager, tag_manager, ITEM_ID_1, ('bird',))
 
@@ -59,7 +58,7 @@ def test_items_tags_setup(item_manager, tag_manager):
 
     add_test_item_with_tags(item_manager, tag_manager,
                             ITEM_ID_4, ('h', 'hiya', 'hello'))
-    return item_ids
+    return (ITEM_ID_1, ITEM_ID_2, ITEM_ID_3, ITEM_ID_4)
 
 
 def assertTagExists(tag, result):
