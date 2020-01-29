@@ -19,7 +19,7 @@ class TestDatabaseManager(unittest.TestCase):
 
     def setUp(self):
         setup_test.create_test_database_setup(self.database_connector)
-    
+
     def tearDown(self):
         setup_test.tear_down_database_setup(self.database_connector)
 
