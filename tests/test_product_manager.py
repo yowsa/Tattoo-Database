@@ -12,6 +12,13 @@ from image_manager import AwsConnector
 @mock_s3
 class TestProductManager(unittest.TestCase):
     bucket = 'jf-test555-bucket'
+    VECTOR_TO_UPLOAD = "images/1.eps"
+    VECTOR_FILE_EXT = '.eps'
+    VECTOR_SUBFOLDER = 'vector'
+    PNG_SUBFOLDER = 'png'
+    PNG_FILE_EXT = '.png'
+    ITEM_ID_1 = "1e852a2d-35c2-409e-ac86-38224f5ac2d7"
+    PNG_TO_UPLOAD = "images/test.png"
 
     @classmethod
     def setUpClass(self):
@@ -41,7 +48,7 @@ class TestProductManager(unittest.TestCase):
     def test_add_product(self):
         # arrange
         tags = ('bird', 'fineline')
-        vector_file = "tests/test2.jpg"
+        vector_file = "images/1.eps"
         png_file = "tests/test2.jpg"
 
         # act
@@ -55,19 +62,23 @@ class TestProductManager(unittest.TestCase):
 
     def test_delete_product(self):
         # arrange
-        tags = ['bird', 'fineline']
-        vector_file = "tests/test2.jpg"
-        png_file = "tests/test2.jpg"
-        item_id = self.product_manager.add_product(tags, vector_file, png_file)
+        tags = ('bird', 'fineline')
+        item_id = self.product_manager.add_product(tags, self.VECTOR_TO_UPLOAD, self.VECTOR_TO_UPLOAD)
+        vector_path = self.VECTOR_SUBFOLDER + item_id + self.VECTOR_FILE_EXT
+        png_path = self.PNG_SUBFOLDER + item_id + self.PNG_FILE_EXT
 
         # act
         self.product_manager.delete_product(item_id)
+        images = tuple(
+            img.key for img in self.image_manager.bucket.objects.all())
 
         # assert
         self.assertEqual(setup_test.count_rows(
             self.database_connector, 'Items'), 0)
         self.assertEqual(setup_test.count_rows(
             self.database_connector, 'Tags'), 0)
+        self.assertNotIn(vector_path, images)
+        self.assertNotIn(png_path, images)
 
     def test_get_all_products(self):
         # arrange

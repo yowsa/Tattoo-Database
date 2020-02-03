@@ -1,16 +1,20 @@
 
 
-class Aws:
+class AwsConf:
     BUCKET = 'jf-test-bucket'
     VECTOR_FOLDER = 'vector'
     PNG_FOLDER = 'png'
-    PNG_HEIGHT = 100
-    PNG_WIDTH = 100
-    VECTOR_MIN_WIDTH = 1000
-    VECTOR_MIN_HEIGHT = 1000
 
 
-class Database:
+class ImageConf:
+    PNG_HEIGHT = 800
+    PNG_WIDTH = 800
+    VECTOR_MIN_WIDTH = 2000
+    VECTOR_MIN_HEIGHT = 2000
+    VECTOR_FORMATS = ('.eps', '.pdf')
+
+
+class DatabaseConf:
     DB = 'db'
     HOST = 'localhost'
     USER = 'root'

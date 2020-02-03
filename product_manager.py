@@ -1,5 +1,7 @@
 import helper
 from image_manager import ImageManager
+from config import AwsConf
+from product import Product
 
 
 class ProductManager:
@@ -9,18 +11,22 @@ class ProductManager:
         self.image_manager = image_manager
 
     def add_product(self, tags, vector_file, png_file):
+        # TODO: Png file to be optional from FE, if no file is submitted use vector
         item_id = helper.get_id()
-        vector_path = self.image_manager.add_vector_image(vector_file, item_id)
-        png_path = self.image_manager.add_png_image(png_file, item_id)
+        vector_path = self.image_manager.upload_vector_file(vector_file, item_id, AwsConf.VECTOR_FOLDER)
+        png_path = self.image_manager.upload_png_file(png_file, item_id, AwsConf.PNG_FOLDER)
         self.item_manager.add_item(item_id, vector_path, png_path)
         for tag in tags:
             self.tag_manager.add_tag(tag, item_id)
         return item_id
 
     def delete_product(self, item_id):
+        product = self.get_product_object(item_id)
         self.tag_manager.delete_tags_for_item(item_id)
         self.item_manager.delete_item(item_id)
-        self.image_manager.delete_image(item_id)
+        # self.image_manager.delete_image(item_id)
+        self.image_manager.delete_file(product.vector_path)
+        self.image_manager.delete_file(product.png_path)
 
     def get_all_products(self):
         all_items = self.item_manager.get_all_items()
@@ -40,3 +46,12 @@ class ProductManager:
             item_details.update({'Tags': item_tag_list})
             all_maching_products.append(item_details)
         return all_maching_products
+    
+    def get_product_object(self, item_id: str):
+        item_details = self.item_manager.get_item_details(item_id)
+        tags = self.tag_manager.get_item_tags(item_id)
+        vector_path = item_details['VectorPath']
+        png_path = item_details['PngPath']
+        return Product(item_id, vector_path, png_path, tags)
+
+

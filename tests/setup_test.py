@@ -1,5 +1,5 @@
 import helper
-from config import Database
+from config import DatabaseConf
 
 ITEM_ID_1 = "1e852a2d-35c2-409e-ac86-38224f5ac2d7"
 ITEM_ID_2 = "90e484d5-1f74-4596-97cb-9c6a8733f01c"
@@ -17,9 +17,9 @@ def create_test_database_setup(database_connector):
     # set database
     database_connector.set_database("TestDB")
     # create items table
-    database_connector.execute(Database.ITEM_TABLE_SCHEMA)
+    database_connector.execute(DatabaseConf.ITEM_TABLE_SCHEMA)
     # create tags table
-    database_connector.execute(Database.TAGS_TABLE_SCHEMA)
+    database_connector.execute(DatabaseConf.TAGS_TABLE_SCHEMA)
 
 
 def count_rows(database_connector, table_name):
