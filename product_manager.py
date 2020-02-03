@@ -10,8 +10,8 @@ class ProductManager:
         self.tag_manager = tag_manager
         self.image_manager = image_manager
 
-    def add_product(self, tags, vector_file, png_file):
-        # TODO: Png file to be optional from FE, if no file is submitted use vector
+    def add_product(self, tags, vector_file, png_file=None):
+        png_file = vector_file if png_file == None else png_file
         item_id = helper.get_id()
         vector_path = self.image_manager.upload_vector_file(vector_file, item_id, AwsConf.VECTOR_FOLDER)
         png_path = self.image_manager.upload_png_file(png_file, item_id, AwsConf.PNG_FOLDER)
@@ -24,7 +24,6 @@ class ProductManager:
         product = self.get_product_object(item_id)
         self.tag_manager.delete_tags_for_item(item_id)
         self.item_manager.delete_item(item_id)
-        # self.image_manager.delete_image(item_id)
         self.image_manager.delete_file(product.vector_path)
         self.image_manager.delete_file(product.png_path)
 

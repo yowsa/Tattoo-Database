@@ -10,7 +10,7 @@ import helper
 
 @mock_s3
 class TestImageManager(unittest.TestCase):
-    bucket = 'jf-test555-bucket'
+    BUCKET = 'jf-test555-bucket'
     VECTOR_TO_UPLOAD = "images/1.eps"
     VECTOR_FILE_EXT = '.eps'
     VECTOR_SUBFOLDER = 'vector'
@@ -20,12 +20,12 @@ class TestImageManager(unittest.TestCase):
     def setUp(self):
         aws_connector = AwsConnector()
         self.s3_resource = aws_connector.get_s3_resource()
-        self.s3_resource.create_bucket(Bucket=self.bucket, CreateBucketConfiguration={
+        self.s3_resource.create_bucket(Bucket=self.BUCKET, CreateBucketConfiguration={
             'LocationConstraint': 'eu-west-2'},)
-        self.image_manager = ImageManager(self.s3_resource, self.bucket)
+        self.image_manager = ImageManager(self.s3_resource, self.BUCKET)
 
     def tearDown(self):
-        bucket = self.s3_resource.Bucket(self.bucket)
+        bucket = self.s3_resource.Bucket(self.BUCKET)
         for key in bucket.objects.all():
             key.delete()
         bucket.delete()

@@ -13,12 +13,10 @@ class AwsConnector:
 
 
 class ImageManager:
-    def __init__(self, s3_resource, bucket_name):
+    def __init__(self, s3_resource: object, bucket_name: str):
         self.bucket = s3_resource.Bucket(bucket_name)
-        self.vector_folder = 'vector'
-        self.png_folder = 'png'
 
-    def upload_file(self, bytes_file, file_name, bucket_name):
+    def upload_file(self, bytes_file: bytes, file_name: str, bucket_name: str):
         response = self.bucket.put_object(Body=bytes_file, Key=file_name)
         return response
 
@@ -41,7 +39,6 @@ class ImageManager:
             return image_path
 
     def upload_png_file(self, file: str, item_id: str, subfolder: str = ''):
-        # TODO: check if fiel is already a png if so don't scale etc
         png = self._get_png(file)
         image_path = self._get_img_path(item_id, '.png', subfolder)
         self.upload_file(png, image_path, self.bucket)
@@ -60,10 +57,10 @@ class ImageManager:
     def _get_image_object(self, file_path: str):
         return Image.open(file_path)
 
-    def _get_file_ext(self, file_path):
+    def _get_file_ext(self, file_path: str):
         return os.path.splitext(file_path)[1].lower()
 
-    def _is_supported_format(self, file_path, formats: tuple):
+    def _is_supported_format(self, file_path: str, formats: tuple):
         file_ext = self._get_file_ext(file_path)
         return file_ext in formats
 
@@ -74,16 +71,18 @@ class ImageManager:
         return vector
 
     def _get_png(self, file: str):
-        # TODO: Implement check to only allow vector files
         """
-        Converts a vector file to image object, scales the vector to minimun size,
+        Converts a file to image object, if vector, it scales it to minimun size,
         resizes to correct png size, saves it and returns it as bytes ready to upload.
         """
         image_object = self._get_image_object(file)
-        vector = self._scale_vector(
-            image_object, ImageConf.VECTOR_MIN_WIDTH)
+
+        if self._is_supported_format(file, ImageConf.VECTOR_FORMATS):
+            image_object = self._scale_vector(
+                image_object, ImageConf.VECTOR_MIN_WIDTH)
+
         resized_img = self._resize_png(
-            vector, (ImageConf.PNG_HEIGHT, ImageConf.PNG_WIDTH))
+            image_object, (ImageConf.PNG_HEIGHT, ImageConf.PNG_WIDTH))
         image_bytes = io.BytesIO()
         resized_img.save(image_bytes, format='PNG')
         resized_img.seek(0)
@@ -93,12 +92,3 @@ class ImageManager:
     def _resize_png(self, png: object, height_width: tuple):
         resized_image = png.resize(height_width)
         return resized_image
-
-
-# s3 = AwsConnector().get_s3_resource()
-
-# im = ImageManager(s3, AwsConf.BUCKET)
-
-# print(im.delete_file('testarpng.png'))
-
-# im.upload_file('images/test.png', "hellothere.png", AwsConf.BUCKET)

@@ -11,7 +11,7 @@ from image_manager import AwsConnector
 
 @mock_s3
 class TestProductManager(unittest.TestCase):
-    bucket = 'jf-test555-bucket'
+    BUCKET = 'jf-test555-bucket'
     VECTOR_TO_UPLOAD = "images/1.eps"
     VECTOR_FILE_EXT = '.eps'
     VECTOR_SUBFOLDER = 'vector'
@@ -19,6 +19,7 @@ class TestProductManager(unittest.TestCase):
     PNG_FILE_EXT = '.png'
     ITEM_ID_1 = "1e852a2d-35c2-409e-ac86-38224f5ac2d7"
     PNG_TO_UPLOAD = "images/test.png"
+    TAGS = ('bird', 'fineline')
 
     @classmethod
     def setUpClass(self):
@@ -29,30 +30,25 @@ class TestProductManager(unittest.TestCase):
             self.database_connector)
         aws_connector = AwsConnector()
         self.s3_resource = aws_connector.get_s3_resource()
-        self.image_manager = ImageManager(self.s3_resource, self.bucket)
+        self.image_manager = ImageManager(self.s3_resource, self.BUCKET)
         self.product_manager = product_manager.ProductManager(
             self.item_manager, self.tag_manager, self.image_manager)
 
     def setUp(self):
         setup_test.create_test_database_setup(self.database_connector)
-        self.s3_resource.create_bucket(Bucket=self.bucket, CreateBucketConfiguration={
+        self.s3_resource.create_bucket(Bucket=self.BUCKET, CreateBucketConfiguration={
             'LocationConstraint': 'eu-west-2'},)
     
     def tearDown(self):
         setup_test.tear_down_database_setup(self.database_connector)
-        bucket = self.s3_resource.Bucket(self.bucket)
+        bucket = self.s3_resource.Bucket(self.BUCKET)
         for key in bucket.objects.all():
             key.delete()
         bucket.delete()
 
     def test_add_product(self):
-        # arrange
-        tags = ('bird', 'fineline')
-        vector_file = "images/1.eps"
-        png_file = "tests/test2.jpg"
-
         # act
-        self.product_manager.add_product(tags, vector_file, png_file)
+        self.product_manager.add_product(self.TAGS, self.VECTOR_TO_UPLOAD, self.PNG_TO_UPLOAD)
 
         # assert
         self.assertEqual(setup_test.count_rows(
@@ -62,8 +58,7 @@ class TestProductManager(unittest.TestCase):
 
     def test_delete_product(self):
         # arrange
-        tags = ('bird', 'fineline')
-        item_id = self.product_manager.add_product(tags, self.VECTOR_TO_UPLOAD, self.VECTOR_TO_UPLOAD)
+        item_id = self.product_manager.add_product(self.TAGS, self.VECTOR_TO_UPLOAD, self.VECTOR_TO_UPLOAD)
         vector_path = self.VECTOR_SUBFOLDER + item_id + self.VECTOR_FILE_EXT
         png_path = self.PNG_SUBFOLDER + item_id + self.PNG_FILE_EXT
 

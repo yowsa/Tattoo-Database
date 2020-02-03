@@ -14,7 +14,6 @@ connection = database_connector.get_connection()
 item_manager = ItemManager(database_connector)
 tag_manager = TagManager(database_connector)
 s3_resource = AwsConnector().get_s3_resource()
-aws_connector = AwsConnector()
 image_manager = ImageManager(s3_resource, AwsConf.BUCKET)
 product_manager = ProductManager(item_manager, tag_manager, image_manager)
 
