@@ -2,3 +2,4 @@ flask
 PyMySQL
 PyMySQL[rsa]
 boto3
+Pillow

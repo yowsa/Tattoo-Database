@@ -6,13 +6,15 @@ from database_manager import ItemManager, TagManager
 from product_manager import ProductManager
 from image_manager import ImageManager
 from image_manager import AwsConnector
+from config import DatabaseConf, AwsConf
 
-database_connector = DatabaseConnector('db')
+database_connector = DatabaseConnector(
+    DatabaseConf.DB, DatabaseConf.HOST, DatabaseConf.USER, DatabaseConf.PASSWORD)
 connection = database_connector.get_connection()
 item_manager = ItemManager(database_connector)
 tag_manager = TagManager(database_connector)
 s3_resource = AwsConnector().get_s3_resource()
-image_manager = ImageManager(s3_resource, 'jf-test-bucket')
+image_manager = ImageManager(s3_resource, AwsConf.BUCKET)
 product_manager = ProductManager(item_manager, tag_manager, image_manager)
 
 app = Flask(__name__)

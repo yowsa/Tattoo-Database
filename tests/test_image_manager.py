@@ -1,5 +1,6 @@
 import unittest
 import boto3
+from PIL import Image
 from boto3.resources.base import ServiceResource
 from image_manager import AwsConnector
 from image_manager import ImageManager
@@ -9,83 +10,106 @@ import helper
 
 @mock_s3
 class TestImageManager(unittest.TestCase):
-    bucket = 'jf-test555-bucket'
-    FILENAME_TO_UPLOAD = "tests/test2.jpg"
+    BUCKET = 'jf-test555-bucket'
+    VECTOR_TO_UPLOAD = "images/1.eps"
+    VECTOR_FILE_EXT = '.eps'
+    VECTOR_SUBFOLDER = 'vector'
+    ITEM_ID_1 = "1e852a2d-35c2-409e-ac86-38224f5ac2d7"
+    PNG_TO_UPLOAD = "images/test.png"
 
     def setUp(self):
         aws_connector = AwsConnector()
         self.s3_resource = aws_connector.get_s3_resource()
-        self.s3_resource.create_bucket(Bucket=self.bucket, CreateBucketConfiguration={
+        self.s3_resource.create_bucket(Bucket=self.BUCKET, CreateBucketConfiguration={
             'LocationConstraint': 'eu-west-2'},)
-        self.image_manager = ImageManager(self.s3_resource, self.bucket)
+        self.image_manager = ImageManager(self.s3_resource, self.BUCKET)
 
     def tearDown(self):
-        bucket = self.s3_resource.Bucket(self.bucket)
+        bucket = self.s3_resource.Bucket(self.BUCKET)
         for key in bucket.objects.all():
             key.delete()
         bucket.delete()
 
-    def test_add_image(self):
-        # arrange
-        id = helper.get_id()
-        vector_img = self.image_manager._get_img_path(self.FILENAME_TO_UPLOAD, id)
-        png_img = self.image_manager._get_img_path(self.FILENAME_TO_UPLOAD, id, False)
-
+    def test_upload_vector_file(self):
         # act
-        self.image_manager.add_image(self.FILENAME_TO_UPLOAD, id, True)
-        self.image_manager.add_image(self.FILENAME_TO_UPLOAD, id, False)
+        vector_path = self.image_manager.upload_vector_file(
+            self.VECTOR_TO_UPLOAD, self.ITEM_ID_1)
+
+        # assert
         images = tuple(
             img.key for img in self.image_manager.bucket.objects.all())
+        self.assertIn(vector_path, images)
+
+    def test_upload_png_file(self):
+        # act
+        png_path = self.image_manager.upload_png_file(
+            self.VECTOR_TO_UPLOAD, self.ITEM_ID_1)
 
         # assert
-        self.assertEqual(len(images), 2)
-        self.assertIn(vector_img, images)
-        self.assertIn(png_img, images)
-
-    def test_add_vector_image(self):
-        # arrange
-        id = helper.get_id()
-        vector_img = self.image_manager._get_img_path(self.FILENAME_TO_UPLOAD, id)
-
-        # act
-        self.image_manager.add_vector_image(self.FILENAME_TO_UPLOAD, id)
         images = tuple(
             img.key for img in self.image_manager.bucket.objects.all())
+        self.assertIn(png_path, images)
 
-        # assert
-        self.assertIn(vector_img, images)
-
-    def test_add_png_image(self):
+    def test_delete_file(self):
         # arrange
-        id = helper.get_id()
-        png_img = self.image_manager._get_img_path(self.FILENAME_TO_UPLOAD, id, False)
+        vector_path = self.image_manager.upload_vector_file(
+            self.VECTOR_TO_UPLOAD, self.ITEM_ID_1)
 
         # act
-        self.image_manager.add_png_image(self.FILENAME_TO_UPLOAD, id)
+        return_message = self.image_manager.delete_file(vector_path)
+
+        # assert
         images = tuple(
             img.key for img in self.image_manager.bucket.objects.all())
-
-        # assert
-        self.assertIn(png_img, images)
-
-    def test_delete_image(self):
-        # arrange
-        id = helper.get_id()
-        self.image_manager.add_vector_image(self.FILENAME_TO_UPLOAD, id)
-
-        # act
-        return_message = self.image_manager.delete_image(id)
-
-        # assert
         self.assertTrue(return_message)
+        self.assertNotIn(vector_path, images)
 
-    def test__get_img_path(self):
-        # arrange
-        item_id = helper.get_id()
-
+    def test_get_img_path(self):
         # act
-        img_name = self.image_manager._get_img_path(self.FILENAME_TO_UPLOAD, item_id, True)
+        image_path = self.image_manager._get_img_path(
+            self.ITEM_ID_1, self.VECTOR_FILE_EXT, self.VECTOR_SUBFOLDER)
 
         # assert
-        self.assertTrue(img_name.endswith('.jpg'))
-        self.assertEqual(img_name, "vector/" + item_id + '.jpg')
+        self.assertTrue(image_path.endswith('.eps'))
+        self.assertEqual(image_path, self.VECTOR_SUBFOLDER +
+                         "/" + self.ITEM_ID_1 + self.VECTOR_FILE_EXT)
+
+    def test_get_file_ext(self):
+        # act
+        file_ext = self.image_manager._get_file_ext(self.VECTOR_TO_UPLOAD)
+
+        # assert
+        self.assertEqual(file_ext, self.VECTOR_FILE_EXT)
+
+    def test_is_supported_format(self):
+        # arrange
+        formats = ('.eps', '.jpg')
+
+        # act
+        eps = self.image_manager._is_supported_format(
+            self.VECTOR_TO_UPLOAD, formats)
+        png = self.image_manager._is_supported_format(
+            self.PNG_TO_UPLOAD, formats)
+
+        # assert
+        self.assertTrue(eps)
+        self.assertFalse(png)
+
+    def test_scale_vector(self):
+        # arrange
+        image_object = Image.open(self.VECTOR_TO_UPLOAD)
+        min_width = 2000
+
+        # act
+        vector = self.image_manager._scale_vector(image_object, min_width)
+
+        # assert
+        self.assertTrue(vector.width >= min_width)
+        image_object.close()
+
+    def test_get_png(self):
+        # act
+        png = self.image_manager._get_png(self.VECTOR_TO_UPLOAD)
+
+        # assert
+        self.assertIsInstance(png, bytes)
