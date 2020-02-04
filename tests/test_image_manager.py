@@ -34,20 +34,20 @@ class TestImageManager(unittest.TestCase):
         # act
         vector_path = self.image_manager.upload_vector_file(
             self.VECTOR_TO_UPLOAD, self.ITEM_ID_1)
-        images = tuple(
-            img.key for img in self.image_manager.bucket.objects.all())
 
         # assert
+        images = tuple(
+            img.key for img in self.image_manager.bucket.objects.all())
         self.assertIn(vector_path, images)
 
     def test_upload_png_file(self):
         # act
         png_path = self.image_manager.upload_png_file(
             self.VECTOR_TO_UPLOAD, self.ITEM_ID_1)
-        images = tuple(
-            img.key for img in self.image_manager.bucket.objects.all())
 
         # assert
+        images = tuple(
+            img.key for img in self.image_manager.bucket.objects.all())
         self.assertIn(png_path, images)
 
     def test_delete_file(self):
@@ -57,14 +57,14 @@ class TestImageManager(unittest.TestCase):
 
         # act
         return_message = self.image_manager.delete_file(vector_path)
-        images = tuple(
-            img.key for img in self.image_manager.bucket.objects.all())
 
         # assert
+        images = tuple(
+            img.key for img in self.image_manager.bucket.objects.all())
         self.assertTrue(return_message)
         self.assertNotIn(vector_path, images)
 
-    def test__get_img_path(self):
+    def test_get_img_path(self):
         # act
         image_path = self.image_manager._get_img_path(
             self.ITEM_ID_1, self.VECTOR_FILE_EXT, self.VECTOR_SUBFOLDER)
@@ -74,14 +74,14 @@ class TestImageManager(unittest.TestCase):
         self.assertEqual(image_path, self.VECTOR_SUBFOLDER +
                          "/" + self.ITEM_ID_1 + self.VECTOR_FILE_EXT)
 
-    def test__get_file_ext(self):
+    def test_get_file_ext(self):
         # act
         file_ext = self.image_manager._get_file_ext(self.VECTOR_TO_UPLOAD)
 
         # assert
         self.assertEqual(file_ext, self.VECTOR_FILE_EXT)
 
-    def test__is_supported_format(self):
+    def test_is_supported_format(self):
         # arrange
         formats = ('.eps', '.jpg')
 
@@ -95,7 +95,7 @@ class TestImageManager(unittest.TestCase):
         self.assertTrue(eps)
         self.assertFalse(png)
 
-    def test__scale_vector(self):
+    def test_scale_vector(self):
         # arrange
         image_object = Image.open(self.VECTOR_TO_UPLOAD)
         min_width = 2000
@@ -107,7 +107,7 @@ class TestImageManager(unittest.TestCase):
         self.assertTrue(vector.width >= min_width)
         image_object.close()
 
-    def test__get_png(self):
+    def test_get_png(self):
         # act
         png = self.image_manager._get_png(self.VECTOR_TO_UPLOAD)
 

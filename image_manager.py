@@ -31,12 +31,12 @@ class ImageManager:
         """
         if self._is_supported_format(file, ImageConf.VECTOR_FORMATS):
             file_ext = self._get_file_ext(file)
-            image = open(file, "rb")
-            bytes_file = image.read()
-            image_path = self._get_img_path(item_id, file_ext, subfolder)
-            self.upload_file(bytes_file, image_path, self.bucket)
-            image.close()
-            return image_path
+            with open(file, "rb") as image:
+                bytes_file = image.read()
+                image_path = self._get_img_path(item_id, file_ext, subfolder)
+                self.upload_file(bytes_file, image_path, self.bucket)
+                return image_path
+        raise Exception("Not a supported file format")
 
     def upload_png_file(self, file: str, item_id: str, subfolder: str = ''):
         png = self._get_png(file)
@@ -69,22 +69,19 @@ class ImageManager:
 
     def _get_png(self, file: str):
         """
-        Converts a file to image object, if vector, it scales it to minimun size,
+        Converts a file to image object, if vector, it scales it to minimum size,
         resizes to correct png size, saves it and returns it as bytes ready to upload.
         """
-        image_object = Image.open(file)
+        with Image.open(file) as image_object:
+            if self._is_supported_format(file, ImageConf.VECTOR_FORMATS):
+                image_object = self._scale_vector(
+                    image_object, ImageConf.VECTOR_MIN_WIDTH)
 
-        if self._is_supported_format(file, ImageConf.VECTOR_FORMATS):
-            image_object = self._scale_vector(
-                image_object, ImageConf.VECTOR_MIN_WIDTH)
-
-        resized_img = self._resize_png(
-            image_object, (ImageConf.PNG_HEIGHT, ImageConf.PNG_WIDTH))
-        image_bytes = io.BytesIO()
-        resized_img.save(image_bytes, format='PNG')
-        resized_img.seek(0)
-        image_object.close()
-        return image_bytes.getvalue()
+            resized_img = self._resize_png(
+                image_object, (ImageConf.PNG_HEIGHT, ImageConf.PNG_WIDTH))
+            image_bytes = io.BytesIO()
+            resized_img.save(image_bytes, format='PNG')
+            return image_bytes.getvalue()
 
     def _resize_png(self, png: object, height_width: tuple):
         resized_image = png.resize(height_width)
