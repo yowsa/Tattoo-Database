@@ -19,11 +19,11 @@ class DatabaseConf:
     HOST = 'localhost'
     USER = 'root'
     PASSWORD = ''
-    ITEM_TABLE_SCHEMA = ("CREATE TABLE Items"
+    ITEM_TABLE_SCHEMA = ("CREATE TABLE IF NOT EXISTS Items"
                          "(ItemId VARCHAR(45) NOT NULL PRIMARY KEY, "
                          "VectorPath VARCHAR(255) NOT NULL, "
                          "PngPath VARCHAR(255) NOT NULL);")
-    TAGS_TABLE_SCHEMA = ("CREATE TABLE Tags "
+    TAGS_TABLE_SCHEMA = ("CREATE TABLE IF NOT EXISTS Tags "
                          "(TagId VARCHAR(45) NOT NULL PRIMARY KEY, "
                          "Tag VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE utf8mb4_unicode_ci NOT NULL, "
                          "ItemId VARCHAR(45) NOT NULL);")

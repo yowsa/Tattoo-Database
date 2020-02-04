@@ -9,17 +9,13 @@ ITEM_ID_4 = "c0a8e5af-2c3c-43f9-916f-0eda4d5e89f6"
 PNG_PATH_1 = "test.png"
 
 VECTOR_PATH_1 = "test.vector"
+DB = "TestDB"
 
 
 def create_test_database_setup(database_connector):
-    # create database
-    database_connector.execute("CREATE DATABASE TestDB")
-    # set database
-    database_connector.set_database("TestDB")
-    # create items table
-    database_connector.execute(DatabaseConf.ITEM_TABLE_SCHEMA)
-    # create tags table
-    database_connector.execute(DatabaseConf.TAGS_TABLE_SCHEMA)
+    database_connector.create_database(DB)
+    database_connector.set_database(DB)
+    database_connector.create_tables()
 
 
 def count_rows(database_connector, table_name):
@@ -42,13 +38,9 @@ def test_items_tags_setup(item_manager, tag_manager):
 
     Return: list of ids of the added items
     """
-
     add_test_item_with_tags(item_manager, tag_manager, ITEM_ID_1, ('bird',))
-
     add_test_item_with_tags(item_manager, tag_manager, ITEM_ID_2, ('bird',))
-
     add_test_item_with_tags(item_manager, tag_manager, ITEM_ID_3, ('bird3',))
-
     add_test_item_with_tags(item_manager, tag_manager,
                             ITEM_ID_4, ('h', 'hiya', 'hello'))
     return (ITEM_ID_1, ITEM_ID_2, ITEM_ID_3, ITEM_ID_4)

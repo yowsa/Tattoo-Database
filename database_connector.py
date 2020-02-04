@@ -1,4 +1,5 @@
 import pymysql.cursors
+from config import DatabaseConf
 
 
 class DatabaseConnector:
@@ -21,6 +22,14 @@ class DatabaseConnector:
                                      db=self.db,
                                      charset=self.charset,
                                      cursorclass=self.cursorclass)
+    
+    def create_database(self, database):
+        query = "CREATE DATABASE IF NOT EXISTS " + database
+        self.execute(query)
+    
+    def create_tables(self):
+        self.execute(DatabaseConf.ITEM_TABLE_SCHEMA)
+        self.execute(DatabaseConf.TAGS_TABLE_SCHEMA)
 
     def execute(self, *args):
         connection = self.get_connection()

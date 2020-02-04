@@ -10,6 +10,8 @@ from config import DatabaseConf, AwsConf
 
 database_connector = DatabaseConnector(
     DatabaseConf.DB, DatabaseConf.HOST, DatabaseConf.USER, DatabaseConf.PASSWORD)
+database_connector.create_database(DatabaseConf.DB)
+database_connector.create_tables()
 connection = database_connector.get_connection()
 item_manager = ItemManager(database_connector)
 tag_manager = TagManager(database_connector)
