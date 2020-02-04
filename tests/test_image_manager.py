@@ -74,15 +74,6 @@ class TestImageManager(unittest.TestCase):
         self.assertEqual(image_path, self.VECTOR_SUBFOLDER +
                          "/" + self.ITEM_ID_1 + self.VECTOR_FILE_EXT)
 
-    def test__get_image_object(self):
-        # act
-        image_object = self.image_manager._get_image_object(
-            self.VECTOR_TO_UPLOAD)
-
-        # assert
-        self.assertIsInstance(image_object, object)
-        image_object.close()
-
     def test__get_file_ext(self):
         # act
         file_ext = self.image_manager._get_file_ext(self.VECTOR_TO_UPLOAD)
@@ -106,8 +97,7 @@ class TestImageManager(unittest.TestCase):
 
     def test__scale_vector(self):
         # arrange
-        image_object = self.image_manager._get_image_object(
-            self.VECTOR_TO_UPLOAD)
+        image_object = Image.open(self.VECTOR_TO_UPLOAD)
         min_width = 2000
 
         # act

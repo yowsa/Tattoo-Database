@@ -54,9 +54,6 @@ class ImageManager:
     def _get_img_path(self, item_id: str, file_ext: str, subfolder: str = ''):
         return os.path.join(subfolder, item_id) + file_ext
 
-    def _get_image_object(self, file_path: str):
-        return Image.open(file_path)
-
     def _get_file_ext(self, file_path: str):
         return os.path.splitext(file_path)[1].lower()
 
@@ -75,7 +72,7 @@ class ImageManager:
         Converts a file to image object, if vector, it scales it to minimun size,
         resizes to correct png size, saves it and returns it as bytes ready to upload.
         """
-        image_object = self._get_image_object(file)
+        image_object = Image.open(file)
 
         if self._is_supported_format(file, ImageConf.VECTOR_FORMATS):
             image_object = self._scale_vector(
