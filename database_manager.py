@@ -25,17 +25,24 @@ class ItemManager:
         all_items = self.database_connector.execute("SELECT * from Items")
         return all_items
 
+    def id_exists(self, item_id):
+        result = self.database_connector.execute(
+            "SELECT * from Items WHERE ItemId=%s", item_id)
+        return bool(result)
+
 
 class TagManager:
 
     def __init__(self, database_connector):
         self.database_connector = database_connector
 
-    def add_tag(self, tag_name, item_id):
-        tag_id = helper.get_id()
-        self.database_connector.execute(
-            "INSERT INTO Tags (TagId, Tag, ItemId) VALUES (%s, %s, %s)",
-            (tag_id, tag_name, item_id))
+    def add_tags(self, tags: tuple, item_id: str):
+        unique_tags = set(tags)
+        for tag_name in unique_tags:
+            tag_id = helper.get_id()
+            self.database_connector.execute(
+                "INSERT INTO Tags (TagId, Tag, ItemId) VALUES (%s, %s, %s)",
+                (tag_id, tag_name, item_id))
 
     def get_all_matches(self, search_word):
         all_matches = self.database_connector.execute(
@@ -57,6 +64,11 @@ class TagManager:
             "SELECT Tag, count(*) as count FROM Tags GROUP By Tag;")
         return tuple((tag['Tag'], tag['count']) for tag in unique_tags)
 
-    def delete_tags_for_item(self, item_id):
+    def delete_all_tags_for_item(self, item_id):
         self.database_connector.execute(
             "DELETE FROM Tags WHERE ItemId=%s", item_id)
+
+    def delete_tags_for_item(self, tags: tuple, item_id: str):
+        for tag in tags:
+            self.database_connector.execute(
+                "DELETE FROM Tags WHERE Tag=%s AND ItemId=%s", (tag, item_id))

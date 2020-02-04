@@ -70,16 +70,16 @@ class TestDatabaseManager(unittest.TestCase):
         # assert
         self.assertEqual(len(all_items), 4)
 
-    def test_add_tag(self):
+    def test_add_tags(self):
         # arrange
-        item_id = helper.get_id()
+        tags = ('hello', 'hello', 'josie')
 
         # act
-        self.tag_manager.add_tag("TestTag", item_id)
+        self.tag_manager.add_tags(tags, setup_test.ITEM_ID_1)
 
         # assert
         self.assertEqual(setup_test.count_rows(
-            self.database_connector, 'Tags'), 1)
+            self.database_connector, 'Tags'), 2)
 
     def test_get_all_matches(self):
         # arrange
@@ -127,17 +127,30 @@ class TestDatabaseManager(unittest.TestCase):
         # assert
         self.assertEqual(len(unique_tags), 5)
 
-    def test_delete_tags_for_item(self):
+    def test_delete_all_tags_for_item(self):
         # arrange
-        item_ids = setup_test.test_items_tags_setup(
+        setup_test.test_items_tags_setup(
             self.item_manager, self.tag_manager)
 
         # act
-        self.tag_manager.delete_tags_for_item(item_ids[3])
+        self.tag_manager.delete_all_tags_for_item(setup_test.ITEM_ID_4)
 
         # assert
         self.assertEqual(setup_test.count_rows(
             self.database_connector, 'Tags'), 3)
+
+    def test_delete_tags_for_item(self):
+        # arrange
+        setup_test.test_items_tags_setup(
+            self.item_manager, self.tag_manager)
+
+        # act
+        self.tag_manager.delete_tags_for_item(
+            ('h', 'hiya'), setup_test.ITEM_ID_4)
+
+        # assert
+        self.assertEqual(setup_test.count_rows(
+            self.database_connector, 'Tags'), 4)
 
 
 if __name__ == '__main__':

@@ -26,8 +26,7 @@ def count_rows(database_connector, table_name):
 
 def add_test_item_with_tags(item_manager, tag_manager, item_id, tags: tuple):
     item_manager.add_item(item_id, item_id, item_id)
-    for tag in tags:
-        tag_manager.add_tag(tag, item_id)
+    tag_manager.add_tags(tags, item_id)
 
 
 def test_items_tags_setup(item_manager, tag_manager):

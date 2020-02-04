@@ -38,7 +38,7 @@ class TestProductManager(unittest.TestCase):
         setup_test.create_test_database_setup(self.database_connector)
         self.s3_resource.create_bucket(Bucket=self.BUCKET, CreateBucketConfiguration={
             'LocationConstraint': 'eu-west-2'},)
-    
+
     def tearDown(self):
         setup_test.tear_down_database_setup(self.database_connector)
         bucket = self.s3_resource.Bucket(self.BUCKET)
@@ -48,7 +48,8 @@ class TestProductManager(unittest.TestCase):
 
     def test_add_product(self):
         # act
-        self.product_manager.add_product(self.TAGS, self.VECTOR_TO_UPLOAD, self.PNG_TO_UPLOAD)
+        self.product_manager.add_product(
+            self.TAGS, self.VECTOR_TO_UPLOAD, self.PNG_TO_UPLOAD)
 
         # assert
         self.assertEqual(setup_test.count_rows(
@@ -58,7 +59,8 @@ class TestProductManager(unittest.TestCase):
 
     def test_delete_product(self):
         # arrange
-        item_id = self.product_manager.add_product(self.TAGS, self.VECTOR_TO_UPLOAD, self.VECTOR_TO_UPLOAD)
+        item_id = self.product_manager.add_product(
+            self.TAGS, self.VECTOR_TO_UPLOAD, self.VECTOR_TO_UPLOAD)
         vector_path = self.VECTOR_SUBFOLDER + item_id + self.VECTOR_FILE_EXT
         png_path = self.PNG_SUBFOLDER + item_id + self.PNG_FILE_EXT
 
@@ -96,6 +98,18 @@ class TestProductManager(unittest.TestCase):
 
         # assert
         self.assertEqual(len(all_matching_products), 3)
+
+    def test_update_product_tags(self):
+        # arrange
+        setup_test.test_items_tags_setup(self.item_manager, self.tag_manager)
+        new_tags = ('horse', 'pony', 'hello')
+
+        # act
+        updated_tags = self.product_manager.update_product_tags(
+            setup_test.ITEM_ID_4, new_tags)
+
+        # assert
+        self.assertCountEqual(new_tags, updated_tags)
 
 
 if __name__ == '__main__':
