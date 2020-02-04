@@ -10,8 +10,8 @@ class ProductManager:
         self.tag_manager = tag_manager
         self.image_manager = image_manager
 
-    def add_product(self, tags, vector_file, png_file=None):
-        png_file = vector_file if png_file == None else png_file
+    def add_product(self, tags, vector_file, png_file=False):
+        png_file = png_file or vector_file
         item_id = helper.get_id()
         vector_path = self.image_manager.upload_vector_file(vector_file, item_id, AwsConf.VECTOR_FOLDER)
         png_path = self.image_manager.upload_png_file(png_file, item_id, AwsConf.PNG_FOLDER)
