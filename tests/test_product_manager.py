@@ -60,7 +60,7 @@ class TestProductManager(unittest.TestCase):
     def test_delete_product(self):
         # arrange
         item_id = self.product_manager.add_product(
-            self.TAGS, self.VECTOR_TO_UPLOAD, self.VECTOR_TO_UPLOAD)
+            self.TAGS, self.VECTOR_TO_UPLOAD, self.VECTOR_TO_UPLOAD)['Body']
         vector_path = self.VECTOR_SUBFOLDER + item_id + self.VECTOR_FILE_EXT
         png_path = self.PNG_SUBFOLDER + item_id + self.PNG_FILE_EXT
 
@@ -82,7 +82,7 @@ class TestProductManager(unittest.TestCase):
         setup_test.test_items_tags_setup(self.item_manager, self.tag_manager)
 
         # act
-        all_products = self.product_manager.get_all_products()
+        all_products = self.product_manager.get_all_products()['Body']
 
         # assert
         self.assertEqual(len(all_products), 4)
@@ -94,7 +94,7 @@ class TestProductManager(unittest.TestCase):
 
         # act
         all_matching_products = self.product_manager.get_all_matching_products(
-            "bir")
+            "bir")['Body']
 
         # assert
         self.assertEqual(len(all_matching_products), 3)
@@ -106,7 +106,7 @@ class TestProductManager(unittest.TestCase):
 
         # act
         updated_tags = self.product_manager.update_product_tags(
-            setup_test.ITEM_ID_4, new_tags)
+            setup_test.ITEM_ID_4, new_tags)['Body']
 
         # assert
         self.assertCountEqual(new_tags, updated_tags)
