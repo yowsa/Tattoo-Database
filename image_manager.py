@@ -20,28 +20,24 @@ class ImageManager:
         response = self.bucket.put_object(Body=bytes_file, Key=file_name)
         return response
 
-    def upload_vector_file(self, file: str, item_id: str, subfolder: str = ''):
+    def upload_vector_file(self, bytes_file: bytes, item_id: str, file_ext: str, subfolder: str = ''):
         """
         Keyword arguments:
-        file: a string reference to the file on your computer
+        file: a bytes object
         item_id: identifying string
         subfolder: folder path(s) if needed.
 
         Return: image path
         """
-        if self._is_supported_format(file, ImageConf.VECTOR_FORMATS):
-            file_ext = self._get_file_ext(file)
-            with open(file, "rb") as image:
-                bytes_file = image.read()
-                image_path = self._get_img_path(item_id, file_ext, subfolder)
-                self.upload_file(bytes_file, image_path, self.bucket)
-                return image_path
-        raise Exception("Not a supported file format")
+        image_path = self._get_img_path(item_id, file_ext, subfolder)
+        self.upload_file(bytes_file, image_path, self.bucket)
+        return image_path
 
-    def upload_png_file(self, file: str, item_id: str, subfolder: str = ''):
-        png = self._get_png(file)
+    def upload_png_file(self, png_file: bytes, item_id: str, png_file_ext: str, subfolder: str = ''):
+        if png_file_ext != '.png':
+            png_file = self._get_png(png_file)
         image_path = self._get_img_path(item_id, '.png', subfolder)
-        self.upload_file(png, image_path, self.bucket)
+        self.upload_file(png_file, image_path, self.bucket)
         return image_path
 
     def delete_file(self, image_path: str):
@@ -54,11 +50,11 @@ class ImageManager:
     def _get_img_path(self, item_id: str, file_ext: str, subfolder: str = ''):
         return os.path.join(subfolder, item_id) + file_ext
 
-    def _get_file_ext(self, file_path: str):
+    def get_file_ext(self, file_path: str):
         return os.path.splitext(file_path)[1].lower()
 
-    def _is_supported_format(self, file_path: str, formats: tuple):
-        file_ext = self._get_file_ext(file_path)
+    def is_supported_format(self, file_path: str, formats: tuple):
+        file_ext = self.get_file_ext(file_path)
         return file_ext in formats
 
     def _scale_vector(self, vector: object, min_width: int):
@@ -67,15 +63,14 @@ class ImageManager:
             vector.load(scale=scale_to)
         return vector
 
-    def _get_png(self, file: str):
+    def _get_png(self, vector_file: bytes):
         """
-        Converts a file to image object, if vector, it scales it to minimum size,
+        Converts a vector bytes file to image object, it scales it to minimum size,
         resizes to correct png size, saves it and returns it as bytes ready to upload.
         """
-        with Image.open(file) as image_object:
-            if self._is_supported_format(file, ImageConf.VECTOR_FORMATS):
-                image_object = self._scale_vector(
-                    image_object, ImageConf.VECTOR_MIN_WIDTH)
+        with Image.open(io.BytesIO(vector_file)) as image_object:
+            image_object = self._scale_vector(
+                image_object, ImageConf.VECTOR_MIN_WIDTH)
 
             resized_img = self._resize_png(
                 image_object, (ImageConf.PNG_HEIGHT, ImageConf.PNG_WIDTH))

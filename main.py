@@ -6,7 +6,7 @@ from database_manager import ItemManager, TagManager
 from product_manager import ProductManager
 from image_manager import ImageManager
 from image_manager import AwsConnector
-from config import DatabaseConf, AwsConf
+from config import DatabaseConf, AwsConf, ImageConf
 from response import Response
 
 database_connector = DatabaseConnector(
@@ -36,7 +36,6 @@ def index():
     return render_template('add-product.html')
 
 
-
 @app.route('/api/add-products', methods=['GET'])
 def unique_tags():
     try:
@@ -46,18 +45,18 @@ def unique_tags():
         return jsonify(Response.UNKNOWN_ERROR.message("Something went wrong"))
 
 
-
-
-
-
-
-# @app.route('/tags', methods=['GET'])
-# def tags():
-#     try:
-#         unique_tags = tag_manager.get_unique_tags_list()
-#         return jsonify(Response.OK.message("All unique tags", unique_tags))
-#     except:
-#         return jsonify(Response.UNKNOWN_ERROR.message("Something went wrong"))
+@app.route('/api/add-products', methods=['POST'])
+def add_product():
+    info = request.form
+    tags = tuple(info['tags'].split(","))
+    vector_file = request.files['vector_file']
+    vector_file_ext = image_manager.get_file_ext(vector_file.filename)
+    png_file = request.files['png_file'] if 'png_file' in request.files else vector_file
+    png_file_ext = image_manager.get_file_ext(png_file.filename)
+    if image_manager.is_supported_format(vector_file.filename, ImageConf.VECTOR_FORMATS):
+        response = product_manager.add_product(
+            tags, vector_file.read(), vector_file_ext, png_file.read(), png_file_ext)
+    return response
 
 
 @app.route('/search', methods=['GET'])

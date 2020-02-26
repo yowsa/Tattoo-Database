@@ -11,14 +11,14 @@ class ProductManager:
         self.tag_manager = tag_manager
         self.image_manager = image_manager
 
-    def add_product(self, tags: tuple, vector_file, png_file=False):
+    def add_product(self, tags: tuple, vector_file: bytes, vector_ext: str, png_file=False, png_ext='.png'):
         try:
             png_file = png_file or vector_file
             item_id = self.get_unique_id()
             vector_path = self.image_manager.upload_vector_file(
-                vector_file, item_id, AwsConf.VECTOR_FOLDER)
+                vector_file, item_id, vector_ext, AwsConf.VECTOR_FOLDER)
             png_path = self.image_manager.upload_png_file(
-                png_file, item_id, AwsConf.PNG_FOLDER)
+                png_file, item_id, png_ext, AwsConf.PNG_FOLDER)
             self.item_manager.add_item(item_id, vector_path, png_path)
             self.tag_manager.add_tags(tags, item_id)
             return Response.OK.message("Product added", item_id)
@@ -37,7 +37,7 @@ class ProductManager:
             return Response.UNKNOWN_ERROR.message("Something went wrong")
 
     def get_all_products(self):
-        try: 
+        try:
             all_items = self.item_manager.get_all_items()
             for item in all_items:
                 item_id = item["ItemId"]
@@ -48,7 +48,7 @@ class ProductManager:
             return Response.UNKNOWN_ERROR.message("Something went wrong")
 
     def get_all_matching_products(self, search_word):
-        try: 
+        try:
             all_maching_products = []
             all_tag_maches = self.tag_manager.get_all_matches(search_word)
             for match in all_tag_maches:
@@ -59,7 +59,7 @@ class ProductManager:
                 all_maching_products.append(item_details)
             return Response.OK.message("All matching products", all_maching_products)
         except:
-            return Response.UNKNOWN_ERROR.message("Something went wrong")     
+            return Response.UNKNOWN_ERROR.message("Something went wrong")
 
     def get_product_object(self, item_id: str):
         item_details = self.item_manager.get_item_details(item_id)
@@ -85,4 +85,4 @@ class ProductManager:
             return Response.OK.message("Tags updated", updated_tags)
 
         except:
-            return Response.UNKNOWN_ERROR.message("Something went wrong")   
+            return Response.UNKNOWN_ERROR.message("Something went wrong")
