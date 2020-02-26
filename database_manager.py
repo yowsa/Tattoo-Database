@@ -44,9 +44,9 @@ class TagManager:
                 "INSERT INTO Tags (TagId, Tag, ItemId) VALUES (%s, %s, %s)",
                 (tag_id, tag_name, item_id))
 
-    def get_all_matches(self, search_word):
+    def get_unique_matches(self, search_word: str):
         all_matches = self.database_connector.execute(
-            "SELECT * FROM Tags WHERE Tag LIKE %s;", ('%'+search_word+'%'))
+            "SELECT DISTINCT ItemId FROM Tags WHERE Tag LIKE %s;", ('%'+search_word+'%'))
         return all_matches
 
     def get_item_tags(self, item_id):

@@ -22,7 +22,7 @@ product_manager = ProductManager(item_manager, tag_manager, image_manager)
 
 app = Flask(__name__)
 
-js = Bundle('js/add-products.js', 'js/ajax.js', output='gen/main.js')
+js = Bundle('js/add-products.js', 'js/search.js', 'js/ajax.js', output='gen/main.js')
 css = Bundle('css/test.css', output='gen/style.css')
 
 assets = Environment(app)
@@ -34,6 +34,11 @@ assets.register('main_css', css)
 @app.route('/')
 def index():
     return render_template('add-product.html')
+
+
+@app.route('/search')
+def search():
+    return render_template('search.html')
 
 
 @app.route('/api/add-products', methods=['GET'])
@@ -59,14 +64,16 @@ def add_product():
     return response
 
 
-@app.route('/search', methods=['GET'])
-def search():
-    try:
-        search_word = request.args.get("word")
-        search_result = product_manager.get_all_matching_products(search_word)
-        return jsonify(Response.OK.message("Successful search", search_result))
-    except:
-        return Response.UNKNOWN_ERROR.message("Something went wrong")
+@app.route('/api/search', methods=['GET'])
+def search_all():
+    search_result = product_manager.get_all_products()
+    return search_result
+
+@app.route('/api/search/<word>', methods=['POST'])
+def search_word(word):
+    print(word)
+    search_result = product_manager.get_all_matching_products(word)
+    return search_result
 
 
 @app.route('/products', methods=['GET', 'POST'])

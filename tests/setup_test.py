@@ -37,7 +37,8 @@ def test_items_tags_setup(item_manager, tag_manager):
 
     Return: list of ids of the added items
     """
-    add_test_item_with_tags(item_manager, tag_manager, ITEM_ID_1, ('bird',))
+    add_test_item_with_tags(item_manager, tag_manager,
+                            ITEM_ID_1, ('bird', 'hello'))
     add_test_item_with_tags(item_manager, tag_manager, ITEM_ID_2, ('bird',))
     add_test_item_with_tags(item_manager, tag_manager, ITEM_ID_3, ('bird3',))
     add_test_item_with_tags(item_manager, tag_manager,

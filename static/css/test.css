@@ -1,3 +1,8 @@
 .tag {
     cursor: pointer;
 }
+
+#search-images img {
+    max-width: 25%;
+    max-height: 25%;
+}

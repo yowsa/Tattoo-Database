@@ -50,7 +50,7 @@ class ProductManager:
     def get_all_matching_products(self, search_word):
         try:
             all_maching_products = []
-            all_tag_maches = self.tag_manager.get_all_matches(search_word)
+            all_tag_maches = self.tag_manager.get_unique_matches(search_word)
             for match in all_tag_maches:
                 item_id = match["ItemId"]
                 item_tag_list = self.tag_manager.get_item_tags(item_id)

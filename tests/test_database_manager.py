@@ -81,18 +81,17 @@ class TestDatabaseManager(unittest.TestCase):
         self.assertEqual(setup_test.count_rows(
             self.database_connector, 'Tags'), 2)
 
-    def test_get_all_matches(self):
+    def test_get_unique_matches(self):
         # arrange
         setup_test.test_items_tags_setup(
             self.item_manager, self.tag_manager)
 
         # act
-        matches = self.tag_manager.get_all_matches("h")
+        matches = self.tag_manager.get_unique_matches("h")
 
         # assert
-        self.assertEqual(len(matches), 3)
-        self.assertTrue(setup_test.assertTagExists("hello", matches))
-
+        self.assertEqual(len(matches), 2)
+        
     def test_get_item_tags(self):
         # arrange
         item_ids = setup_test.test_items_tags_setup(
@@ -137,7 +136,7 @@ class TestDatabaseManager(unittest.TestCase):
 
         # assert
         self.assertEqual(setup_test.count_rows(
-            self.database_connector, 'Tags'), 3)
+            self.database_connector, 'Tags'), 4)
 
     def test_delete_tags_for_item(self):
         # arrange
@@ -150,7 +149,7 @@ class TestDatabaseManager(unittest.TestCase):
 
         # assert
         self.assertEqual(setup_test.count_rows(
-            self.database_connector, 'Tags'), 4)
+            self.database_connector, 'Tags'), 5)
 
 
 if __name__ == '__main__':
