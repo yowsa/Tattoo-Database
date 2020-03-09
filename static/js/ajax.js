@@ -11,8 +11,8 @@ function search_ajax_GET() {
         url: all_products_url,
         dataType: "json",
         success: function(response_object) {
-            load_search_result(bucket_url, response_object);
-            // create_image_modal();
+            // load_search_result(bucket_url, response_object);
+            load_images(bucket_url, response_object)
         },
         error: function(jqXHR) {
             alert("error: " + jqXHR.status);
@@ -67,7 +67,7 @@ function search_word(word) {
         url: all_products_url + "/" + word,
         dataType: "json",
         success: function(response_object) {
-            load_search_result(bucket_url, response_object);
+            load_images(bucket_url, response_object)
         },
         error: function(jqXHR) {
             alert("error: " + jqXHR.status);

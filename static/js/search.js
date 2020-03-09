@@ -1,7 +1,7 @@
-function load_search_result(bucket_url, response_object) {
+function masonry_load(bucket_url, response_object) {
     $('.search-images-col').html("");
-    response_object.Body.forEach(item => {
-        var shortest_col = get_shortest_col()
+    var col = 0
+    response_object.forEach(item => {
         var html = "<img src='" +
             bucket_url +
             item.PngPath + "'" +
@@ -9,26 +9,10 @@ function load_search_result(bucket_url, response_object) {
             "data-vectorpath='" + item.VectorPath + "'" +
             "data-tags='" + item.Tags + "'" +
             "class='img-fluid modal-img'>"
-        $('#' + shortest_col).append(html);
+        $('#search-images-col-' + (col + 1)).append(html);
+        col = (col + 1) % 3;
     });
-    create_image_modal()
-
 }
-
-function get_shortest_col() {
-    var allDivs = $('.search-images-col');
-    var dvSmallest = allDivs[0];
-    var shortest = $(allDivs[0]).attr('id');
-
-    $(allDivs).each(function() {
-        if ($(this).height() < $(dvSmallest).height()) {
-            dvSmallest = $(this);
-            shortest = $(this).attr('id');
-        }
-    });
-    return shortest
-}
-
 
 function load_tag_selector(unique_tags_info) {
     unique_tags_info.forEach(tag_info => {
@@ -56,5 +40,18 @@ function create_image_modal() {
                 }
             }]
         });
+    });
+}
+
+function load_images(bucket_url, response_object) {
+    $('#pagination-container').pagination({
+        dataSource: response_object,
+        locator: 'Body',
+        pageSize: 9,
+        className: 'paginationjs-small',
+        callback: function(data, pagination) {
+            masonry_load(bucket_url, data);
+            create_image_modal();
+        }
     });
 }

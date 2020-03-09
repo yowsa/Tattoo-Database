@@ -22,8 +22,8 @@ product_manager = ProductManager(item_manager, tag_manager, image_manager)
 
 app = Flask(__name__)
 
-js = Bundle('js/helper.js', 'js/add-products.js', 'js/search.js', 'js/ajax.js', 'js/setup.js', output='gen/main.js')
-css = Bundle('css/test.css', output='gen/style.css')
+js = Bundle('js/helper.js', 'js/add-products.js', 'js/vendor/pagination.js', 'js/search.js', 'js/ajax.js', 'js/setup.js', output='gen/main.js')
+css = Bundle('css/test.css', 'css/vendor/pagination.css', output='gen/style.css')
 
 assets = Environment(app)
 
