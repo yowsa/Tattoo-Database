@@ -71,7 +71,6 @@ def search_all():
 
 @app.route('/api/search/<word>', methods=['POST'])
 def search_word(word):
-    print(word)
     search_result = product_manager.get_all_matching_products(word)
     return search_result
 

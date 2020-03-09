@@ -11,7 +11,6 @@ function search_ajax_GET() {
         url: all_products_url,
         dataType: "json",
         success: function(response_object) {
-            // load_search_result(bucket_url, response_object);
             load_images(bucket_url, response_object)
         },
         error: function(jqXHR) {
@@ -20,7 +19,6 @@ function search_ajax_GET() {
         }
     })
 }
-
 
 function search_unique_tags_GET() {
     $.ajax({
@@ -61,10 +59,16 @@ function menu_category_POST() {
 }
 
 function search_word(word) {
+    var api_url = all_products_url + "/" + word;
+    var method = "POST";
+    if (!word || word.toLowerCase() == 'all') {
+        api_url = all_products_url;
+        method = "GET";
+    };
     $.ajax({
-        type: "POST",
+        type: method,
         cache: false,
-        url: all_products_url + "/" + word,
+        url: api_url,
         dataType: "json",
         success: function(response_object) {
             load_images(bucket_url, response_object)
