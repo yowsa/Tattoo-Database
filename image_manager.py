@@ -17,7 +17,7 @@ class ImageManager:
         self.bucket = s3_resource.Bucket(bucket_name)
 
     def upload_file(self, bytes_file: bytes, file_name: str, bucket_name: str):
-        response = self.bucket.put_object(Body=bytes_file, Key=file_name)
+        response = self.bucket.put_object(Body=bytes_file, Key=file_name, ACL='public-read')
         return response
 
     def upload_vector_file(self, bytes_file: bytes, item_id: str, file_ext: str, subfolder: str = ''):
@@ -73,11 +73,13 @@ class ImageManager:
                 image_object, ImageConf.VECTOR_MIN_WIDTH)
 
             resized_img = self._resize_png(
-                image_object, (ImageConf.PNG_HEIGHT, ImageConf.PNG_WIDTH))
+                image_object, (ImageConf.PNG_WIDTH))
             image_bytes = io.BytesIO()
             resized_img.save(image_bytes, format='PNG')
             return image_bytes.getvalue()
 
-    def _resize_png(self, png: object, height_width: tuple):
-        resized_image = png.resize(height_width)
+    def _resize_png(self, png: object, width: int):
+        ratio = width / png.size[1]
+        height = int(png.size[0] * ratio)
+        resized_image = png.resize((height, width))
         return resized_image
