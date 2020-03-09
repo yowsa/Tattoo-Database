@@ -27,7 +27,7 @@ function add_existing_tag() {
     });
 }
 
-function load_existing_tags(unique_tags_info) {
+function load_tag_cloud(unique_tags_info) {
     unique_tags_info.forEach(tag_info => {
         let tag_html = '<button type="button" class="btn btn-outline-dark tag existing-tag">' + tag_info[0] + '</button>'
         $('#tag-cloud').append(tag_html);
@@ -56,13 +56,13 @@ function alert_message(message) {
 }
 
 
-function setup() {
-    add_tag();
-    delete_tag();
-    add_existing_tag();
-}
+// function setup() {
+//     add_tag();
+//     delete_tag();
+//     add_existing_tag();
+// }
 
 
-$(function() {
-    setup();
-});
+// $(function() {
+//     setup();
+// });

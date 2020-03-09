@@ -22,7 +22,7 @@ product_manager = ProductManager(item_manager, tag_manager, image_manager)
 
 app = Flask(__name__)
 
-js = Bundle('js/add-products.js', 'js/search.js', 'js/ajax.js', output='gen/main.js')
+js = Bundle('js/helper.js', 'js/add-products.js', 'js/search.js', 'js/ajax.js', 'js/setup.js', output='gen/main.js')
 css = Bundle('css/test.css', output='gen/style.css')
 
 assets = Environment(app)
@@ -41,7 +41,7 @@ def search():
     return render_template('search.html')
 
 
-@app.route('/api/add-products', methods=['GET'])
+@app.route('/api/tags', methods=['GET'])
 def unique_tags():
     try:
         unique_tags = tag_manager.get_unique_tags_list()

@@ -2,7 +2,7 @@
     cursor: pointer;
 }
 
-#search-images img {
-    max-width: 25%;
-    max-height: 25%;
-}
+
+/* .search-images-col img {
+    max-width: 100%;
+} */
