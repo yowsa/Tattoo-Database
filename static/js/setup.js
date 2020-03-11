@@ -15,6 +15,7 @@ $(function() {
             search_unique_tags_GET();
             select_category_POST();
             menu_category_POST();
+            load_favorite_count()
             break;
     }
 
