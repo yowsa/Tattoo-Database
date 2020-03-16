@@ -107,18 +107,6 @@ function alert_message(message) {
     $('#alerts').append('<div class="alert alert-danger" role="alert">' +
         message + '</div>');
 }
-
-
-// function setup() {
-//     add_tag();
-//     delete_tag();
-//     add_existing_tag();
-// }
-
-
-// $(function() {
-//     setup();
-// });
 /*
  * pagination.js 2.1.5
  * A jQuery plugin to provide simple yet fully customisable pagination.
@@ -1243,18 +1231,43 @@ function alert_message(message) {
 
 })(this, window.jQuery);
 
-function masonry_load(bucket_url, response_object) {
+function load_images(bucket_url, items) {
+
+    $(window).unbind('scroll');
     $('.search-images-col').html("");
-    var col = 0
-    response_object.forEach(item => {
-        var html = create_image_tag(bucket_url + item.PngPath, item.ItemId, item.VectorPath, item.Tags)
-        $('#search-images-col-' + (col + 1)).append(html);
-        col = (col + 1) % 3;
+    var initial_load = 9;
+    var load_on_scroll = 3;
+    var positions = masonry_load(bucket_url, items, 0, initial_load, 0);
+
+    $(window).scroll(function() {
+        if ($(window).scrollTop() >= $(document).height() - $(window).height() - 10) {
+            var idx = positions[0];
+            var col = positions[1];
+            if (idx <= items.length) {
+                positions = masonry_load(bucket_url, items, idx, load_on_scroll, col);
+            }
+        }
     });
 }
 
-function create_image_tag(src, id, VectorPath, tags) {
-    return $('<img>', { src: src, id: id, class: 'img-fluid modal-img' }).data({ vectorpath: VectorPath, tags: tags }).get(0)
+function masonry_load(bucket_url, items, image_index, images_to_load = 1, col = 0) {
+    var load_to = image_index + images_to_load > items.length ? items.length : image_index + images_to_load
+    for (var i = image_index; i < load_to; i++) {
+        col = load_image(bucket_url, items[i], col)
+    }
+    // create_image_modal();
+    return [i, col]
+}
+
+function load_image(bucket_url, item, col) {
+    var html = create_image_tag(bucket_url + item.PngPath, item.ItemId, item.VectorPath, item.Tags, item.PngPath)
+    $('#search-images-col-' + (col + 1)).append(html);
+    create_image_modal(html);
+    return (col + 1) % 3;
+}
+
+function create_image_tag(src, id, VectorPath, tags, PngPath) {
+    return $('<img>', { src: src, id: id, class: 'img-fluid modal-img' }).data({ vectorpath: VectorPath, pngpath: PngPath, tags: tags }).get(0)
 }
 
 function load_tag_selector(unique_tags_info) {
@@ -1264,8 +1277,8 @@ function load_tag_selector(unique_tags_info) {
     });
 }
 
-function create_image_modal() {
-    $('.modal-img').on('click', function() {
+function create_image_modal(img_tag) {
+    $(img_tag).on('click', function() {
         var id = $(this).attr('id')
         var favorite_icon = is_favorite(id) ? "favorite" : "favorite_border"
         showBSModal({
@@ -1293,19 +1306,6 @@ function create_image_modal() {
     });
 }
 
-function load_images(bucket_url, response_object) {
-    $('#pagination-container').pagination({
-        dataSource: response_object,
-        locator: 'Body',
-        pageSize: 9,
-        className: 'paginationjs-small',
-        callback: function(data, pagination) {
-            masonry_load(bucket_url, data);
-            create_image_modal();
-        }
-    });
-}
-
 function clear_favorites() {
     localStorage.clear()
 }
@@ -1318,12 +1318,17 @@ function load_favorite_count() {
     $('#favorite-count').text(localStorage.length)
 }
 
-// function load_favorites() {
-//     Object.keys(localStorage).forEach(function(key) {
-//         var a = localStorage.getItem(key)
-//         $('#favorites').append(localStorage.getItem(key))
-//     });
-// }
+function load_favorites() {
+    $('#show-favorites').on('click', function() {
+        var items = []
+        Object.keys(localStorage).forEach(function(key) {
+            var item = localStorage.getItem(key)
+            items.push(JSON.parse(item))
+        });
+        load_images(bucket_url, items)
+    });
+}
+
 
 
 function set_favorite(item) {
@@ -1336,7 +1341,7 @@ function set_favorite(item) {
             load_favorite_count()
         } else {
             $(this).text("favorite")
-            localStorage.setItem($(item).attr('id'), JSON.stringify({ src: $(item).attr('src'), id: $(item).attr('id'), vectorpath: $(item).data('vectorpath'), tags: $(item).data('tags') }));
+            localStorage.setItem($(item).attr('id'), JSON.stringify({ ItemId: $(item).attr('id'), VectorPath: $(item).data('vectorpath'), PngPath: $(item).data('pngpath'), Tags: $(item).data('tags') }));
             load_favorite_count()
         }
     });
@@ -1355,7 +1360,7 @@ function search_ajax_GET() {
         url: all_products_url,
         dataType: "json",
         success: function(response_object) {
-            load_images(bucket_url, response_object)
+            load_images(bucket_url, response_object.Body)
         },
         error: function(jqXHR) {
             alert("error: " + jqXHR.status);
@@ -1415,7 +1420,7 @@ function search_word(word) {
         url: api_url,
         dataType: "json",
         success: function(response_object) {
-            load_images(bucket_url, response_object)
+            load_images(bucket_url, response_object.Body)
         },
         error: function(jqXHR) {
             alert("error: " + jqXHR.status);
@@ -1498,7 +1503,8 @@ $(function() {
             search_unique_tags_GET();
             select_category_POST();
             menu_category_POST();
-            load_favorite_count()
+            load_favorite_count();
+            load_favorites();
             break;
     }
 

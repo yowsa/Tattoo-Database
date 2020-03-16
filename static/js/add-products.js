@@ -54,15 +54,3 @@ function alert_message(message) {
     $('#alerts').append('<div class="alert alert-danger" role="alert">' +
         message + '</div>');
 }
-
-
-// function setup() {
-//     add_tag();
-//     delete_tag();
-//     add_existing_tag();
-// }
-
-
-// $(function() {
-//     setup();
-// });
