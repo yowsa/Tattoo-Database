@@ -26,9 +26,11 @@ class DatabaseConnector:
                                    password=self.password,
                                    db=self.db,
                                    charset=self.charset,
-                                   cursorclass=self.cursorclass)
-        except pymysql.err.OperationalError:
+                                   cursorclass=self.cursorclass,
+                                   port=3306)
+        except pymysql.err.OperationalError as e:
             logger.error('Wrong Database credentials', exc_info=True)
+            print(e)
             return Response.NOT_CONNECTED.message("Not connected to database due to wrong credentials.")
     
     def create_database(self, database):

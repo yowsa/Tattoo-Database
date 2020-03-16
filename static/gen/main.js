@@ -1255,7 +1255,6 @@ function masonry_load(bucket_url, items, image_index, images_to_load = 1, col = 
     for (var i = image_index; i < load_to; i++) {
         col = load_image(bucket_url, items[i], col)
     }
-    // create_image_modal();
     return [i, col]
 }
 
