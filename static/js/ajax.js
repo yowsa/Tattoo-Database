@@ -1,6 +1,21 @@
-var add_product_url = "http://127.0.0.1:5000/api/add-products";
-var tags_url = "http://127.0.0.1:5000/api/tags";
-var all_products_url = "http://127.0.0.1:5000/api/search";
+var windowLoc = $(location).attr('pathname');
+var local = true
+
+var url_host = $(location).attr('host');
+
+if (local) {
+    var add_product_url = "http://127.0.0.1:5000/api/add-products";
+    var product_url = "http://127.0.0.1:5000/api/product";
+    var tags_url = "http://127.0.0.1:5000/api/tags";
+    var all_products_url = "http://127.0.0.1:5000/api/search";
+} else {
+    var add_product_url = "http://tattoos-env.eu-west-2.elasticbeanstalk.com/api/add-products";
+    var product_url = "http://tattoos-env.eu-west-2.elasticbeanstalk.com/api/product";
+    var tags_url = "http://tattoos-env.eu-west-2.elasticbeanstalk.com/api/tags";
+    var all_products_url = "http://tattoos-env.eu-west-2.elasticbeanstalk.com/api/search";
+}
+
+
 var bucket_url = "https://jf-test-bucket.s3.eu-west-2.amazonaws.com/";
 
 // SEARCH PRODUCTS
@@ -129,6 +144,29 @@ function add_product_ajax_POST() {
             success: function(response_object) {
                 console.log(response_object)
                 clear_add_product_form()
+            },
+            error: function(jqXHR) {
+                alert("error: " + jqXHR.status);
+                console.log(jqXHR);
+            }
+        })
+    })
+}
+
+function delete_product_ajax(html, item_id) {
+    $(html).on('click', function(e) {
+        event.preventDefault();
+
+        $.ajax({
+            type: "DELETE",
+            cache: false,
+            url: product_url + "/" + item_id,
+            dataType: "json",
+            success: function(response_object) {
+                alert(response_object.Message)
+                $(e.target).parents('.modal').modal('hide');
+                $("#" + item_id).remove()
+
             },
             error: function(jqXHR) {
                 alert("error: " + jqXHR.status);

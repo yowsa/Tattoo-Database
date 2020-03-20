@@ -22,7 +22,8 @@ class ProductManager:
             self.item_manager.add_item(item_id, vector_path, png_path)
             self.tag_manager.add_tags(tags, item_id)
             return Response.OK.message("Product added", item_id)
-        except:
+        except Exception as e:
+            print(e)
             return Response.UNKNOWN_ERROR.message("Something went wrong")
 
     def delete_product(self, item_id):

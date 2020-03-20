@@ -1289,7 +1289,6 @@ function create_image_modal(img_tag) {
                 "data-tags='" + $(this).data('tags') + "'" +
                 "class='img-fluid modal-img'>" +
                 "</br>Tags: " + $(this).data('tags') +
-                "</br><a href='" + bucket_url + $(this).data('vectorpath') + "'>Download Vector </a>" +
                 "<i class='material-icons favorite'>" + favorite_icon + "</i>",
             size: "large",
             backdrop: true,
@@ -1297,10 +1296,19 @@ function create_image_modal(img_tag) {
                 label: 'Cancel',
                 cssClass: 'btn-success',
                 onClick: function(e) {
+                    console.log(e)
+                    console.log(e.target)
                     $(e.target).parents('.modal').modal('hide');
                 }
             }]
         });
+        switch (windowLoc) {
+            case "/search/edit":
+                $("<a>", { href: bucket_url + $(this).data('vectorpath') }).text("Download Vector").appendTo($(".modal-body"))
+                var html = $("<a>", { href: '#', class: "delete-item" }).data({ dismiss: "modal" }).text("Delete").appendTo($(".modal-body"))
+                delete_product_ajax(html, id);
+                break;
+        }
         set_favorite(this);
     });
 }
@@ -1346,9 +1354,24 @@ function set_favorite(item) {
     });
 
 }
-var add_product_url = "http://127.0.0.1:5000/api/add-products";
-var tags_url = "http://127.0.0.1:5000/api/tags";
-var all_products_url = "http://127.0.0.1:5000/api/search";
+var windowLoc = $(location).attr('pathname');
+var local = true
+
+var url_host = $(location).attr('host');
+
+if (local) {
+    var add_product_url = "http://127.0.0.1:5000/api/add-products";
+    var product_url = "http://127.0.0.1:5000/api/product";
+    var tags_url = "http://127.0.0.1:5000/api/tags";
+    var all_products_url = "http://127.0.0.1:5000/api/search";
+} else {
+    var add_product_url = "http://tattoos-env.eu-west-2.elasticbeanstalk.com/api/add-products";
+    var product_url = "http://tattoos-env.eu-west-2.elasticbeanstalk.com/api/product";
+    var tags_url = "http://tattoos-env.eu-west-2.elasticbeanstalk.com/api/tags";
+    var all_products_url = "http://tattoos-env.eu-west-2.elasticbeanstalk.com/api/search";
+}
+
+
 var bucket_url = "https://jf-test-bucket.s3.eu-west-2.amazonaws.com/";
 
 // SEARCH PRODUCTS
@@ -1485,6 +1508,30 @@ function add_product_ajax_POST() {
         })
     })
 }
+
+function delete_product_ajax(html, item_id) {
+    $(html).on('click', function(e) {
+        event.preventDefault();
+
+        $.ajax({
+            type: "DELETE",
+            cache: false,
+            url: product_url + "/" + item_id,
+            dataType: "json",
+            success: function(response_object) {
+                console.log(response_object)
+                alert(response_object.Message)
+                $(e.target).parents('.modal').modal('hide');
+                $("#" + item_id).remove()
+
+            },
+            error: function(jqXHR) {
+                alert("error: " + jqXHR.status);
+                console.log(jqXHR);
+            }
+        })
+    })
+}
 $(function() {
     var windowLoc = $(location).attr('pathname');
 
@@ -1497,6 +1544,15 @@ $(function() {
             add_product_ajax_POST();
             break;
         case "/search":
+            search_ajax_GET();
+            search_ajax_POST();
+            search_unique_tags_GET();
+            select_category_POST();
+            menu_category_POST();
+            load_favorite_count();
+            load_favorites();
+            break;
+        case "/search/edit":
             search_ajax_GET();
             search_ajax_POST();
             search_unique_tags_GET();

@@ -18,6 +18,15 @@ $(function() {
             load_favorite_count();
             load_favorites();
             break;
+        case "/search/edit":
+            search_ajax_GET();
+            search_ajax_POST();
+            search_unique_tags_GET();
+            select_category_POST();
+            menu_category_POST();
+            load_favorite_count();
+            load_favorites();
+            break;
     }
 
 

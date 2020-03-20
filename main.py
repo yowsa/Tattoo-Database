@@ -20,28 +20,33 @@ s3_resource = AwsConnector().get_s3_resource()
 image_manager = ImageManager(s3_resource, AwsConf.BUCKET)
 product_manager = ProductManager(item_manager, tag_manager, image_manager)
 
-app = Flask(__name__)
+application = Flask(__name__)
 
 js = Bundle('js/helper.js', 'js/add-products.js', 'js/vendor/pagination.js', 'js/search.js', 'js/ajax.js', 'js/setup.js', output='gen/main.js')
 css = Bundle('css/test.css', 'css/vendor/pagination.css', output='gen/style.css')
 
-assets = Environment(app)
+assets = Environment(application)
 
 assets.register('main_js', js)
 assets.register('main_css', css)
 
 
-@app.route('/')
+@application.route('/')
 def index():
     return render_template('add-product.html')
 
 
-@app.route('/search')
+@application.route('/search')
 def search():
     return render_template('search.html')
 
 
-@app.route('/api/tags', methods=['GET'])
+@application.route('/search/edit')
+def edit():
+    return render_template('search.html')
+
+
+@application.route('/api/tags', methods=['GET'])
 def unique_tags():
     try:
         unique_tags = tag_manager.get_unique_tags_list()
@@ -50,7 +55,7 @@ def unique_tags():
         return jsonify(Response.UNKNOWN_ERROR.message("Something went wrong"))
 
 
-@app.route('/api/add-products', methods=['POST'])
+@application.route('/api/add-products', methods=['POST'])
 def add_product():
     info = request.form
     tags = tuple(info['tags'].split(","))
@@ -61,32 +66,32 @@ def add_product():
     if image_manager.is_supported_format(vector_file.filename, ImageConf.VECTOR_FORMATS):
         response = product_manager.add_product(
             tags, vector_file.read(), vector_file_ext, png_file.read(), png_file_ext)
-    return response
+        return response
+    return Response.USER_ERROR.message("File format not supported")
 
 
-@app.route('/api/search', methods=['GET'])
+@application.route('/api/search', methods=['GET'])
 def search_all():
     search_result = product_manager.get_all_products()
     return search_result
 
-@app.route('/api/search/<word>', methods=['POST'])
+@application.route('/api/search/<word>', methods=['POST'])
 def search_word(word):
-    search_result = product_manager.get_all_matching_products(word)
-    return search_result
+    return product_manager.get_all_matching_products(word)
 
 
-@app.route('/products', methods=['GET', 'POST'])
-def products():
-    if request.method == "GET":
-        return jsonify(product_manager.get_all_products())
-    elif request.method == 'POST':
-        tags = request.form['tags']
-        vector = request.files['vector']
-        small_img = request.files['small_img']
-        product_manager.add_product(tags, vector, small_img)
+# @application.route('/products', methods=['GET', 'POST'])
+# def products():
+#     if request.method == "GET":
+#         return jsonify(product_manager.get_all_products())
+#     elif request.method == 'POST':
+#         tags = request.form['tags']
+#         vector = request.files['vector']
+#         small_img = request.files['small_img']
+#         product_manager.add_product(tags, vector, small_img)
 
 
-@app.route('/product/<string:item_id>', methods=['GET', 'PUT', 'DELETE'])
+@application.route('/api/product/<string:item_id>', methods=['GET', 'PUT', 'DELETE'])
 def product(item_id):
     if request.method == "GET":
         # TODO: Get item with matching id
@@ -95,9 +100,8 @@ def product(item_id):
         # TODO: update/edit product
         return None
     elif request.method == 'DELETE':
-        product_manager.delete_product(item_id)
-        return "A product has been deleted"
+        return product_manager.delete_product(item_id)
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    application.run(debug=True)

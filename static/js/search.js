@@ -56,7 +56,6 @@ function create_image_modal(img_tag) {
                 "data-tags='" + $(this).data('tags') + "'" +
                 "class='img-fluid modal-img'>" +
                 "</br>Tags: " + $(this).data('tags') +
-                "</br><a href='" + bucket_url + $(this).data('vectorpath') + "'>Download Vector </a>" +
                 "<i class='material-icons favorite'>" + favorite_icon + "</i>",
             size: "large",
             backdrop: true,
@@ -64,10 +63,20 @@ function create_image_modal(img_tag) {
                 label: 'Cancel',
                 cssClass: 'btn-success',
                 onClick: function(e) {
+                    console.log(e)
+                    console.log(e.target)
                     $(e.target).parents('.modal').modal('hide');
                 }
             }]
         });
+        switch (windowLoc) {
+            case "/search/edit":
+                $("<a>", { href: bucket_url + $(this).data('vectorpath') }).text("Download Vector").appendTo($(".modal-body"))
+
+                var delete_btn_obj = $("<a>", { href: '#', class: "delete-item" }).data({ dismiss: "modal" }).text("Delete").appendTo($(".modal-body"))
+                delete_product_ajax(delete_btn_obj, id);
+                break;
+        }
         set_favorite(this);
     });
 }
