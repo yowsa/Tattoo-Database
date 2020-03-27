@@ -2,6 +2,15 @@ function capitalize(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+function update_tags(element, tags) {
+    $(element).on('click', function() {
+        // console.log(element)
+        // console.log("hellooooo");
+        console.log(tags)
+
+    })
+}
+
 
 
 window.showBSModal = function self(options) {

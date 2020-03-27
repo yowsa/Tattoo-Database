@@ -97,8 +97,9 @@ def product(item_id):
         # TODO: Get item with matching id
         return None
     elif request.method == 'PUT':
-        # TODO: update/edit product
-        return None
+        tags = request.json['tags'].split(",")
+        tags = tuple(tag.strip() for tag in tags)
+        return product_manager.update_product_tags(item_id, tags)
     elif request.method == 'DELETE':
         return product_manager.delete_product(item_id)
 

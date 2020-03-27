@@ -59,11 +59,13 @@ function alert_message(message, alert_type = "alert-danger") {
 
 
 function load_latest_added_product(png_path, item_id, tags) {
-    var row = $('<div>').addClass('row').prependTo($("#added-products"))
-    var img = $('<img>', { src: bucket_url + png_path, class: "img-thumbnail" })
-    $('<div>').addClass('col-2').html(img).appendTo(row)
-    $('<div>').addClass('col-10').text("Tags: " + tags).appendTo(row)
-
-
-
+    var row = $('<div>').addClass('row').prependTo($("#added-products"));
+    var img = $('<img>', { src: bucket_url + png_path, class: "img-thumbnail" });
+    var tag_list = $('<span>').text(tags).attr('contenteditable', 'true')
+    $('<div>').addClass('col-2').html(img).appendTo(row);
+    var tag_div = $('<div>').addClass('col-10').html(tag_list).appendTo(row);
+    $('<p>').appendTo(tag_div);
+    var update_button = $('<button>').addClass("update-tags").text("Update tags").appendTo(tag_div);
+    var delete_button = $('<button>').addClass("delete_item").text("Delete item").appendTo(tag_div);
+    update_tags_ajax(update_button, item_id, tag_list)
 }

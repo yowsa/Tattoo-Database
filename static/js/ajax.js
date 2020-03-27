@@ -159,7 +159,7 @@ function add_product_ajax_POST() {
 }
 
 function delete_product_ajax(html, item_id) {
-    $(html).on('click', function(e) {
+    $(html).on('click', function(event) {
         event.preventDefault();
 
         $.ajax({
@@ -179,4 +179,28 @@ function delete_product_ajax(html, item_id) {
             }
         })
     })
+}
+
+function update_tags_ajax(element, item_id, tag_element) {
+    $(element).on('click', function(event) {
+        event.preventDefault();
+        var tags = tag_element[0]["innerText"]
+
+        $.ajax({
+            type: "PUT",
+            data: JSON.stringify({ "tags": tags }),
+            contentType: "application/json",
+            cache: false,
+            url: product_url + "/" + item_id,
+            dataType: "json",
+            success: function(response_object) {
+                alert(response_object.Message)
+            },
+            error: function(jqXHR) {
+                alert("error: " + jqXHR.status);
+                console.log(jqXHR);
+            }
+        })
+    })
+
 }

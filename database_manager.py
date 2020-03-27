@@ -42,11 +42,11 @@ class TagManager:
             tag_id = helper.get_id()
             self.database_connector.execute(
                 "INSERT INTO Tags (TagId, Tag, ItemId) VALUES (%s, %s, %s)",
-                (tag_id, tag_name, item_id))
+                (tag_id, tag_name.lower(), item_id))
 
     def get_unique_matches(self, search_word: str):
         all_matches = self.database_connector.execute(
-            "SELECT DISTINCT ItemId FROM Tags WHERE Tag LIKE %s;", ('%'+search_word+'%'))
+            "SELECT DISTINCT ItemId FROM Tags WHERE Tag LIKE %s;", ('%'+search_word.lower()+'%'))
         return all_matches
 
     def get_item_tags(self, item_id):

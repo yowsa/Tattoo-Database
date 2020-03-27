@@ -2,6 +2,15 @@ function capitalize(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+function update_tags(element, tags) {
+    $(element).on('click', function() {
+        // console.log(element)
+        // console.log("hellooooo");
+        console.log(tags)
+
+    })
+}
+
 
 
 window.showBSModal = function self(options) {
@@ -112,13 +121,15 @@ function alert_message(message, alert_type = "alert-danger") {
 
 
 function load_latest_added_product(png_path, item_id, tags) {
-    var row = $('<div>').addClass('row').prependTo($("#added-products"))
-    var img = $('<img>', { src: bucket_url + png_path, class: "img-thumbnail" })
-    $('<div>').addClass('col-2').html(img).appendTo(row)
-    $('<div>').addClass('col-10').text("Tags: " + tags).appendTo(row)
-
-
-
+    var row = $('<div>').addClass('row').prependTo($("#added-products"));
+    var img = $('<img>', { src: bucket_url + png_path, class: "img-thumbnail" });
+    var tag_list = $('<span>').text(tags).attr('contenteditable', 'true')
+    $('<div>').addClass('col-2').html(img).appendTo(row);
+    var tag_div = $('<div>').addClass('col-10').html(tag_list).appendTo(row);
+    $('<p>').appendTo(tag_div);
+    var update_button = $('<button>').addClass("update-tags").text("Update tags").appendTo(tag_div);
+    var delete_button = $('<button>').addClass("delete_item").text("Delete item").appendTo(tag_div);
+    update_tags_ajax(update_button, item_id, tag_list)
 }
 /*
  * pagination.js 2.1.5
@@ -1529,7 +1540,7 @@ function add_product_ajax_POST() {
 }
 
 function delete_product_ajax(html, item_id) {
-    $(html).on('click', function(e) {
+    $(html).on('click', function(event) {
         event.preventDefault();
 
         $.ajax({
@@ -1549,6 +1560,30 @@ function delete_product_ajax(html, item_id) {
             }
         })
     })
+}
+
+function update_tags_ajax(element, item_id, tag_element) {
+    $(element).on('click', function(event) {
+        event.preventDefault();
+        var tags = tag_element[0]["innerText"]
+
+        $.ajax({
+            type: "PUT",
+            data: JSON.stringify({ "tags": tags }),
+            contentType: "application/json",
+            cache: false,
+            url: product_url + "/" + item_id,
+            dataType: "json",
+            success: function(response_object) {
+                alert(response_object.Message)
+            },
+            error: function(jqXHR) {
+                alert("error: " + jqXHR.status);
+                console.log(jqXHR);
+            }
+        })
+    })
+
 }
 $(function() {
     var windowLoc = $(location).attr('pathname');
