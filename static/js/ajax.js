@@ -142,12 +142,11 @@ function add_product_ajax_POST() {
             url: add_product_url,
             dataType: "json",
             success: function(response_object) {
-                console.log(response_object)
                 clear_add_product_form()
                 if (response_object.ErrorCode != "OK") {
                     alert_message(response_object.Message)
                 } else {
-                    alert_message(response_object.Message, "alert-success")
+                    load_latest_added_product(response_object.PngPath, response_object.Body, response_object.Tags)
                 }
 
             },

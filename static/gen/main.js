@@ -104,10 +104,21 @@ function clear_add_product_form() {
 }
 
 function alert_message(message, alert_type = "alert-danger") {
-    $('#alerts').append('<div class="alert ' + alert_type + '" role="role">' +
+    $('#alerts').html('<div class="alert ' + alert_type + '" role="role">' +
         message + '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
         '<span aria-hidden="true"> &times;</span>' +
         '</button></div>');
+}
+
+
+function load_latest_added_product(png_path, item_id, tags) {
+    var row = $('<div>').addClass('row').prependTo($("#added-products"))
+    var img = $('<img>', { src: bucket_url + png_path, class: "img-thumbnail" })
+    $('<div>').addClass('col-2').html(img).appendTo(row)
+    $('<div>').addClass('col-10').text("Tags: " + tags).appendTo(row)
+
+
+
 }
 /*
  * pagination.js 2.1.5
@@ -1501,12 +1512,11 @@ function add_product_ajax_POST() {
             url: add_product_url,
             dataType: "json",
             success: function(response_object) {
-                console.log(response_object)
                 clear_add_product_form()
                 if (response_object.ErrorCode != "OK") {
                     alert_message(response_object.Message)
                 } else {
-                    alert_message(response_object.Message, "alert-success")
+                    load_latest_added_product(response_object.PngPath, response_object.Body, response_object.Tags)
                 }
 
             },
