@@ -50,7 +50,9 @@ function clear_add_product_form() {
     $('#product-tags').text("")
 }
 
-function alert_message(message) {
-    $('#alerts').append('<div class="alert alert-danger" role="alert">' +
-        message + '</div>');
+function alert_message(message, alert_type = "alert-danger") {
+    $('#alerts').append('<div class="alert ' + alert_type + '" role="role">' +
+        message + '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+        '<span aria-hidden="true"> &times;</span>' +
+        '</button></div>');
 }

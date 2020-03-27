@@ -103,9 +103,11 @@ function clear_add_product_form() {
     $('#product-tags').text("")
 }
 
-function alert_message(message) {
-    $('#alerts').append('<div class="alert alert-danger" role="alert">' +
-        message + '</div>');
+function alert_message(message, alert_type = "alert-danger") {
+    $('#alerts').append('<div class="alert ' + alert_type + '" role="role">' +
+        message + '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+        '<span aria-hidden="true"> &times;</span>' +
+        '</button></div>');
 }
 /*
  * pagination.js 2.1.5
@@ -1305,8 +1307,9 @@ function create_image_modal(img_tag) {
         switch (windowLoc) {
             case "/search/edit":
                 $("<a>", { href: bucket_url + $(this).data('vectorpath') }).text("Download Vector").appendTo($(".modal-body"))
-                var html = $("<a>", { href: '#', class: "delete-item" }).data({ dismiss: "modal" }).text("Delete").appendTo($(".modal-body"))
-                delete_product_ajax(html, id);
+
+                var delete_btn_obj = $("<a>", { href: '#', class: "delete-item" }).data({ dismiss: "modal" }).text("Delete").appendTo($(".modal-body"))
+                delete_product_ajax(delete_btn_obj, id);
                 break;
         }
         set_favorite(this);
@@ -1500,6 +1503,12 @@ function add_product_ajax_POST() {
             success: function(response_object) {
                 console.log(response_object)
                 clear_add_product_form()
+                if (response_object.ErrorCode != "OK") {
+                    alert_message(response_object.Message)
+                } else {
+                    alert_message(response_object.Message, "alert-success")
+                }
+
             },
             error: function(jqXHR) {
                 alert("error: " + jqXHR.status);
@@ -1519,7 +1528,6 @@ function delete_product_ajax(html, item_id) {
             url: product_url + "/" + item_id,
             dataType: "json",
             success: function(response_object) {
-                console.log(response_object)
                 alert(response_object.Message)
                 $(e.target).parents('.modal').modal('hide');
                 $("#" + item_id).remove()

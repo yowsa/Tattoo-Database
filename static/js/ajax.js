@@ -144,6 +144,12 @@ function add_product_ajax_POST() {
             success: function(response_object) {
                 console.log(response_object)
                 clear_add_product_form()
+                if (response_object.ErrorCode != "OK") {
+                    alert_message(response_object.Message)
+                } else {
+                    alert_message(response_object.Message, "alert-success")
+                }
+
             },
             error: function(jqXHR) {
                 alert("error: " + jqXHR.status);

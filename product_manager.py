@@ -21,7 +21,8 @@ class ProductManager:
                 png_file, item_id, png_ext, AwsConf.PNG_FOLDER)
             self.item_manager.add_item(item_id, vector_path, png_path)
             self.tag_manager.add_tags(tags, item_id)
-            return Response.OK.message("Product added", item_id)
+            product = self.get_product_object(item_id)
+            return Response.OK.message("Product added", product.item_id, product.png_path, product.tags)
         except Exception as e:
             print(e)
             return Response.UNKNOWN_ERROR.message("Something went wrong")
