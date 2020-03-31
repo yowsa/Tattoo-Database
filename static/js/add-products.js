@@ -68,4 +68,8 @@ function load_latest_added_product(png_path, item_id, tags) {
     var update_button = $('<button>').addClass("update-tags").text("Update tags").appendTo(tag_div);
     var delete_button = $('<button>').addClass("delete_item").text("Delete item").appendTo(tag_div);
     update_tags_ajax(update_button, item_id, tag_list)
+    delete_product_ajax(delete_button, item_id);
+    $(delete_button).on('click', function() {
+        $(row).remove()
+    })
 }
