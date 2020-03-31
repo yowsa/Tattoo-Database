@@ -26,9 +26,14 @@ function masonry_load(bucket_url, items, image_index, images_to_load = 1, col = 
 }
 
 function load_image(bucket_url, item, col) {
-    var html = create_image_tag(bucket_url + item.PngPath, item.ItemId, item.VectorPath, item.Tags, item.PngPath)
+    var img_tag = create_image_tag(bucket_url + item.PngPath, item.ItemId, item.VectorPath, item.Tags, item.PngPath)
+    var is_fav_icon = is_favorite(item.ItemId) ? "favorite" : "favorite_border"
+    var fav_icon = $('<i />').addClass('material-icons favorite search-favorite').text(is_fav_icon)
+    var html = $("<div />").addClass('loaded-image').html(fav_icon)
+    $(img_tag).appendTo(html)
     $('#search-images-col-' + (col + 1)).append(html);
-    create_image_modal(html);
+    create_image_modal(img_tag);
+    set_favorite(fav_icon, img_tag)
     return (col + 1) % 3;
 }
 
@@ -46,7 +51,8 @@ function load_tag_selector(unique_tags_info) {
 function create_image_modal(img_tag) {
     $(img_tag).on('click', function() {
         var id = $(this).attr('id')
-        var favorite_icon = is_favorite(id) ? "favorite" : "favorite_border"
+        var is_fav_icon = is_favorite(id) ? "favorite" : "favorite_border"
+        var fav_icon = $('<i />').addClass('material-icons favorite modal-favorite').text(is_fav_icon)
         showBSModal({
             title: id,
             body: "<img src='" +
@@ -55,8 +61,8 @@ function create_image_modal(img_tag) {
                 "data-vectorpath='" + $(this).data('vectorpath') + "'" +
                 "data-tags='" + $(this).data('tags') + "'" +
                 "class='img-fluid modal-img'>" +
-                "</br>Tags: " + $(this).data('tags') +
-                "<i class='material-icons favorite'>" + favorite_icon + "</i>",
+                "</br>" + $(this).data('tags') +
+                fav_icon.get(0).outerHTML,
             size: "large",
             backdrop: true,
             actions: [{
@@ -77,7 +83,10 @@ function create_image_modal(img_tag) {
                 delete_product_ajax(delete_btn_obj, id);
                 break;
         }
-        set_favorite(this);
+        set_favorite($('.modal-favorite'), this);
+        $('.modal').on('hidden.bs.modal', function(e) {
+            update_favorite($(img_tag).prev(), img_tag)
+        })
     });
 }
 
@@ -105,9 +114,20 @@ function load_favorites() {
 }
 
 
+function update_favorite(fav_obj, item) {
+    var id = $(item).attr('id')
+    if (is_favorite(id)) {
+        $(fav_obj).text("favorite")
+        load_favorite_count()
+    } else {
+        $(fav_obj).text("favorite_border")
+        load_favorite_count()
+    }
 
-function set_favorite(item) {
-    $('.favorite').on('click', function() {
+}
+
+function set_favorite(fav_icon, item) {
+    $(fav_icon).on('click', function() {
         event.preventDefault();
         var id = $(item).attr('id')
         if (is_favorite(id)) {

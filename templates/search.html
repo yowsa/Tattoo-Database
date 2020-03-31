@@ -5,17 +5,20 @@
         <div class="row">
 
             <div class="col">
-                <h1>Search!</h1>
+                <h1>BLAEK</h1>
                 <form id="search-form" enctype="multipart/form-data">
-                    <div class="form-group">
+                    <div class="input-group mb-3">
                         <input type="text" class="form-control" id="formSearchWord" name="word" placeholder="Search..." aria-label="Search">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-outline-secondary material-icons" id="search-word-button">search</button>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-primary my-1" id="search-word-button">Search</button>
+
                     <select class="custom-select tag-selector">
-                        <option selected>Select a category</option>
+                        <option selected>SELECT A CATEGORY</option>
                       </select>
                 </form>
-                <a href="#" class="menu_category">All</a> <a href="#" class="menu_category">Diamond</a> <a href="#" class="menu_category">Fineline</a>
+                <a href="#" class="menu_category search-tags">ALL</a>
                 <span id="show-favorites"><i class='material-icons'>favorite</i><span id="favorite-count"></span></span>
             </div>
         </div>
@@ -26,7 +29,7 @@
         <div class="row">
 
             <div class="col" id="search-images">
-            </div </div>
+            </div>
             <div class="row">
                 <div class="col-4">
                     <div id="search-images-col-1" class="search-images-col"></div>

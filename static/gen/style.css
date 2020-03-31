@@ -1,11 +1,111 @@
-.tag {
+body {
+    color: #B2B2B2;
+    font-family: 'mb_empire';
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'mb_empire';
+    src: url('../css/fonts/mbempire-medium-webfont.eot');
+    src: url('../css/fonts/mbempire-medium-webfont.eot?#iefix') format('embedded-opentype'), url('../css/fonts/mbempire-medium-webfont.woff2') format('woff2'), url('../css/fonts/mbempire-medium-webfont.woff') format('woff'), url('../css/fonts/mbempire-medium-webfont.ttf') format('truetype'), url('../css/fonts/mbempire-medium-webfont.svg#mb_empiremedium') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'mb_empire';
+    src: url('../css/fonts/mbempire-black-webfont.eot');
+    src: url('../css/fonts/mbempire-black-webfont.eot?#iefix') format('embedded-opentype'), url('../css/fonts/mbempire-black-webfont.woff2') format('woff2'), url('../css/fonts/mbempire-black-webfont.woff') format('woff'), url('../css/fonts/mbempire-black-webfont.ttf') format('truetype'), url('../css/fonts/mbempire-black-webfont.svg#mb_empireblack') format('svg');
+    font-weight: 700;
+    font-style: 700;
+}
+
+h1 {
+    color: black;
+    font-size: 50px;
+    letter-spacing: 10px;
+}
+
+a:link {
+    color: #B2B2B2;
+}
+
+a:visited {
+    color: #B2B2B2;
+}
+
+a:hover {
+    color: black;
+    text-decoration: none;
+}
+
+a:active {
+    color: #B2B2B2;
+}
+
+.form-control,
+.tag-selector {
+    font-size: 12px;
+}
+
+.search-tags {
+    font-size: 10px;
+}
+
+select,
+.form-control,
+.custom-select {
+    border-radius: 0;
+    color: #B2B2B2;
+    border: 1px solid #B2B2B2;
+}
+
+.form-control::-webkit-input-placeholder {
+    color: #B2B2B2;
+}
+
+.form-control::-moz-placeholder {
+    color: #B2B2B2;
+}
+
+.form-control::-ms-placeholder {
+    color: #B2B2B2;
+}
+
+.form-control::placeholder {
+    color: #B2B2B2;
+}
+
+#search-word-button {
+    border-color: #B2B2B2;
+    border-radius: 0;
+    border-left: 0;
+}
+
+#formSearchWord {
+    border-right: 0;
+}
+
+.tag,
+.favorite {
     cursor: pointer;
 }
 
+.favorite {
+    color: black;
+}
 
-/* .search-images-col img {
-    max-width: 100%;
-} */
+.loaded-image {
+    position: relative;
+    padding-bottom: 30px;
+}
+
+.search-favorite {
+    position: absolute;
+    bottom: 50px;
+    right: 20px;
+    font-size: 18px !important;
+}
 .paginationjs {
     line-height: 1.6;
     font-family: Marmelad, "Lucida Grande", Arial, "Hiragino Sans GB", Georgia, sans-serif;
