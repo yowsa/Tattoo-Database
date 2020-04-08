@@ -118,3 +118,14 @@ class TestImageManager(unittest.TestCase):
         # assert
         self.assertIsInstance(png, bytes)
         vector_file.close()
+    
+    def test_calculate_brightness(self):
+        # arrange
+        with open(self.VECTOR_TO_UPLOAD, 'rb') as vector_file:
+            vector_bytes = vector_file.read()
+
+            # act
+            brightness = self.image_manager.calculate_brightness(vector_bytes)
+
+            # assert
+            self.assertAlmostEqual(0.922497, brightness, 2)

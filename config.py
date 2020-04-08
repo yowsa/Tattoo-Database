@@ -16,15 +16,15 @@ class ImageConf:
 
 class DatabaseConf:
     # AWS MYSQL CONFIG
-    DB = 'mydb'
-    HOST = 'database-1.cmhvl4j06hdh.eu-west-2.rds.amazonaws.com'
-    USER = 'admin'
-    PASSWORD = 'test12345'
+    # DB = 'mydb'
+    # HOST = 'database-1.cmhvl4j06hdh.eu-west-2.rds.amazonaws.com'
+    # USER = 'admin'
+    # PASSWORD = 'test12345'
     # LOCAL MYSQL CONFIG
-    # DB = 'db'
-    # HOST = 'localhost'
-    # USER = 'root'
-    # PASSWORD = ''
+    DB = 'db'
+    HOST = 'localhost'
+    USER = 'root'
+    PASSWORD = ''
     ITEM_TABLE_SCHEMA = ("CREATE TABLE IF NOT EXISTS Items"
                          "(ItemId VARCHAR(45) NOT NULL PRIMARY KEY, "
                          "VectorPath VARCHAR(255) NOT NULL, "

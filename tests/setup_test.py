@@ -10,6 +10,7 @@ PNG_PATH_1 = "test.png"
 
 VECTOR_PATH_1 = "test.vector"
 DB = "TestDB"
+IMG_BRIGHTNESS = 0.75
 
 
 def create_test_database_setup(database_connector):
@@ -25,7 +26,7 @@ def count_rows(database_connector, table_name):
 
 
 def add_test_item_with_tags(item_manager, tag_manager, item_id, tags: tuple):
-    item_manager.add_item(item_id, item_id, item_id)
+    item_manager.add_item(item_id, item_id, item_id, IMG_BRIGHTNESS)
     tag_manager.add_tags(tags, item_id)
 
 

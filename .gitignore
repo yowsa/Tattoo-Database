@@ -172,5 +172,6 @@ dmypy.json
 ######################
 test2.jpg
 images/
+login_config.py
 
 

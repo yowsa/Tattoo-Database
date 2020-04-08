@@ -4,3 +4,4 @@ PyMySQL[rsa]
 boto3
 Pillow
 Flask-Assets
+flask-login

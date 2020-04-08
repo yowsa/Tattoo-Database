@@ -20,6 +20,7 @@ class TestProductManager(unittest.TestCase):
     ITEM_ID_1 = "1e852a2d-35c2-409e-ac86-38224f5ac2d7"
     PNG_TO_UPLOAD = "images/test.png"
     TAGS = ('bird', 'fineline')
+    IMG_BRIGHTNESS = "0.75"
 
     @classmethod
     def setUpClass(self):
@@ -48,34 +49,39 @@ class TestProductManager(unittest.TestCase):
 
     def test_add_product(self):
         # act
-        self.product_manager.add_product(
-            self.TAGS, self.VECTOR_TO_UPLOAD, self.PNG_TO_UPLOAD)
+        with open(self.VECTOR_TO_UPLOAD, 'rb') as vector_file:
+            vector_bytes = vector_file.read()
+            self.product_manager.add_product(
+                self.TAGS, vector_bytes, self.VECTOR_FILE_EXT, self.PNG_TO_UPLOAD, self.PNG_FILE_EXT)
 
-        # assert
-        self.assertEqual(setup_test.count_rows(
-            self.database_connector, 'Items'), 1)
-        self.assertEqual(setup_test.count_rows(
-            self.database_connector, 'Tags'), 2)
+            # assert
+            self.assertEqual(setup_test.count_rows(
+                self.database_connector, 'Items'), 1)
+            self.assertEqual(setup_test.count_rows(
+                self.database_connector, 'Tags'), 2)
 
     def test_delete_product(self):
         # arrange
-        item_id = self.product_manager.add_product(
-            self.TAGS, self.VECTOR_TO_UPLOAD, self.VECTOR_TO_UPLOAD)['Body']
-        vector_path = self.VECTOR_SUBFOLDER + item_id + self.VECTOR_FILE_EXT
-        png_path = self.PNG_SUBFOLDER + item_id + self.PNG_FILE_EXT
+        with open(self.VECTOR_TO_UPLOAD, 'rb') as vector_file:
+            vector_bytes = vector_file.read()
 
-        # act
-        self.product_manager.delete_product(item_id)
-        images = tuple(
-            img.key for img in self.image_manager.bucket.objects.all())
+            item_id = self.product_manager.add_product(
+                self.TAGS, vector_bytes, self.VECTOR_FILE_EXT,  self.VECTOR_TO_UPLOAD)['Body']
+            vector_path = self.VECTOR_SUBFOLDER + item_id + self.VECTOR_FILE_EXT
+            png_path = self.PNG_SUBFOLDER + item_id + self.PNG_FILE_EXT
 
-        # assert
-        self.assertEqual(setup_test.count_rows(
-            self.database_connector, 'Items'), 0)
-        self.assertEqual(setup_test.count_rows(
-            self.database_connector, 'Tags'), 0)
-        self.assertNotIn(vector_path, images)
-        self.assertNotIn(png_path, images)
+            # act
+            self.product_manager.delete_product(item_id)
+            images = tuple(
+                img.key for img in self.image_manager.bucket.objects.all())
+
+            # assert
+            self.assertEqual(setup_test.count_rows(
+                self.database_connector, 'Items'), 0)
+            self.assertEqual(setup_test.count_rows(
+                self.database_connector, 'Tags'), 0)
+            self.assertNotIn(vector_path, images)
+            self.assertNotIn(png_path, images)
 
     def test_get_all_products(self):
         # arrange

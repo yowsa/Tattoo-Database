@@ -28,7 +28,7 @@ class TestDatabaseManager(unittest.TestCase):
         item_id = helper.get_id()
 
         # act
-        self.item_manager.add_item(item_id, item_id, item_id)
+        self.item_manager.add_item(item_id, item_id, item_id, setup_test.IMG_BRIGHTNESS)
 
         # assert
         self.assertEqual(setup_test.count_rows(
@@ -49,15 +49,16 @@ class TestDatabaseManager(unittest.TestCase):
     def test_get_item_details(self):
         # arrange
         item_id = helper.get_id()
-        self.item_manager.add_item(item_id, item_id, item_id)
+        self.item_manager.add_item(item_id, item_id, item_id, setup_test.IMG_BRIGHTNESS)
 
         # act
         item_details = self.item_manager.get_item_details(item_id)
 
         # assert
-        self.assertEqual(len(item_details), 3)
+        self.assertEqual(len(item_details), 4)
         self.assertIn(item_id, item_details['VectorPath'])
         self.assertIn(item_id, item_details['PngPath'])
+        self.assertEqual(setup_test.IMG_BRIGHTNESS, item_details['ImageBrightness'])
 
     def test_get_all_items(self):
         # arrange
@@ -69,6 +70,17 @@ class TestDatabaseManager(unittest.TestCase):
 
         # assert
         self.assertEqual(len(all_items), 4)
+    
+    def test_get_random_items(self):
+        # arrange
+        setup_test.test_items_tags_setup(
+            self.item_manager, self.tag_manager)
+
+        # act
+        random_items = self.item_manager.get_random_items(2)
+
+        # assert
+        self.assertEqual(len(random_items), 2)
 
     def test_add_tags(self):
         # arrange
@@ -88,9 +100,12 @@ class TestDatabaseManager(unittest.TestCase):
 
         # act
         matches = self.tag_manager.get_unique_matches("h")
+        find_unique_id = self.tag_manager.get_unique_matches(setup_test.ITEM_ID_1)
 
         # assert
         self.assertEqual(len(matches), 2)
+        self.assertEqual(len(find_unique_id), 1)
+        self.assertEqual(find_unique_id[0]['ItemId'], setup_test.ITEM_ID_1)
         
     def test_get_item_tags(self):
         # arrange
