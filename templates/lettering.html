@@ -1,0 +1,28 @@
+{% extends 'setup.html'%} {% block page_content %}
+<section id="search-word">
+    <div class="row">
+        <input type="text" class="form-control" id="formTryFont" name="word" placeholder="Try font..." aria-label="Try Font">
+        <p>Letter Spacing: <button class="letter-spacing-button" value="0.1em">1</button> <button class="letter-spacing-button" value="0.5em">1.5</button> <button class="letter-spacing-button" value="1em">2</button></p>
+        <p>Font Size: <button class="font-size-spacing-button" value="15px">15px</button> <button class="font-size-spacing-button" value="30px">30px</button> <button class="font-size-spacing-button" value="45px">45px</button>
+        </p>
+    </div>
+    <div class=" row ">
+        <div class="col fonts" id="font-1">
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col fonts" id="font-2">
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col fonts" id="font-3">
+        </div>
+    </div>
+
+
+    <div class="row m-4 ">
+        <div id="footer " class="col text-center ">Blaek Studios &copy; 2020</div>
+    </div>
+</section>
+
+{% endblock %}

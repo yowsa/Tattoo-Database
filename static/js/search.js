@@ -28,7 +28,10 @@ function masonry_load(bucket_url, items, image_index, images_to_load = 1, col = 
 function load_image(bucket_url, item, col) {
     var img_tag = create_image_tag(bucket_url + item.PngPath, item.ItemId, item.VectorPath, item.Tags, item.PngPath)
     var is_fav_icon = is_favorite(item.ItemId) ? "favorite" : "favorite_border"
-    var fav_icon = $('<i />').addClass('material-icons favorite search-favorite').text(is_fav_icon)
+    var fav_icon = $('<i />').addClass('material-icons favorite search-favorite').text(is_fav_icon);
+    if (item.ImageBrightness < 0.5) {
+        fav_icon.css('color', "white");
+    }
     var html = $("<div />").addClass('loaded-image').html(fav_icon)
     $(img_tag).appendTo(html)
     $('#search-images-col-' + (col + 1)).append(html);
@@ -48,41 +51,45 @@ function load_tag_selector(unique_tags_info) {
     });
 }
 
+function get_tag_links(tags) {
+    var tag_div = $('<div />');
+    tags.forEach(function(tag) {
+        $('<a />').attr('href', '#').addClass('modal-tag').text(tag).appendTo(tag_div);
+    });
+    return tag_div;
+}
+
 function create_image_modal(img_tag) {
     $(img_tag).on('click', function() {
-        var id = $(this).attr('id')
-        var is_fav_icon = is_favorite(id) ? "favorite" : "favorite_border"
-        var fav_icon = $('<i />').addClass('material-icons favorite modal-favorite').text(is_fav_icon)
+        var id = $(this).attr('id');
+        var is_fav_icon = is_favorite(id) ? "favorite" : "favorite_border";
+        var tags = get_tag_links($(this).data('tags'))
+
         showBSModal({
             title: id,
-            body: "<img src='" +
-                $(this).attr('src') + "'" +
-                "data-id='" + $(this).data('id') + "'" +
-                "data-vectorpath='" + $(this).data('vectorpath') + "'" +
-                "data-tags='" + $(this).data('tags') + "'" +
-                "class='img-fluid modal-img'>" +
-                "</br>" + $(this).data('tags') +
-                fav_icon.get(0).outerHTML,
+            img: $(img_tag).get(0).outerHTML,
+            tags: $(tags).get(0).outerHTML,
+            icon_text: is_fav_icon,
             size: "large",
             backdrop: true,
-            actions: [{
-                label: 'Cancel',
-                cssClass: 'btn-success',
-                onClick: function(e) {
-                    console.log(e)
-                    console.log(e.target)
-                    $(e.target).parents('.modal').modal('hide');
-                }
-            }]
         });
         switch (windowLoc) {
             case "/search/edit":
-                $("<a>", { href: bucket_url + $(this).data('vectorpath') }).text("Download Vector").appendTo($(".modal-body"))
+                $('<p />').html($("<a>", { href: bucket_url + $(this).data('vectorpath') }).text("Download Vector")).appendTo($(".modal-body"))
 
-                var delete_btn_obj = $("<a>", { href: '#', class: "delete-item" }).data({ dismiss: "modal" }).text("Delete").appendTo($(".modal-body"))
+                var delete_btn_obj = $('<p />').html($("<a>", { href: '#', class: "delete-item" }).data({ dismiss: "modal" }).text("Delete")).appendTo($(".modal-body"))
                 delete_product_ajax(delete_btn_obj, id);
                 break;
         }
+        $('.modal-tag').on('click', function() {
+            event.preventDefault();
+            word = $(this).text();
+            search_word(word);
+            $('.modal').modal('hide')
+
+        });
+
+
         set_favorite($('.modal-favorite'), this);
         $('.modal').on('hidden.bs.modal', function(e) {
             update_favorite($(img_tag).prev(), img_tag)

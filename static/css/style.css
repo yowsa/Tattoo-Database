@@ -20,10 +20,12 @@ body {
     font-style: 700;
 }
 
-h1 {
+h1.logo {
     color: black;
-    font-size: 50px;
-    letter-spacing: 10px;
+    font-size: 60px;
+    letter-spacing: 12px;
+    margin-left: -4px;
+    padding-bottom: 93px;
 }
 
 a:link {
@@ -45,11 +47,12 @@ a:active {
 
 .form-control,
 .tag-selector {
-    font-size: 12px;
+    font-size: 15px;
+    letter-spacing: 1px;
 }
 
-.search-tags {
-    font-size: 10px;
+.menu_category {
+    font-size: 12px;
 }
 
 select,
@@ -84,6 +87,17 @@ select,
 
 #formSearchWord {
     border-right: 0;
+    padding: 27px 25px;
+}
+
+#search-field-group {
+    margin-bottom: 40px;
+}
+
+.tag-selector {
+    padding: 17px 25px;
+    height: 100%;
+    margin-bottom: 26px;
 }
 
 .tag,
@@ -98,6 +112,7 @@ select,
 .loaded-image {
     position: relative;
     padding-bottom: 30px;
+    cursor: pointer;
 }
 
 .search-favorite {
@@ -105,4 +120,143 @@ select,
     bottom: 50px;
     right: 20px;
     font-size: 18px !important;
+}
+
+.modal-content {
+    border: none;
+    border-radius: 0;
+}
+
+#clear-selection {
+    border-radius: 0;
+    background-color: #B2B2B2;
+    border: 0;
+    font-size: 12px;
+    letter-spacing: 1px;
+    padding: 20px 26px;
+}
+
+#clear-selection:hover {
+    background-color: rgb(156, 156, 156);
+    border: 0;
+}
+
+#show-favorites i {
+    font-size: 18px;
+    margin-right: 4px;
+}
+
+#show-favorites {
+    font-size: 12px;
+    padding-right: 32px;
+    height: 100%
+}
+
+#footer {
+    letter-spacing: 1px;
+}
+
+.small-id {
+    font-size: 7px;
+    opacity: 50%;
+}
+
+.modal-tags {
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+.modal-close {
+    position: absolute;
+    right: 41px;
+    top: 35px;
+}
+
+.modal-tag {
+    margin-right: 15px;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.navbar-light .navbar-toggler {
+    color: #000000;
+    border: none;
+    padding: .25rem 0;
+}
+
+.navbar {
+    text-align: right;
+    padding: 1rem 0;
+}
+
+#front-img-1 span span {
+    font-size: 12px;
+}
+
+#front-img-1 span {
+    color: black;
+}
+
+#front-img-1 h4 {
+    font-weight: 700;
+}
+
+#front-lettering {
+    background-color: #cc9b87;
+    margin-bottom: 30px;
+    height: 550px;
+    padding: 20px;
+    cursor: pointer;
+}
+
+.front-lettering-1,
+.front-lettering-2,
+.front-lettering-3,
+.front-lettering-4 {
+    color: #000;
+    font-size: 20px;
+}
+
+.front-lettering-1 {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif
+}
+
+.front-lettering-2 {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.front-lettering-3 {
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.front-lettering-4 {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.front-lettering-5 {
+    border-top: 1px solid;
+    color: white;
+    font-size: 25px;
+    letter-spacing: 1px;
+    padding-top: 20px;
+    width: 100%;
+}
+
+.front-lettering-5 span {
+    font-size: 12px;
+}
+
+#front-img-2 span {
+    color: white;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+#front-img-3 span {
+    color: black;
+    letter-spacing: 1px;
+    font-weight: 700;
 }

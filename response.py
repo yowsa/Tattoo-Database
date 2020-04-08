@@ -12,5 +12,5 @@ class Response(Enum):
     CONNECTED = 8
     UNKNOWN_ERROR = 9
 
-    def message(self, message: str, body=None, pngpath=None, tags=None):
-        return {'ErrorCode': self.name, 'Message': message, 'Body': body, 'PngPath':pngpath, "Tags":tags}
+    def message(self, message: str, body=None, pngpath=None, tags=None, brightness=None):
+        return {'ErrorCode': self.name, 'Message': message, 'Body': body, 'PngPath':pngpath, "Tags":tags, "ImageBrightness":brightness}

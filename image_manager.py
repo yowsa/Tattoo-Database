@@ -36,6 +36,7 @@ class ImageManager:
     def upload_png_file(self, png_file: bytes, item_id: str, png_file_ext: str, subfolder: str = ''):
         if png_file_ext != '.png':
             png_file = self._get_png(png_file)
+        
         image_path = self._get_img_path(item_id, '.png', subfolder)
         self.upload_file(png_file, image_path, self.bucket)
         return image_path
@@ -83,3 +84,16 @@ class ImageManager:
         height = int(png.size[0] * ratio)
         resized_image = png.resize((height, width))
         return resized_image
+
+    def calculate_brightness(self, vector_file):
+        with Image.open(io.BytesIO(vector_file)) as image:
+            greyscale_image = image.convert('L')
+            histogram = greyscale_image.histogram()
+            pixels = sum(histogram)
+            brightness = scale = len(histogram)
+
+            for index in range(0, scale):
+                ratio = histogram[index] / pixels
+                brightness += ratio * (-scale + index)
+
+            return 1 if brightness == 255 else brightness / scale

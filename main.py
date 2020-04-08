@@ -10,7 +10,7 @@ from config import DatabaseConf, AwsConf, ImageConf
 from response import Response
 
 database_connector = DatabaseConnector(
-    DatabaseConf.DB, DatabaseConf.HOST, DatabaseConf.USER, DatabaseConf.PASSWORD)
+    database=DatabaseConf.DB, host=DatabaseConf.HOST, user=DatabaseConf.USER, password=DatabaseConf.PASSWORD)
 database_connector.create_database(DatabaseConf.DB)
 database_connector.create_tables()
 connection = database_connector.get_connection()
@@ -22,8 +22,8 @@ product_manager = ProductManager(item_manager, tag_manager, image_manager)
 
 application = Flask(__name__)
 
-js = Bundle('js/helper.js', 'js/add-products.js', 'js/vendor/pagination.js', 'js/search.js', 'js/ajax.js', 'js/setup.js', output='gen/main.js')
-css = Bundle('css/style.css', 'css/vendor/pagination.css', output='gen/style.css')
+js = Bundle('js/helper.js', 'js/add-products.js', 'js/lettering.js', 'js/front-page.js', 'js/vendor/pagination.js', 'js/search.js', 'js/ajax.js', 'js/setup.js', output='gen/main.js')
+css = Bundle('css/style.css', 'css/lettering.css', 'css/vendor/pagination.css', output='gen/style.css')
 
 assets = Environment(application)
 
@@ -45,6 +45,9 @@ def search():
 def edit():
     return render_template('search.html')
 
+@application.route('/lettering')
+def lettering():
+    return render_template('lettering.html')
 
 @application.route('/api/tags', methods=['GET'])
 def unique_tags():
@@ -75,28 +78,20 @@ def search_all():
     search_result = product_manager.get_all_products()
     return search_result
 
+
 @application.route('/api/search/<word>', methods=['POST'])
 def search_word(word):
     return product_manager.get_all_matching_products(word)
 
 
-# @application.route('/products', methods=['GET', 'POST'])
-# def products():
-#     if request.method == "GET":
-#         return jsonify(product_manager.get_all_products())
-#     elif request.method == 'POST':
-#         tags = request.form['tags']
-#         vector = request.files['vector']
-#         small_img = request.files['small_img']
-#         product_manager.add_product(tags, vector, small_img)
+@application.route('/api/search/random', methods=['GET'])
+def random():
+    return product_manager.get_random_products(7)
 
 
-@application.route('/api/product/<string:item_id>', methods=['GET', 'PUT', 'DELETE'])
+@application.route('/api/product/<string:item_id>', methods=['PUT', 'DELETE'])
 def product(item_id):
-    if request.method == "GET":
-        # TODO: Get item with matching id
-        return None
-    elif request.method == 'PUT':
+    if request.method == 'PUT':
         tags = request.json['tags'].split(",")
         tags = tuple(tag.strip() for tag in tags)
         return product_manager.update_product_tags(item_id, tags)

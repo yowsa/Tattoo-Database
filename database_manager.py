@@ -6,10 +6,10 @@ class ItemManager:
     def __init__(self, database_connector):
         self.database_connector = database_connector
 
-    def add_item(self, item_id, vector_path, png_path):
+    def add_item(self, item_id, vector_path, png_path, image_brightness):
         self.database_connector.execute(
-            "INSERT INTO Items (ItemId, VectorPath, PngPath) VALUES (%s, %s, %s)",
-            (item_id, vector_path, png_path))
+            "INSERT INTO Items (ItemId, VectorPath, PngPath, ImageBrightness) VALUES (%s, %s, %s, %s)",
+            (item_id, vector_path, png_path, image_brightness))
 
     def delete_item(self, item_id):
         self.database_connector.execute(
@@ -29,7 +29,11 @@ class ItemManager:
         result = self.database_connector.execute(
             "SELECT * from Items WHERE ItemId=%s", item_id)
         return bool(result)
-
+    
+    def get_random_items(self, num):
+        random_items = self.database_connector.execute("SELECT * from Items ORDER BY RAND() LIMIT %s", num)
+        return random_items
+    
 
 class TagManager:
 
@@ -46,7 +50,7 @@ class TagManager:
 
     def get_unique_matches(self, search_word: str):
         all_matches = self.database_connector.execute(
-            "SELECT DISTINCT ItemId FROM Tags WHERE Tag LIKE %s;", ('%'+search_word.lower()+'%'))
+            "SELECT DISTINCT ItemId FROM Tags WHERE Tag LIKE %s OR ItemID LIKE %s ;", (('%'+search_word.lower()+'%'), ('%'+search_word.lower()+'%')))
         return all_matches
 
     def get_item_tags(self, item_id):

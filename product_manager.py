@@ -1,5 +1,4 @@
 import helper
-from image_manager import ImageManager
 from config import AwsConf
 from product import Product
 from response import Response
@@ -19,10 +18,11 @@ class ProductManager:
                 vector_file, item_id, vector_ext, AwsConf.VECTOR_FOLDER)
             png_path = self.image_manager.upload_png_file(
                 png_file, item_id, png_ext, AwsConf.PNG_FOLDER)
-            self.item_manager.add_item(item_id, vector_path, png_path)
+            image_brightness = self.image_manager.calculate_brightness(vector_file)
+            self.item_manager.add_item(item_id, vector_path, png_path, image_brightness)
             self.tag_manager.add_tags(tags, item_id)
             product = self.get_product_object(item_id)
-            return Response.OK.message("Product added", product.item_id, product.png_path, product.tags)
+            return Response.OK.message("Product added", product.item_id, product.png_path, product.tags, product.brightness)
         except Exception as e:
             print(e)
             return Response.UNKNOWN_ERROR.message("Something went wrong")
@@ -68,7 +68,8 @@ class ProductManager:
         tags = self.tag_manager.get_item_tags(item_id)
         vector_path = item_details['VectorPath']
         png_path = item_details['PngPath']
-        return Product(item_id, vector_path, png_path, tags)
+        image_brightness = item_details['ImageBrightness']
+        return Product(item_id, vector_path, png_path, tags, image_brightness)
 
     def get_unique_id(self):
         item_id = helper.get_id()
@@ -88,3 +89,15 @@ class ProductManager:
 
         except:
             return Response.UNKNOWN_ERROR.message("Something went wrong")
+        
+    def get_random_products(self, num):
+        try:
+            random_items = self.item_manager.get_random_items(num)
+            for item in random_items:
+                item_id = item["ItemId"]
+                item_tag_list = self.tag_manager.get_item_tags(item_id)
+                item["Tags"] = item_tag_list
+            return Response.OK.message("Random products", random_items)
+        except:
+            return Response.UNKNOWN_ERROR.message("Something went wrong")
+

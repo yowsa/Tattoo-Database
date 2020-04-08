@@ -1,7 +1,8 @@
 CREATE TABLE Items (
 	ItemId VARCHAR(45) NOT NULL PRIMARY KEY, 
 	VectorPath VARCHAR(255) NOT NULL,
-	PngPath VARCHAR(255) NOT NULL
+	PngPath VARCHAR(255) NOT NULL,
+	ImageBrightness FLOAT,
 );
 
 

@@ -8,17 +8,38 @@ if (local) {
     var product_url = "http://127.0.0.1:5000/api/product";
     var tags_url = "http://127.0.0.1:5000/api/tags";
     var all_products_url = "http://127.0.0.1:5000/api/search";
+    var front_images = "http: //127.0.0.1:5000/images/front-page/"
 } else {
     var add_product_url = "http://tattoos-env.eu-west-2.elasticbeanstalk.com/api/add-products";
     var product_url = "http://tattoos-env.eu-west-2.elasticbeanstalk.com/api/product";
     var tags_url = "http://tattoos-env.eu-west-2.elasticbeanstalk.com/api/tags";
     var all_products_url = "http://tattoos-env.eu-west-2.elasticbeanstalk.com/api/search";
+    var front_images = ""
 }
 
 
 var bucket_url = "https://jf-test-bucket.s3.eu-west-2.amazonaws.com/";
 
 // SEARCH PRODUCTS
+function load_front_page_GET() {
+    $.ajax({
+        type: "GET",
+        cache: false,
+        url: all_products_url + "/random",
+        dataType: "json",
+        success: function(response_object) {
+            front_page(response_object.Body)
+        },
+        error: function(jqXHR) {
+            alert("error: " + jqXHR.status);
+            console.log(jqXHR);
+        }
+    })
+}
+
+
+
+
 function search_ajax_GET() {
     $.ajax({
         type: "GET",
@@ -65,10 +86,10 @@ function select_category_POST() {
     });
 }
 
-function menu_category_POST() {
-    $('.menu_category').on('click', function() {
+function tag_search_POST() {
+    $('.search-tags').on('click', function() {
         event.preventDefault();
-        word = $(this).text();
+        word = $(this).attr('value');
         search_word(word);
     });
 }
@@ -144,9 +165,11 @@ function add_product_ajax_POST() {
             success: function(response_object) {
                 clear_add_product_form()
                 if (response_object.ErrorCode != "OK") {
+                    console.log(response_object)
                     alert_message(response_object.Message)
                 } else {
                     load_latest_added_product(response_object.PngPath, response_object.Body, response_object.Tags)
+                    console.log(response_object)
                 }
 
             },
@@ -169,7 +192,7 @@ function delete_product_ajax(html, item_id) {
             dataType: "json",
             success: function(response_object) {
                 alert(response_object.Message)
-                $(e.target).parents('.modal').modal('hide');
+                $('.modal').modal('hide');
                 $("#" + item_id).remove()
 
             },

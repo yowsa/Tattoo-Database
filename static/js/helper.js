@@ -18,6 +18,9 @@ window.showBSModal = function self(options) {
     var options = $.extend({
         title: '',
         body: '',
+        img: '',
+        tags: '',
+        icon_text: '',
         remote: false,
         backdrop: 'static',
         size: false,
@@ -46,7 +49,7 @@ window.showBSModal = function self(options) {
 
     self.$modal.data('bs.modal', false);
     self.$modal.find('.modal-dialog').removeClass().addClass('modal-dialog ' + (modalClass[options.size] || ''));
-    self.$modal.find('.modal-content').html('<div class="modal-header"><h4 class="modal-title">${title}</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><div class="modal-body">${body}</div><div class="modal-footer"></div>'.replace('${title}', options.title).replace('${body}', options.body));
+    self.$modal.find('.modal-content').html('<div class="modal-body"><button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close"><span class="material-icons">close</span></button>${img} ${body}<div class="row pt-3"><div class="col d-flex modal-tags">${tags}</div><div class="col d-flex h-100 justify-content-end"><i class="material-icons favorite modal-favorite">${icon_text}</i></div></div><span class="small-id">${title}</span></div>'.replace('${title}', options.title).replace('${body}', options.body).replace('${img}', options.img).replace('${tags}', options.tags).replace('${icon_text}', options.icon_text));
 
     var footer = self.$modal.find('.modal-footer');
     if (Object.prototype.toString.call(options.actions) == "[object Array]") {

@@ -1,0 +1,30 @@
+<!-- <form action='login' method='POST'>
+    <input type='text' name='username' id='username' placeholder='username' />
+    <input type='password' name='password' id='password' placeholder='password' />
+    <input type='submit' name='submit' />
+</form> -->
+
+{% extends 'setup.html'%} {% block page_content %}
+<section id="login">
+    <div class="login-wrapper wrapper row d-flex justify-content-center align-items-center">
+        <div class="col-4">
+            <form class="alert-message-reciever" id="login_form" method="post">
+                <p>
+                    <h1 class="text-center">Log In</h1>
+                </p>
+                <p>
+                    <input class="form-control form-control-lg" type="text" name="username" placeholder=" Username "></p>
+                <p><input class="form-control form-control-lg " type="password" name="password" autocomplete="current-password " placeholder="Password "></p>
+                <p><button type="submit " name="submit" class="btn btn-secondary btn-lg btn-block " id="login_button" value="Log In">Log In</button></p>
+            </form>
+        </div>
+    </div>
+
+    <div class="row d-flex justify-content-center align-items-center">
+        <div class="col-4 alert {{ alert_type }}" id="alerts">
+            {{ message }}
+        </div>
+    </div>
+</section>
+
+{% endblock %}

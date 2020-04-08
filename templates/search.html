@@ -1,58 +1,45 @@
 {% extends 'setup.html'%} {% block page_content %}
 <section id="search-word">
-
-    <div class="container">
-        <div class="row">
-
-            <div class="col">
-                <h1>BLAEK</h1>
-                <form id="search-form" enctype="multipart/form-data">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" id="formSearchWord" name="word" placeholder="Search..." aria-label="Search">
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-outline-secondary material-icons" id="search-word-button">search</button>
-                        </div>
+    <div class="row">
+        <div class="col">
+            <form id="search-form" enctype="multipart/form-data">
+                <div class="input-group" id="search-field-group">
+                    <input type="text" class="form-control" id="formSearchWord" name="word" placeholder="Search..." aria-label="Search">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-outline-secondary material-icons" id="search-word-button">search</button>
                     </div>
+                </div>
 
-                    <select class="custom-select tag-selector">
+                <select class="custom-select tag-selector">
                         <option selected>SELECT A CATEGORY</option>
                       </select>
-                </form>
-                <a href="#" class="menu_category search-tags">ALL</a>
-                <span id="show-favorites"><i class='material-icons'>favorite</i><span id="favorite-count"></span></span>
+            </form>
+            <div class="row mb-5">
+                <div class="col d-flex"><a href="#" class="menu_category search-tags align-self-center" value="all">ALL</a></div>
+
+                <div class="col d-flex h-100 justify-content-end">
+                    <span id="show-favorites" class="float-right align-self-center"><i class='material-icons favorite align-middle d-inline-block'>favorite</i><span id="favorite-count" class="align-middle d-inline-block"></span></span>
+                    <button type="button" id="clear-selection" class="btn btn-secondary float-right">CLEAR SELECTION</button>
+                </div>
             </div>
         </div>
+    </div>
 
-
-
-
-        <div class="row">
-
-            <div class="col" id="search-images">
-            </div>
-            <div class="row">
-                <div class="col-4">
-                    <div id="search-images-col-1" class="search-images-col"></div>
-                </div>
-                <div class="col-4">
-                    <div id="search-images-col-2" class="search-images-col"></div>
-                </div>
-                <div class="col-4">
-                    <div id="search-images-col-3" class="search-images-col"></div>
-                </div>
-
-
-
-            </div>
-
-            <div id="pagination-container"></div>
-
-
+    <div class="row">
+        <div class="col-4">
+            <div id="search-images-col-1" class="search-images-col"></div>
         </div>
+        <div class="col-4">
+            <div id="search-images-col-2" class="search-images-col"></div>
+        </div>
+        <div class="col-4">
+            <div id="search-images-col-3" class="search-images-col"></div>
+        </div>
+    </div>
 
-
-
-
+    <div class="row m-4">
+        <div id="footer" class="col text-center">Blaek Studios &copy; 2020</div>
+    </div>
 </section>
 
 {% endblock %}
