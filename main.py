@@ -34,6 +34,8 @@ css = Bundle('css/style.css', 'css/lettering.css', 'css/vendor/pagination.css', 
 
 assets = Environment(application)
 
+assets.debug = True
+
 assets.register('main_js', js)
 assets.register('main_css', css)
 
