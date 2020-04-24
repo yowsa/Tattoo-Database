@@ -174,5 +174,10 @@ test2.jpg
 images/
 login_config.py
 static/gen/
+project-info/
 
 
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
