@@ -33,4 +33,5 @@ class DatabaseConf:
     TAGS_TABLE_SCHEMA = ("CREATE TABLE IF NOT EXISTS Tags "
                          "(TagId VARCHAR(45) NOT NULL PRIMARY KEY, "
                          "Tag VARCHAR(255) CHARACTER SET UTF8MB4 COLLATE utf8mb4_unicode_ci NOT NULL, "
-                         "ItemId VARCHAR(45) NOT NULL);")
+                         "ItemId VARCHAR(45) NOT NULL, "
+                         "INDEX (Tag, ItemId));")
