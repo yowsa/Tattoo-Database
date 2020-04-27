@@ -18,7 +18,7 @@ if (local) {
 }
 
 
-var bucket_url = "https://jf-test-bucket.s3.eu-west-2.amazonaws.com/";
+var bucket_url = "https://blaekstudios-database-bucket.s3.eu-north-1.amazonaws.com/";
 
 // SEARCH PRODUCTS
 function load_front_page_GET() {

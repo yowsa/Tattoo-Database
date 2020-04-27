@@ -1,5 +1,5 @@
 import helper
-from config import AwsConf
+from login_config import AwsConf
 from product import Product
 from response import Response
 

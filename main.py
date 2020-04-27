@@ -7,13 +7,13 @@ from database_manager import ItemManager, TagManager
 from product_manager import ProductManager
 from image_manager import ImageManager
 from image_manager import AwsConnector
-from config import DatabaseConf, AwsConf, ImageConf
+from config import DatabaseConf, ImageConf
 from response import Response
-from login_config import LoginConf
+from login_config import LoginConf, DatabaseLoginConf, AwsConf
 
 database_connector = DatabaseConnector(
-    database=DatabaseConf.DB, host=DatabaseConf.HOST, user=DatabaseConf.USER, password=DatabaseConf.PASSWORD)
-database_connector.create_database(DatabaseConf.DB)
+    database=DatabaseLoginConf.DB, host=DatabaseLoginConf.HOST, user=DatabaseLoginConf.USER, password=DatabaseLoginConf.PASSWORD)
+database_connector.create_database(DatabaseLoginConf.DB)
 database_connector.create_tables()
 connection = database_connector.get_connection()
 item_manager = ItemManager(database_connector)

@@ -4,7 +4,8 @@ import os.path
 import helper
 import io
 import math
-from config import AwsConf, ImageConf
+from config import ImageConf
+from login_config import AwsConf
 
 
 class AwsConnector:
