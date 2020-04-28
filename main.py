@@ -10,6 +10,7 @@ from image_manager import AwsConnector
 from config import DatabaseConf, ImageConf
 from response import Response
 from login_config import LoginConf, DatabaseLoginConf, AwsConf
+import os
 
 database_connector = DatabaseConnector(
     database=DatabaseLoginConf.DB, host=DatabaseLoginConf.HOST, user=DatabaseLoginConf.USER, password=DatabaseLoginConf.PASSWORD)
@@ -27,6 +28,12 @@ application.secret_key = LoginConf.SECRET_KEY
 
 login_manager = LoginManager()
 login_manager.init_app(application)
+
+if "ENV" in os.environ:
+    ENV = os.environ["ENV"]
+else:
+    ENV = "LOCAL"
+    
 
 
 js = Bundle('js/helper.js', 'js/add-products.js', 'js/lettering.js', 'js/front-page.js', 'js/search.js', 'js/ajax.js', 'js/setup.js', output='gen/main.js')
@@ -108,7 +115,9 @@ def lettering():
     return render_template('lettering.html')
 
 
-
+@application.route('/api/env', methods=['GET'])
+def test_env():
+    return os.environ['API_ENDPOINT']
 
 @application.route('/api/tags', methods=['GET'])
 def unique_tags():
