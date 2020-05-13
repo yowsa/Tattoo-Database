@@ -34,7 +34,7 @@ if "ENV" in os.environ:
 else:
     ENV = "LOCAL"
     
-endpoint = os.environ['API_ENDPOINT']
+# endpoint = os.environ['API_ENDPOINT']
 
 
 js = Bundle('js/helper.js', 'js/add-products.js', 'js/lettering.js', 'js/front-page.js', 'js/search.js', 'js/ajax.js', 'js/setup.js', output='gen/main.js')
@@ -118,7 +118,7 @@ def lettering():
 
 @application.route('/api/env', methods=['GET'])
 def test_env():
-    return endpoint
+    return ENV
 
 @application.route('/api/tags', methods=['GET'])
 def unique_tags():
