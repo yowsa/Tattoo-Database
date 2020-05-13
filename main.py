@@ -29,10 +29,10 @@ application.secret_key = LoginConf.SECRET_KEY
 login_manager = LoginManager()
 login_manager.init_app(application)
 
-if "ENV" in os.environ:
-    ENV = os.environ["ENV"]
-else:
-    ENV = "LOCAL"
+# if "ENV" in os.environ:
+#     ENV = os.environ["ENV"]
+# else:
+#     ENV = "LOCAL"
     
 # endpoint = os.environ['API_ENDPOINT']
 
@@ -118,7 +118,7 @@ def lettering():
 
 @application.route('/api/env', methods=['GET'])
 def test_env():
-    return ENV
+    return ENV['CUSTOM_ENV']
 
 @application.route('/api/tags', methods=['GET'])
 def unique_tags():
