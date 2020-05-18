@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, request, render_template, redirect, url_for
 from flask_assets import Bundle, Environment
 from flask_login import LoginManager, UserMixin, login_required, login_user, current_user, logout_user  
+# import os
+
 
 from database_connector import DatabaseConnector
 from database_manager import ItemManager, TagManager
@@ -9,32 +11,26 @@ from image_manager import ImageManager
 from image_manager import AwsConnector
 from config import DatabaseConf, ImageConf
 from response import Response
-from login_config import LoginConf, DatabaseLoginConf, AwsConf
-import os
+import login_config
 
+
+CONFIG = login_config.get_config()
 database_connector = DatabaseConnector(
-    database=DatabaseLoginConf.DB, host=DatabaseLoginConf.HOST, user=DatabaseLoginConf.USER, password=DatabaseLoginConf.PASSWORD)
-database_connector.create_database(DatabaseLoginConf.DB)
+    database=CONFIG.DB, host=CONFIG.HOST, user=CONFIG.USER, password=CONFIG.PASSWORD)
+database_connector.create_database(CONFIG.DB)
 database_connector.create_tables()
 connection = database_connector.get_connection()
 item_manager = ItemManager(database_connector)
 tag_manager = TagManager(database_connector)
 s3_resource = AwsConnector().get_s3_resource()
-image_manager = ImageManager(s3_resource, AwsConf.BUCKET)
+image_manager = ImageManager(s3_resource, CONFIG.BUCKET)
 product_manager = ProductManager(item_manager, tag_manager, image_manager)
 
 application = Flask(__name__)
-application.secret_key = LoginConf.SECRET_KEY
+application.secret_key = CONFIG.SECRET_KEY
 
 login_manager = LoginManager()
 login_manager.init_app(application)
-
-# if "ENV" in os.environ:
-#     ENV = os.environ["ENV"]
-# else:
-#     ENV = "LOCAL"
-    
-# endpoint = os.environ['API_ENDPOINT']
 
 
 js = Bundle('js/helper.js', 'js/add-products.js', 'js/lettering.js', 'js/front-page.js', 'js/search.js', 'js/ajax.js', 'js/setup.js', output='gen/main.js')
@@ -52,22 +48,11 @@ class User(UserMixin):
 
 @login_manager.user_loader
 def user_loader(username):
-    if username not in LoginConf.USERS:
+    if username not in CONFIG.USERS:
         return 
     user = User()
     user.id = username
     return user
-
-# @login_manager.request_loader
-# def request_loader(request):
-#     username = request.form.get('username')
-#     if username not in LoginConf.USERS:
-#         return
-#     user = User()
-#     user.id = username
-
-#     user.is_authenticated = request.form['password'] == LoginConf.USERS[username]['password']
-#     return user
 
 @application.route('/login', methods=['GET', 'POST'])
 def login():
@@ -78,7 +63,7 @@ def login():
         return render_template('login.html')
 
     username = request.form['username']
-    if request.form['username'] in LoginConf.USERS and request.form['password'] == LoginConf.USERS[username]['password']:
+    if request.form['username'] in CONFIG.USERS and request.form['password'] == CONFIG.USERS[username]['password']:
         user = User()
         user.id = username
         login_user(user)
@@ -115,11 +100,6 @@ def edit():
 def lettering():
     return render_template('lettering.html')
 
-
-@application.route('/api/env', methods=['GET'])
-def test_env():
-    return ENV['CUSTOM_ENV']
-
 @application.route('/api/tags', methods=['GET'])
 def unique_tags():
     try:
@@ -138,7 +118,7 @@ def add_product():
     png_file_ext = image_manager.get_file_ext(png_file.filename)
     if image_manager.is_supported_format(vector_file.filename, ImageConf.VECTOR_FORMATS):
         response = product_manager.add_product(
-            tags, vector_file.read(), vector_file_ext, png_file.read(), png_file_ext)
+            tags, vector_file.read(), vector_file_ext, png_file.read(), png_file_ext, CONFIG.VECTOR_FOLDER, CONFIG.PNG_FOLDER)
         return response
     return Response.USER_ERROR.message("File format not supported")
 

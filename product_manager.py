@@ -1,5 +1,4 @@
 import helper
-from login_config import AwsConf
 from product import Product
 from response import Response
 
@@ -10,14 +9,14 @@ class ProductManager:
         self.tag_manager = tag_manager
         self.image_manager = image_manager
 
-    def add_product(self, tags: tuple, vector_file: bytes, vector_ext: str, png_file=False, png_ext='.png'):
+    def add_product(self, tags: tuple, vector_file: bytes, vector_ext: str, png_file=False, png_ext='.png', vector_folder='vector', png_folder='png'):
         try:
             png_file = png_file or vector_file
             item_id = self.get_unique_id()
             vector_path = self.image_manager.upload_vector_file(
-                vector_file, item_id, vector_ext, AwsConf.VECTOR_FOLDER)
+                vector_file, item_id, vector_ext, vector_folder)
             png_path = self.image_manager.upload_png_file(
-                png_file, item_id, png_ext, AwsConf.PNG_FOLDER)
+                png_file, item_id, png_ext, png_folder)
             image_brightness = self.image_manager.calculate_brightness(vector_file)
             self.item_manager.add_item(item_id, vector_path, png_path, image_brightness)
             self.tag_manager.add_tags(tags, item_id)

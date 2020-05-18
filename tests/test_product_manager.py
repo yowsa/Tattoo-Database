@@ -52,7 +52,7 @@ class TestProductManager(unittest.TestCase):
         with open(self.VECTOR_TO_UPLOAD, 'rb') as vector_file:
             vector_bytes = vector_file.read()
             self.product_manager.add_product(
-                self.TAGS, vector_bytes, self.VECTOR_FILE_EXT, self.PNG_TO_UPLOAD, self.PNG_FILE_EXT)
+                self.TAGS, vector_bytes, self.VECTOR_FILE_EXT, self.PNG_TO_UPLOAD, self.PNG_FILE_EXT, self.VECTOR_SUBFOLDER, self.PNG_SUBFOLDER)
 
             # assert
             self.assertEqual(setup_test.count_rows(

@@ -5,7 +5,6 @@ import helper
 import io
 import math
 from config import ImageConf
-from login_config import AwsConf
 
 
 class AwsConnector:
