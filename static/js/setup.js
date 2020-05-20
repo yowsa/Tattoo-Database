@@ -1,6 +1,8 @@
 $(function() {
     var windowLoc = $(location).attr('pathname');
 
+    load_paths();
+
     switch (windowLoc) {
         case "/":
             add_product_ajax_GET();

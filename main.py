@@ -1,8 +1,6 @@
 from flask import Flask, jsonify, request, render_template, redirect, url_for
 from flask_assets import Bundle, Environment
 from flask_login import LoginManager, UserMixin, login_required, login_user, current_user, logout_user  
-# import os
-
 
 from database_connector import DatabaseConnector
 from database_manager import ItemManager, TagManager
@@ -38,7 +36,7 @@ css = Bundle('css/style.css', 'css/lettering.css', 'css/vendor/pagination.css', 
 
 assets = Environment(application)
 
-assets.debug = True
+assets.debug = CONFIG.ASSET_DEBUG
 
 assets.register('main_js', js)
 assets.register('main_css', css)
@@ -128,6 +126,9 @@ def search_all():
     search_result = product_manager.get_all_products()
     return search_result
 
+@application.route('/api/env', methods=['GET'])
+def env():
+    return login_config.ENV
 
 @application.route('/api/search/<word>', methods=['POST'])
 def search_word(word):
@@ -148,6 +149,10 @@ def product(item_id):
     elif request.method == 'DELETE':
         return product_manager.delete_product(item_id)
 
+@application.route('/api/paths', methods=['GET'])
+def paths():
+    return {'root_url':CONFIG.ROOT_URL, 'bucket_url':CONFIG.BUCKET_URL}
+
 
 if __name__ == '__main__':
-    application.run(debug=True)
+    application.run(debug=CONFIG.FLASK_DEBUG)

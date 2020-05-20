@@ -1,31 +1,31 @@
-var windowLoc = $(location).attr('pathname');
-var local = true
+var bucket_url;
 
-var url_host = $(location).attr('host');
+function load_paths() {
+    $.ajax({
+        type: "GET",
+        cache: false,
+        url: "/api/paths",
+        dataType: "json",
+        success: function(response_object) {
+            $('#bucket-url').val(response_object['bucket_url'])
+            bucket_url = response_object['bucket_url'];
+        },
+        error: function(jqXHR) {
+            alert("error: " + jqXHR.status);
+            console.log(jqXHR);
+        }
+    })
 
-if (local) {
-    var add_product_url = "http://127.0.0.1:5000/api/add-products";
-    var product_url = "http://127.0.0.1:5000/api/product";
-    var tags_url = "http://127.0.0.1:5000/api/tags";
-    var all_products_url = "http://127.0.0.1:5000/api/search";
-    var front_images = "http: //127.0.0.1:5000/images/front-page/"
-} else {
-    var add_product_url = "http://tattoos-env.eu-west-2.elasticbeanstalk.com/api/add-products";
-    var product_url = "http://tattoos-env.eu-west-2.elasticbeanstalk.com/api/product";
-    var tags_url = "http://tattoos-env.eu-west-2.elasticbeanstalk.com/api/tags";
-    var all_products_url = "http://tattoos-env.eu-west-2.elasticbeanstalk.com/api/search";
-    var front_images = ""
 }
 
 
-var bucket_url = "https://blaekstudios-database-bucket.s3.eu-north-1.amazonaws.com/";
 
 // SEARCH PRODUCTS
 function load_front_page_GET() {
     $.ajax({
         type: "GET",
         cache: false,
-        url: all_products_url + "/random",
+        url: "/api/search/random",
         dataType: "json",
         success: function(response_object) {
             front_page(response_object.Body)
@@ -38,13 +38,11 @@ function load_front_page_GET() {
 }
 
 
-
-
 function search_ajax_GET() {
     $.ajax({
         type: "GET",
         cache: false,
-        url: all_products_url,
+        url: "/api/search",
         dataType: "json",
         success: function(response_object) {
             load_images(bucket_url, response_object.Body)
@@ -60,7 +58,7 @@ function search_unique_tags_GET() {
     $.ajax({
         type: "GET",
         cache: false,
-        url: tags_url,
+        url: "/api/tags",
         dataType: "json",
         success: function(response_object) {
             load_tag_selector(response_object.Body);
@@ -95,10 +93,10 @@ function tag_search_POST() {
 }
 
 function search_word(word) {
-    var api_url = all_products_url + "/" + word;
+    var api_url = "/api/search/" + word;
     var method = "POST";
     if (!word || word.toLowerCase() == 'all') {
-        api_url = all_products_url;
+        api_url = "/api/search";
         method = "GET";
     };
     $.ajax({
@@ -123,7 +121,7 @@ function add_product_ajax_GET() {
     $.ajax({
         type: "GET",
         cache: false,
-        url: tags_url,
+        url: "/api/tags",
         dataType: "json",
         success: function(response_object) {
             load_tag_cloud(response_object.Body)
@@ -160,7 +158,7 @@ function add_product_ajax_POST() {
             processData: false,
             contentType: false,
             data: formData,
-            url: add_product_url,
+            url: "/api/add-products",
             dataType: "json",
             success: function(response_object) {
                 clear_add_product_form()
@@ -188,7 +186,7 @@ function delete_product_ajax(html, item_id) {
         $.ajax({
             type: "DELETE",
             cache: false,
-            url: product_url + "/" + item_id,
+            url: "/api/product/" + item_id,
             dataType: "json",
             success: function(response_object) {
                 alert(response_object.Message)
@@ -214,7 +212,7 @@ function update_tags_ajax(element, item_id, tag_element) {
             data: JSON.stringify({ "tags": tags }),
             contentType: "application/json",
             cache: false,
-            url: product_url + "/" + item_id,
+            url: "/api/product/" + item_id,
             dataType: "json",
             success: function(response_object) {
                 alert(response_object.Message)

@@ -4,7 +4,7 @@ function front_page(items) {
 
     var front_img_1 = $('<div />', { id: 'front-img-1', class: 'loaded-image d-flex justify-content-center align-items-center text-center' }).html($('<img />', {
         class: 'img-fluid',
-        src: bucket_url + 'front-page/front1.png',
+        src: bucket_url + '/front-page/front1.png',
     })).appendTo('#search-images-col-1')
     $('<span />').addClass('position-absolute').html('<h4>TWO MAKES A GROUP</h4><span>Delicate tattoos for frends and lovers to share</span>').appendTo('#front-img-1')
     element_link(front_img_1, "test", false)
@@ -18,7 +18,7 @@ function front_page(items) {
 
     var front_img_2 = $('<div />', { id: 'front-img-2', class: 'loaded-image d-flex justify-content-center align-items-center text-center' }).html($('<img />', {
         class: 'img-fluid',
-        src: bucket_url + 'front-page/front2.jpg',
+        src: bucket_url + '/front-page/front2.jpg',
     })).appendTo('#search-images-col-2')
     $('<span />').addClass('position-absolute').text('FINGER TATTOOS').appendTo('#front-img-2')
     element_link(front_img_2, "test", false)
@@ -27,7 +27,7 @@ function front_page(items) {
 
     var front_img_3 = $('<div />', { id: 'front-img-3', class: 'loaded-image d-flex justify-content-center align-items-center text-center' }).html($('<img />', {
         class: 'img-fluid',
-        src: bucket_url + 'front-page/front3.jpg',
+        src: bucket_url + '/front-page/front3.jpg',
     })).appendTo('#search-images-col-2')
     $('<span />').addClass('position-absolute').text('CONTINOUS LINE').appendTo('#front-img-3')
     element_link(front_img_3, "test", false)
