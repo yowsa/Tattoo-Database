@@ -5,11 +5,16 @@ import helper
 import io
 import math
 from config import ImageConf
+import login_config
 
 
 class AwsConnector:
+    def __init__(self, boto3_profile):
+        self.boto3_profile = boto3_profile
+
     def get_s3_resource(self):
-        return boto3.resource('s3')
+        session = boto3.session.Session(profile_name=self.boto3_profile)
+        return session.resource('s3')
 
 
 class ImageManager:

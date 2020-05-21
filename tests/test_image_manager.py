@@ -20,7 +20,7 @@ class TestImageManager(unittest.TestCase):
     PNG_TO_UPLOAD = "images/test.png"
 
     def setUp(self):
-        aws_connector = AwsConnector()
+        aws_connector = AwsConnector(None)
         self.s3_resource = aws_connector.get_s3_resource()
         self.s3_resource.create_bucket(Bucket=self.BUCKET, CreateBucketConfiguration={
             'LocationConstraint': 'eu-west-2'},)

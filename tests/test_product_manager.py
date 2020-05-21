@@ -29,7 +29,7 @@ class TestProductManager(unittest.TestCase):
             self.database_connector)
         self.tag_manager = database_manager.TagManager(
             self.database_connector)
-        aws_connector = AwsConnector()
+        aws_connector = AwsConnector(None)
         self.s3_resource = aws_connector.get_s3_resource()
         self.image_manager = ImageManager(self.s3_resource, self.BUCKET)
         self.product_manager = product_manager.ProductManager(
