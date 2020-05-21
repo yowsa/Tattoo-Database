@@ -73,6 +73,8 @@ function create_image_modal(img_tag) {
             size: "large",
             backdrop: true,
         });
+
+        var windowLoc = $(location).attr('pathname');
         switch (windowLoc) {
             case "/search/edit":
                 $('<p />').html($("<a>", { href: bucket_url + $(this).data('vectorpath') }).text("Download Vector")).appendTo($(".modal-body"))
