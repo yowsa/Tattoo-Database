@@ -216,6 +216,9 @@ function update_tags_ajax(element, item_id, tag_element) {
             dataType: "json",
             success: function(response_object) {
                 alert(response_object.Message)
+                if ($('.modal.show').length) {
+                    $('.modal').modal('hide');
+                }
             },
             error: function(jqXHR) {
                 alert("error: " + jqXHR.status);

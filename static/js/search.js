@@ -77,10 +77,22 @@ function create_image_modal(img_tag) {
         var windowLoc = $(location).attr('pathname');
         switch (windowLoc) {
             case "/search/edit":
-                $('<p />').html($("<a>", { href: bucket_url + $(this).data('vectorpath') }).text("Download Vector")).appendTo($(".modal-body"))
+                $('<p />').html($("<a>", { href: bucket_url + $(this).data('vectorpath') }).text("Download Vector")).appendTo($(".modal-body"));
+                $('<p />').html($("<a>", { href: '#', class: "edit-item" }).text("Edit Item")).appendTo($(".modal-body"));
 
-                var delete_btn_obj = $('<p />').html($("<a>", { href: '#', class: "delete-item" }).data({ dismiss: "modal" }).text("Delete")).appendTo($(".modal-body"))
-                delete_product_ajax(delete_btn_obj, id);
+
+                $('.edit-item').on('click', function() {
+                    event.preventDefault();
+                    var tags = get_tags_to_edit();
+                    var tag_list = $('<span>').text(tags.join(', ')).attr('contenteditable', 'true')
+                    var tag_div = $('<div>').addClass('col-10').html(tag_list).appendTo($(".modal-body"));
+                    $('<p>').appendTo(tag_div);
+                    var update_button = $('<button>').addClass("update-tags").text("Update tags").appendTo(tag_div);
+                    var delete_button = $('<button>').addClass("delete_item").text("Delete item").appendTo(tag_div);
+                    update_tags_ajax(update_button, id, tag_list);
+                    delete_product_ajax(delete_button, id);
+
+                });
                 break;
         }
         $('.modal-tag').on('click', function() {
@@ -98,6 +110,17 @@ function create_image_modal(img_tag) {
         })
     });
 }
+
+
+function get_tags_to_edit() {
+    var tags = [];
+    $('.modal-tags').find('a').each(function() {
+        tags.push($(this).text());
+    });
+    return tags;
+}
+
+
 
 function clear_favorites() {
     localStorage.clear()
