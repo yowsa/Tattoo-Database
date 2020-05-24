@@ -1,14 +1,479 @@
+@font-face {
+    font-family: 'Cutive Mono';
+    src: url('/static/css/fonts/cutive_mono/cutivemono-regular-webfont.eot');
+    src: url('/static/css/fonts/cutive_mono/cutivemono-regular-webfont.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/cutive_mono/cutivemono-regular-webfont.woff2') format('woff2'), url('/static/css/fonts/cutive_mono/cutivemono-regular-webfont.woff') format('woff'), url('/static/css/fonts/cutive_mono/cutivemono-regular-webfont.ttf') format('truetype'), url('/static/css/fonts/cutive_mono/cutivemono-regular-webfont.svg#cutive_monoregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Elephant';
+    src: url('/static/css/fonts/elephant/elephnt-webfont.eot');
+    src: url('/static/css/fonts/elephant/elephnt-webfont.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/elephant/elephnt-webfont.woff2') format('woff2'), url('/static/css/fonts/elephant/elephnt-webfont.woff') format('woff'), url('/static/css/fonts/elephant/elephnt-webfont.ttf') format('truetype'), url('/static/css/fonts/elephant/elephnt-webfont.svg#elephantregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Elephant';
+    src: url('/static/css/fonts/elephant/elephnti-webfont.eot');
+    src: url('/static/css/fonts/elephant/elephnti-webfont.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/elephant/elephnti-webfont.woff2') format('woff2'), url('/static/css/fonts/elephant/elephnti-webfont.woff') format('woff'), url('/static/css/fonts/elephant/elephnti-webfont.ttf') format('truetype'), url('/static/css/fonts/elephant/elephnti-webfont.svg#elephantitalic') format('svg');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Futura Book';
+    src: url('/static/css/fonts/futura_book/futura_book_bt-webfont.eot');
+    src: url('/static/css/fonts/futura_book/futura_book_bt-webfont.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/futura_book/futura_book_bt-webfont.woff2') format('woff2'), url('/static/css/fonts/futura_book/futura_book_bt-webfont.woff') format('woff'), url('/static/css/fonts/futura_book/futura_book_bt-webfont.ttf') format('truetype'), url('/static/css/fonts/futura_book/futura_book_bt-webfont.svg#futurabook') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Futura Book';
+    src: url('/static/css/fonts/futura_book/futura_book_italic_bt-webfont.eot');
+    src: url('/static/css/fonts/futura_book/futura_book_italic_bt-webfont.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/futura_book/futura_book_italic_bt-webfont.woff2') format('woff2'), url('/static/css/fonts/futura_book/futura_book_italic_bt-webfont.woff') format('woff'), url('/static/css/fonts/futura_book/futura_book_italic_bt-webfont.ttf') format('truetype'), url('/static/css/fonts/futura_book/futura_book_italic_bt-webfont.svg#futurabook_italic') format('svg');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Harlow Italic';
+    src: url('/static/css/fonts/harlow_italic/harlowsi-webfont.eot');
+    src: url('/static/css/fonts/harlow_italic/harlowsi-webfont.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/harlow_italic/harlowsi-webfont.woff2') format('woff2'), url('/static/css/fonts/harlow_italic/harlowsi-webfont.woff') format('woff'), url('/static/css/fonts/harlow_italic/harlowsi-webfont.ttf') format('truetype'), url('/static/css/fonts/harlow_italic/harlowsi-webfont.svg#harlow_solid_italicitalic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Jersey';
+    src: url('/static/css/fonts/jersey/jersey_m54-webfont.eot');
+    src: url('/static/css/fonts/jersey/jersey_m54-webfont.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/jersey/jersey_m54-webfont.woff2') format('woff2'), url('/static/css/fonts/jersey/jersey_m54-webfont.woff') format('woff'), url('/static/css/fonts/jersey/jersey_m54-webfont.ttf') format('truetype'), url('/static/css/fonts/jersey/jersey_m54-webfont.svg#jersey_m54regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Lavanderia';
+    src: url('/static/css/fonts/lavanderia/lavanderia_delicate-webfont.eot');
+    src: url('/static/css/fonts/lavanderia/lavanderia_delicate-webfont.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/lavanderia/lavanderia_delicate-webfont.woff2') format('woff2'), url('/static/css/fonts/lavanderia/lavanderia_delicate-webfont.woff') format('woff'), url('/static/css/fonts/lavanderia/lavanderia_delicate-webfont.ttf') format('truetype'), url('/static/css/fonts/lavanderia/lavanderia_delicate-webfont.svg#lavanderiadelicate') format('svg');
+    font-weight: lighter;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Lavanderia';
+    src: url('/static/css/fonts/lavanderia/lavanderia_regular-webfont.eot');
+    src: url('/static/css/fonts/lavanderia/lavanderia_regular-webfont.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/lavanderia/lavanderia_regular-webfont.woff2') format('woff2'), url('/static/css/fonts/lavanderia/lavanderia_regular-webfont.woff') format('woff'), url('/static/css/fonts/lavanderia/lavanderia_regular-webfont.ttf') format('truetype'), url('/static/css/fonts/lavanderia/lavanderia_regular-webfont.svg#lavanderiaregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Lavanderia';
+    src: url('/static/css/fonts/lavanderia/lavanderia_sturdy-webfont.eot');
+    src: url('/static/css/fonts/lavanderia/lavanderia_sturdy-webfont.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/lavanderia/lavanderia_sturdy-webfont.woff2') format('woff2'), url('/static/css/fonts/lavanderia/lavanderia_sturdy-webfont.woff') format('woff'), url('/static/css/fonts/lavanderia/lavanderia_sturdy-webfont.ttf') format('truetype'), url('/static/css/fonts/lavanderia/lavanderia_sturdy-webfont.svg#lavanderiasturdy') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Lucida Console';
+    src: url('/static/css/fonts/lucida_console/lucon-webfont.eot');
+    src: url('/static/css/fonts/lucida_console/lucon-webfont.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/lucida_console/lucon-webfont.woff2') format('woff2'), url('/static/css/fonts/lucida_console/lucon-webfont.woff') format('woff'), url('/static/css/fonts/lucida_console/lucon-webfont.ttf') format('truetype'), url('/static/css/fonts/lucida_console/lucon-webfont.svg#lucida_consoleregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Lulo Clean One';
+    src: url('/static/css/fonts/lulo_clean_one/lulocleanone-webfont.eot');
+    src: url('/static/css/fonts/lulo_clean_one/lulocleanone-webfont.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/lulo_clean_one/lulocleanone-webfont.woff2') format('woff2'), url('/static/css/fonts/lulo_clean_one/lulocleanone-webfont.woff') format('woff'), url('/static/css/fonts/lulo_clean_one/lulocleanone-webfont.ttf') format('truetype'), url('/static/css/fonts/lulo_clean_one/lulocleanone-webfont.svg#lulo_cleanone') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Novecento Wide';
+    src: url('/static/css/fonts/novecento_wide/novecentowide-bold-webfont.eot');
+    src: url('/static/css/fonts/novecento_wide/novecentowide-bold-webfont.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/novecento_wide/novecentowide-bold-webfont.woff2') format('woff2'), url('/static/css/fonts/novecento_wide/novecentowide-bold-webfont.woff') format('woff'), url('/static/css/fonts/novecento_wide/novecentowide-bold-webfont.ttf') format('truetype'), url('/static/css/fonts/novecento_wide/novecentowide-bold-webfont.svg#novecento_widebold') format('svg');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Novecento Wide';
+    src: url('/static/css/fonts/novecento_wide/novecentowide-demibold-webfont.eot');
+    src: url('/static/css/fonts/novecento_wide/novecentowide-demibold-webfont.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/novecento_wide/novecentowide-demibold-webfont.woff2') format('woff2'), url('/static/css/fonts/novecento_wide/novecentowide-demibold-webfont.woff') format('woff'), url('/static/css/fonts/novecento_wide/novecentowide-demibold-webfont.ttf') format('truetype'), url('/static/css/fonts/novecento_wide/novecentowide-demibold-webfont.svg#novecento_widedemibold') format('svg');
+    font-weight: 500;
+    font-style: normal
+}
+
+@font-face {
+    font-family: 'Novecento Wide';
+    src: url('/static/css/fonts/novecento_wide/novecentowide-medium-webfont.eot');
+    src: url('/static/css/fonts/novecento_wide/novecentowide-medium-webfont.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/novecento_wide/novecentowide-medium-webfont.woff2') format('woff2'), url('/static/css/fonts/novecento_wide/novecentowide-medium-webfont.woff') format('woff'), url('/static/css/fonts/novecento_wide/novecentowide-medium-webfont.ttf') format('truetype'), url('/static/css/fonts/novecento_wide/novecentowide-medium-webfont.svg#novecento_widemedium') format('svg');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Novecento Wide';
+    src: url('/static/css/fonts/novecento_wide/novecentowide-normal-webfont.eot');
+    src: url('/static/css/fonts/novecento_wide/novecentowide-normal-webfont.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/novecento_wide/novecentowide-normal-webfont.woff2') format('woff2'), url('/static/css/fonts/novecento_wide/novecentowide-normal-webfont.woff') format('woff'), url('/static/css/fonts/novecento_wide/novecentowide-normal-webfont.ttf') format('truetype'), url('/static/css/fonts/novecento_wide/novecentowide-normal-webfont.svg#novecento_widenormal') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Quicksand';
+    src: url('/static/css/fonts/quicksand/quicksand-bold-webfont.eot');
+    src: url('/static/css/fonts/quicksand/quicksand-bold-webfont.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/quicksand/quicksand-bold-webfont.woff2') format('woff2'), url('/static/css/fonts/quicksand/quicksand-bold-webfont.woff') format('woff'), url('/static/css/fonts/quicksand/quicksand-bold-webfont.ttf') format('truetype'), url('/static/css/fonts/quicksand/quicksand-bold-webfont.svg#quicksandbold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Quicksand';
+    src: url('/static/css/fonts/quicksand/quicksand-light-webfont.eot');
+    src: url('/static/css/fonts/quicksand/quicksand-light-webfont.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/quicksand/quicksand-light-webfont.woff2') format('woff2'), url('/static/css/fonts/quicksand/quicksand-light-webfont.woff') format('woff'), url('/static/css/fonts/quicksand/quicksand-light-webfont.ttf') format('truetype'), url('/static/css/fonts/quicksand/quicksand-light-webfont.svg#quicksandlight') format('svg');
+    font-weight: lighter;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Quicksand';
+    src: url('/static/css/fonts/quicksand/quicksand-regular-webfont.eot');
+    src: url('/static/css/fonts/quicksand/quicksand-regular-webfont.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/quicksand/quicksand-regular-webfont.woff2') format('woff2'), url('/static/css/fonts/quicksand/quicksand-regular-webfont.woff') format('woff'), url('/static/css/fonts/quicksand/quicksand-regular-webfont.ttf') format('truetype'), url('/static/css/fonts/quicksand/quicksand-regular-webfont.svg#quicksandregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Signerica';
+    src: url('/static/css/fonts/signerica/signerica_fat-webfont.eot');
+    src: url('/static/css/fonts/signerica/signerica_fat-webfont.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/signerica/signerica_fat-webfont.woff2') format('woff2'), url('/static/css/fonts/signerica/signerica_fat-webfont.woff') format('woff'), url('/static/css/fonts/signerica/signerica_fat-webfont.ttf') format('truetype'), url('/static/css/fonts/signerica/signerica_fat-webfont.svg#signerica_fatregular') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Signerica';
+    src: url('/static/css/fonts/signerica/signerica_medium-webfont.eot');
+    src: url('/static/css/fonts/signerica/signerica_medium-webfont.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/signerica/signerica_medium-webfont.woff2') format('woff2'), url('/static/css/fonts/signerica/signerica_medium-webfont.woff') format('woff'), url('/static/css/fonts/signerica/signerica_medium-webfont.ttf') format('truetype'), url('/static/css/fonts/signerica/signerica_medium-webfont.svg#signerica_mediumregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Signerica';
+    src: url('/static/css/fonts/signerica/signerica_thin-webfont.eot');
+    src: url('/static/css/fonts/signerica/signerica_thin-webfont.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/signerica/signerica_thin-webfont.woff2') format('woff2'), url('/static/css/fonts/signerica/signerica_thin-webfont.woff') format('woff'), url('/static/css/fonts/signerica/signerica_thin-webfont.ttf') format('truetype'), url('/static/css/fonts/signerica/signerica_thin-webfont.svg#signerica_thinregular') format('svg');
+    font-weight: lighter;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Courier New';
+    src: url('/static/css/fonts/courier_new/cour-webfont.eot');
+    src: url('/static/css/fonts/courier_new/cour-webfont.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/courier_new/cour-webfont.woff2') format('woff2'), url('/static/css/fonts/courier_new/cour-webfont.woff') format('woff'), url('/static/css/fonts/courier_new/cour-webfont.ttf') format('truetype'), url('/static/css/fonts/courier_new/cour-webfont.svg#courier_newregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Courier New';
+    src: url('/static/css/fonts/courier_new/courbd-webfont.eot');
+    src: url('/static/css/fonts/courier_new/courbd-webfont.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/courier_new/courbd-webfont.woff2') format('woff2'), url('/static/css/fonts/courier_new/courbd-webfont.woff') format('woff'), url('/static/css/fonts/courier_new/courbd-webfont.ttf') format('truetype'), url('/static/css/fonts/courier_new/courbd-webfont.svg#courier_newbold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Courier New';
+    src: url('/static/css/fonts/courier_new/courbi-webfont.eot');
+    src: url('/static/css/fonts/courier_new/courbi-webfont.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/courier_new/courbi-webfont.woff2') format('woff2'), url('/static/css/fonts/courier_new/courbi-webfont.woff') format('woff'), url('/static/css/fonts/courier_new/courbi-webfont.ttf') format('truetype'), url('/static/css/fonts/courier_new/courbi-webfont.svg#courier_newbold_italic') format('svg');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Courier New';
+    src: url('/static/css/fonts/courier_new/couri-webfont.eot');
+    src: url('/static/css/fonts/courier_new/couri-webfont.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/courier_new/couri-webfont.woff2') format('woff2'), url('/static/css/fonts/courier_new/couri-webfont.woff') format('woff'), url('/static/css/fonts/courier_new/couri-webfont.ttf') format('truetype'), url('/static/css/fonts/courier_new/couri-webfont.svg#courier_newitalic') format('svg');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Bodoni MT';
+    src: url('/static/css/fonts/bodoni/BodoniMT-BoldItalic.eot');
+    src: url('/static/css/fonts/bodoni/BodoniMT-BoldItalic.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/bodoni/BodoniMT-BoldItalic.woff2') format('woff2'), url('/static/css/fonts/bodoni/BodoniMT-BoldItalic.woff') format('woff'), url('/static/css/fonts/bodoni/BodoniMT-BoldItalic.ttf') format('truetype'), url('/static/css/fonts/bodoni/BodoniMT-BoldItalic.svg#BodoniMT-BoldItalic') format('svg');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Bodoni MT';
+    src: url('/static/css/fonts/bodoni/BodoniMTBlack.eot');
+    src: url('/static/css/fonts/bodoni/BodoniMTBlack.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/bodoni/BodoniMTBlack.woff2') format('woff2'), url('/static/css/fonts/bodoni/BodoniMTBlack.woff') format('woff'), url('/static/css/fonts/bodoni/BodoniMTBlack.ttf') format('truetype'), url('/static/css/fonts/bodoni/BodoniMTBlack.svg#BodoniMTBlack') format('svg');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Bodoni MT';
+    src: url('/static/css/fonts/bodoni/BodoniMT.eot');
+    src: url('/static/css/fonts/bodoni/BodoniMT.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/bodoni/BodoniMT.woff2') format('woff2'), url('/static/css/fonts/bodoni/BodoniMT.woff') format('woff'), url('/static/css/fonts/bodoni/BodoniMT.ttf') format('truetype'), url('/static/css/fonts/bodoni/BodoniMT.svg#BodoniMT') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Bodoni MT';
+    src: url('/static/css/fonts/bodoni/BodoniMTBlack-Italic.eot');
+    src: url('/static/css/fonts/bodoni/BodoniMTBlack-Italic.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/bodoni/BodoniMTBlack-Italic.woff2') format('woff2'), url('/static/css/fonts/bodoni/BodoniMTBlack-Italic.woff') format('woff'), url('/static/css/fonts/bodoni/BodoniMTBlack-Italic.ttf') format('truetype'), url('/static/css/fonts/bodoni/BodoniMTBlack-Italic.svg#BodoniMTBlack-Italic') format('svg');
+    font-weight: 900;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Bodoni MT';
+    src: url('/static/css/fonts/bodoni/BodoniMT-Bold.eot');
+    src: url('/static/css/fonts/bodoni/BodoniMT-Bold.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/bodoni/BodoniMT-Bold.woff2') format('woff2'), url('/static/css/fonts/bodoni/BodoniMT-Bold.woff') format('woff'), url('/static/css/fonts/bodoni/BodoniMT-Bold.ttf') format('truetype'), url('/static/css/fonts/bodoni/BodoniMT-Bold.svg#BodoniMT-Bold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Bodoni MT';
+    src: url('/static/css/fonts/bodoni/BodoniMT-Italic.eot');
+    src: url('/static/css/fonts/bodoni/BodoniMT-Italic.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/bodoni/BodoniMT-Italic.woff2') format('woff2'), url('/static/css/fonts/bodoni/BodoniMT-Italic.woff') format('woff'), url('/static/css/fonts/bodoni/BodoniMT-Italic.ttf') format('truetype'), url('/static/css/fonts/bodoni/BodoniMT-Italic.svg#BodoniMT-Italic') format('svg');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Bodoni MT Condensed';
+    src: url('/static/css/fonts/bodoni/BodoniMTCondensed-Italic.eot');
+    src: url('/static/css/fonts/bodoni/BodoniMTCondensed-Italic.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/bodoni/BodoniMTCondensed-Italic.woff2') format('woff2'), url('/static/css/fonts/bodoni/BodoniMTCondensed-Italic.woff') format('woff'), url('/static/css/fonts/bodoni/BodoniMTCondensed-Italic.ttf') format('truetype'), url('/static/css/fonts/bodoni/BodoniMTCondensed-Italic.svg#BodoniMTCondensed-Italic') format('svg');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Bodoni MT Condensed';
+    src: url('/static/css/fonts/bodoni/BodoniMTCondensed-Bold.eot');
+    src: url('/static/css/fonts/bodoni/BodoniMTCondensed-Bold.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/bodoni/BodoniMTCondensed-Bold.woff2') format('woff2'), url('/static/css/fonts/bodoni/BodoniMTCondensed-Bold.woff') format('woff'), url('/static/css/fonts/bodoni/BodoniMTCondensed-Bold.ttf') format('truetype'), url('/static/css/fonts/bodoni/BodoniMTCondensed-Bold.svg#BodoniMTCondensed-Bold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Bodoni MT Condensed';
+    src: url('/static/css/fonts/bodoni/BodoniMTCondensed-BoldItalic.eot');
+    src: url('/static/css/fonts/bodoni/BodoniMTCondensed-BoldItalic.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/bodoni/BodoniMTCondensed-BoldItalic.woff2') format('woff2'), url('/static/css/fonts/bodoni/BodoniMTCondensed-BoldItalic.woff') format('woff'), url('/static/css/fonts/bodoni/BodoniMTCondensed-BoldItalic.ttf') format('truetype'), url('/static/css/fonts/bodoni/BodoniMTCondensed-BoldItalic.svg#BodoniMTCondensed-BoldItalic') format('svg');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Bodoni MT Condensed';
+    src: url('/static/css/fonts/bodoni/BodoniMTCondensed.eot');
+    src: url('/static/css/fonts/bodoni/BodoniMTCondensed.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/bodoni/BodoniMTCondensed.woff2') format('woff2'), url('/static/css/fonts/bodoni/BodoniMTCondensed.woff') format('woff'), url('/static/css/fonts/bodoni/BodoniMTCondensed.ttf') format('truetype'), url('/static/css/fonts/bodoni/BodoniMTCondensed.svg#BodoniMTCondensed') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Century';
+    src: url('/static/css/fonts/century/Century.eot');
+    src: url('/static/css/fonts/century/Century.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/century/Century.woff2') format('woff2'), url('/static/css/fonts/century/Century.woff') format('woff'), url('/static/css/fonts/century/Century.ttf') format('truetype'), url('/static/css/fonts/century/Century.svg#Century') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Century Gothic';
+    src: url('/static/css/fonts/century_gothic/CenturyGothic.eot');
+    src: url('/static/css/fonts/century_gothic/CenturyGothic.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/century_gothic/CenturyGothic.woff2') format('woff2'), url('/static/css/fonts/century_gothic/CenturyGothic.woff') format('woff'), url('/static/css/fonts/century_gothic/CenturyGothic.ttf') format('truetype'), url('/static/css/fonts/century_gothic/CenturyGothic.svg#CenturyGothic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Century Gothic';
+    src: url('/static/css/fonts/century_gothic/CenturyGothic-BoldItalic.eot');
+    src: url('/static/css/fonts/century_gothic/CenturyGothic-BoldItalic.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/century_gothic/CenturyGothic-BoldItalic.woff2') format('woff2'), url('/static/css/fonts/century_gothic/CenturyGothic-BoldItalic.woff') format('woff'), url('/static/css/fonts/century_gothic/CenturyGothic-BoldItalic.ttf') format('truetype'), url('/static/css/fonts/century_gothic/CenturyGothic-BoldItalic.svg#CenturyGothic-BoldItalic') format('svg');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Century Gothic';
+    src: url('/static/css/fonts/century_gothic/CenturyGothic-Italic.eot');
+    src: url('/static/css/fonts/century_gothic/CenturyGothic-Italic.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/century_gothic/CenturyGothic-Italic.woff2') format('woff2'), url('/static/css/fonts/century_gothic/CenturyGothic-Italic.woff') format('woff'), url('/static/css/fonts/century_gothic/CenturyGothic-Italic.ttf') format('truetype'), url('/static/css/fonts/century_gothic/CenturyGothic-Italic.svg#CenturyGothic-Italic') format('svg');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Century Gothic';
+    src: url('/static/css/fonts/century_gothic/CenturyGothic-Bold.eot');
+    src: url('/static/css/fonts/century_gothic/CenturyGothic-Bold.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/century_gothic/CenturyGothic-Bold.woff2') format('woff2'), url('/static/css/fonts/century_gothic/CenturyGothic-Bold.woff') format('woff'), url('/static/css/fonts/century_gothic/CenturyGothic-Bold.ttf') format('truetype'), url('/static/css/fonts/century_gothic/CenturyGothic-Bold.svg#CenturyGothic-Bold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'DIN 1451 Std Condensed';
+    src: url('/static/css/fonts/din/DINMittelschriftStd.eot');
+    src: url('/static/css/fonts/din/DINMittelschriftStd.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/din/DINMittelschriftStd.woff2') format('woff2'), url('/static/css/fonts/din/DINMittelschriftStd.woff') format('woff'), url('/static/css/fonts/din/DINMittelschriftStd.ttf') format('truetype'), url('/static/css/fonts/din/DINMittelschriftStd.svg#DINMittelschriftStd') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'DIN 1451 Std';
+    src: url('/static/css/fonts/din/DINEngschriftStd.eot');
+    src: url('/static/css/fonts/din/DINEngschriftStd.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/din/DINEngschriftStd.woff2') format('woff2'), url('/static/css/fonts/din/DINEngschriftStd.woff') format('woff'), url('/static/css/fonts/din/DINEngschriftStd.ttf') format('truetype'), url('/static/css/fonts/din/DINEngschriftStd.svg#DINEngschriftStd') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Javanese Text';
+    src: url('/static/css/fonts/javanese/JavaneseText.eot');
+    src: url('/static/css/fonts/javanese/JavaneseText.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/javanese/JavaneseText.woff2') format('woff2'), url('/static/css/fonts/javanese/JavaneseText.woff') format('woff'), url('/static/css/fonts/javanese/JavaneseText.ttf') format('truetype'), url('/static/css/fonts/javanese/JavaneseText.svg#JavaneseText') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Magneto';
+    src: url('/static/css/fonts/magneto/Magneto-Bold.eot');
+    src: url('/static/css/fonts/magneto/Magneto-Bold.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/magneto/Magneto-Bold.woff2') format('woff2'), url('/static/css/fonts/magneto/Magneto-Bold.woff') format('woff'), url('/static/css/fonts/magneto/Magneto-Bold.ttf') format('truetype'), url('/static/css/fonts/magneto/Magneto-Bold.svg#Magneto-Bold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'OCR A Extended';
+    src: url('/static/css/fonts/ocr_a/OCRAExtended.eot');
+    src: url('/static/css/fonts/ocr_a/OCRAExtended.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/ocr_a/OCRAExtended.woff2') format('woff2'), url('/static/css/fonts/ocr_a/OCRAExtended.woff') format('woff'), url('/static/css/fonts/ocr_a/OCRAExtended.ttf') format('truetype'), url('/static/css/fonts/ocr_a/OCRAExtended.svg#OCRAExtended') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Orator Std';
+    src: url('/static/css/fonts/orator/OratorStd.eot');
+    src: url('/static/css/fonts/orator/OratorStd.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/orator/OratorStd.woff2') format('woff2'), url('/static/css/fonts/orator/OratorStd.woff') format('woff'), url('/static/css/fonts/orator/OratorStd.ttf') format('truetype'), url('/static/css/fonts/orator/OratorStd.svg#OratorStd') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Palace Script MT';
+    src: url('/static/css/fonts/palace/PalaceScriptMT.eot');
+    src: url('/static/css/fonts/palace/PalaceScriptMT.eot?#iefix') format('embedded-opentype'), url('/static/css/fonts/palace/PalaceScriptMT.woff2') format('woff2'), url('/static/css/fonts/palace/PalaceScriptMT.woff') format('woff'), url('/static/css/fonts/palace/PalaceScriptMT.ttf') format('truetype'), url('/static/css/fonts/palace/PalaceScriptMT.svg#PalaceScriptMT') format('svg');
+    font-weight: normal;
+    font-style: italic;
+}
+
 #font-1 {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 24px;
+    font-family: 'Cutive Mono';
 }
 
 #font-2 {
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size: 24px;
+    font-family: 'Elephant';
 }
 
 #font-3 {
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    font-size: 24px;
+    font-family: 'Futura Book';
+}
+
+#font-4 {
+    font-family: 'Harlow Italic';
+}
+
+#font-5 {
+    font-family: 'Jersey';
+}
+
+#font-6 {
+    font-family: 'Lavanderia';
+}
+
+#font-7 {
+    font-family: 'Lucida Console';
+}
+
+#font-8 {
+    font-family: 'Lulo Clean One';
+}
+
+#font-9 {
+    font-family: 'Novecento Wide';
+}
+
+#font-10 {
+    font-family: 'Quicksand';
+}
+
+#font-11 {
+    font-family: 'Signerica';
+}
+
+#font-12 {
+    font-family: 'Courier New';
+}
+
+#font-13 {
+    font-family: 'Bodoni MT';
+}
+
+#font-14 {
+    font-family: 'Bodoni MT Condensed';
+}
+
+#font-15 {
+    font-family: 'Century';
+}
+
+#font-16 {
+    font-family: 'Century Gothic';
+}
+
+#font-17 {
+    font-family: 'DIN 1451 Std Condensed';
+}
+
+#font-18 {
+    font-family: 'DIN 1451 Std';
+}
+
+#font-19 {
+    font-family: 'Javanese Text';
+}
+
+#font-20 {
+    font-family: 'Magneto';
+}
+
+#font-21 {
+    font-family: 'OCR A Extended';
+}
+
+#font-22 {
+    font-family: 'Orator Std';
+}
+
+#font-23 {
+    font-family: 'Palace Script MT';
+}
+
+#font-24 {
+    font-family: 'mb_empire';
 }
