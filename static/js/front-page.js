@@ -7,7 +7,7 @@ function front_page(items) {
         src: bucket_url + 'front-page/front1.png',
     })).appendTo('#search-images-col-1')
     $('<span />').addClass('position-absolute').html('<h4>TWO MAKES A GROUP</h4><span>Delicate tattoos for frends and lovers to share</span>').appendTo('#front-img-1')
-    element_link(front_img_1, "test", false)
+    element_link(front_img_1, "group", false)
 
     load_image(bucket_url, items[0], 1)
 
@@ -21,7 +21,7 @@ function front_page(items) {
         src: bucket_url + 'front-page/front2.jpg',
     })).appendTo('#search-images-col-2')
     $('<span />').addClass('position-absolute').text('FINGER TATTOOS').appendTo('#front-img-2')
-    element_link(front_img_2, "test", false)
+    element_link(front_img_2, "finger", false)
 
     load_image(bucket_url, items[2], 2)
 
@@ -30,7 +30,7 @@ function front_page(items) {
         src: bucket_url + 'front-page/front3.jpg',
     })).appendTo('#search-images-col-2')
     $('<span />').addClass('position-absolute').text('CONTINOUS LINE').appendTo('#front-img-3')
-    element_link(front_img_3, "test", false)
+    element_link(front_img_3, "continuous line", false)
 
     load_image(bucket_url, items[3], 0)
     load_image(bucket_url, items[4], 0)
@@ -41,7 +41,6 @@ function front_page(items) {
 function element_link(element, word, link) {
     $(element).on('click', function() {
         event.preventDefault();
-        console.log('hello')
         if (word) {
             search_word(word);
         }
