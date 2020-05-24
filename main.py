@@ -77,18 +77,18 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-@application.route('/')
+@application.route('/add')
 @login_required
 def index():
     return render_template('add-product.html')
 
-@application.route('/search')
+@application.route('/')
 @login_required
 def search():
     return render_template('search.html')
 
 
-@application.route('/search/edit')
+@application.route('/edit')
 @login_required
 def edit():
     return render_template('search.html')

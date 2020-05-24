@@ -4,14 +4,14 @@ $(function() {
     load_paths();
 
     switch (windowLoc) {
-        case "/":
+        case "/add":
             add_product_ajax_GET();
             add_tag();
             delete_tag();
             add_existing_tag();
             add_product_ajax_POST();
             break;
-        case "/search":
+        case "/":
             load_front_page_GET();
             clear_selection();
             search_ajax_POST();
@@ -21,7 +21,7 @@ $(function() {
             load_favorite_count();
             load_favorites();
             break;
-        case "/search/edit":
+        case "/edit":
             load_front_page_GET();
             clear_selection();
             search_ajax_POST();
@@ -31,7 +31,7 @@ $(function() {
             load_favorite_count();
             load_favorites();
             break;
-        case "/lettering":
+        case "/fontfinder":
             update_fonts();
             break;
         case "/login":
