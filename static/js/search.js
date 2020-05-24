@@ -77,7 +77,7 @@ function create_image_modal(img_tag) {
         var windowLoc = $(location).attr('pathname');
         switch (windowLoc) {
             case "/search/edit":
-                $('<p />').html($("<a>", { href: bucket_url + $(this).data('vectorpath') }).text("Download Vector")).appendTo($(".modal-body"));
+                $('<p />').html($("<a>", { href: bucket_url + $(this).data('vectorpath') }).text("Download Original File")).appendTo($(".modal-body"));
                 $('<p />').html($("<a>", { href: '#', class: "edit-item" }).text("Edit Item")).appendTo($(".modal-body"));
 
 
