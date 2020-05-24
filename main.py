@@ -93,7 +93,7 @@ def search():
 def edit():
     return render_template('search.html')
 
-@application.route('/lettering')
+@application.route('/fontfinder')
 @login_required
 def lettering():
     return render_template('lettering.html')
