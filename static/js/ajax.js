@@ -71,15 +71,19 @@ function search_unique_tags_GET() {
 }
 
 function search_ajax_POST() {
-    $('#search-word-button').on('click', function(event) {
+    $('#search-word-button').on('keypress click', function(event) {
         event.preventDefault();
-        const word = $('#formSearchWord').val()
-        search_word(word);
+        if (event.which === 13 || event.type === 'click') {
+            const word = $('#formSearchWord').val()
+            $('.tag-selector').get(0).selectedIndex = 0;
+            search_word(word);
+        }
     })
 }
 
 function select_category_POST() {
     $('.tag-selector').on('change', function() {
+        $('#formSearchWord').val("");
         search_word(this.value);
     });
 }
@@ -163,11 +167,9 @@ function add_product_ajax_POST() {
             success: function(response_object) {
                 clear_add_product_form()
                 if (response_object.ErrorCode != "OK") {
-                    console.log(response_object)
                     alert_message(response_object.Message)
                 } else {
                     load_latest_added_product(response_object.PngPath, response_object.Body, response_object.Tags)
-                    console.log(response_object)
                 }
 
             },
