@@ -120,22 +120,27 @@ function get_tags_to_edit() {
     return tags;
 }
 
-
-
 function clear_favorites() {
-    localStorage.clear()
+    $('#clear-selection').on('click', function() {
+        localStorage.clear();
+        $('#clear-selection').addClass('invisible');
+        load_favorite_count();
+        load_front_page_GET();
+    })
 }
 
+
 function is_favorite(id) {
-    return id in localStorage
+    return id in localStorage;
 }
 
 function load_favorite_count() {
-    $('#favorite-count').text(localStorage.length)
+    $('#favorite-count').text(localStorage.length);
 }
 
 function load_favorites() {
     $('#show-favorites').on('click', function() {
+        $('#clear-selection').removeClass('invisible');
         var items = []
         Object.keys(localStorage).forEach(function(key) {
             var item = localStorage.getItem(key)

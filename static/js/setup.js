@@ -13,7 +13,7 @@ $(function() {
             break;
         case "/":
             load_front_page_GET();
-            clear_selection();
+            clear_favorites();
             search_ajax_POST();
             search_unique_tags_GET();
             select_category_POST();
@@ -23,7 +23,7 @@ $(function() {
             break;
         case "/edit":
             load_front_page_GET();
-            clear_selection();
+            clear_favorites();
             search_ajax_POST();
             search_unique_tags_GET();
             select_category_POST();

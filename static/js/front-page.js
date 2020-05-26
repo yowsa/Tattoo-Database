@@ -49,9 +49,3 @@ function element_link(element, word, link) {
         }
     })
 }
-
-function clear_selection() {
-    $('#clear-selection').on('click', function() {
-        load_front_page_GET()
-    })
-}

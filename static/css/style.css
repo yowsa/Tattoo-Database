@@ -134,6 +134,7 @@ select,
     font-size: 12px;
     letter-spacing: 1px;
     padding: 20px 26px;
+    margin-right: 18px;
 }
 
 #clear-selection:hover {
@@ -148,7 +149,6 @@ select,
 
 #show-favorites {
     font-size: 12px;
-    padding-right: 32px;
     height: 100%
 }
 
