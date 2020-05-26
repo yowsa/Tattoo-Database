@@ -11,7 +11,7 @@ function front_page(items) {
 
     load_image(bucket_url, items[0], 1)
 
-    var front_lettering = $('<div />', { id: 'front-lettering', class: 'd-flex flex-column justify-content-around align-items-center text-center' }).html('<p class="front-lettering-1">Aa</p><p class="front-lettering-2">Aa</p><p class="front-lettering-3">Aa</p><p class="front-lettering-4">Aa</p><p class="front-lettering-5">BLAEK <br/> <span>FONTFINDER</span></p~').appendTo('#search-images-col-3')
+    var front_lettering = $('<div />', { id: 'front-lettering', class: 'd-flex flex-column justify-content-around align-items-center text-center' }).html('<p class="front-lettering-1">Aa 123</p><p class="front-lettering-2">Aa 123</p><p class="front-lettering-3">Aa 123</p><p class="front-lettering-4">Aa 123</p><p class="front-lettering-6">Aa 123</p><p class="front-lettering-5">BLAEK <br/> <span>FONTFINDER</span></p~').appendTo('#search-images-col-3')
     element_link(front_lettering, false, "/fontfinder")
 
     load_image(bucket_url, items[1], 0)
