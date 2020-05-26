@@ -74,7 +74,8 @@ function search_ajax_POST() {
     $('#search-word-button').on('keypress click', function(event) {
         event.preventDefault();
         if (event.which === 13 || event.type === 'click') {
-            const word = $('#formSearchWord').val()
+            const word = $('#formSearchWord').val();
+            $('#formSearchWord').blur();
             $('.tag-selector').get(0).selectedIndex = 0;
             search_word(word);
         }

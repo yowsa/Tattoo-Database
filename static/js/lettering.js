@@ -3,6 +3,12 @@ function update_fonts() {
         $('.fonts').text($(this).val());
     });
 
+    $('#formTryFont').on('keypress', function(event) {
+        if (event.which === 13) {
+            $('#formTryFont').blur();
+        }
+    })
+
     $('.letter-spacing-button').on('click', function() {
         var value = $(this).val();
         $('.fonts').css('letter-spacing', value)
