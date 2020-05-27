@@ -55,7 +55,7 @@ def user_loader(username):
 @application.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('search'))
+        return redirect(url_for('index'))
 
     if request.method == 'GET':
         return render_template('login.html')
@@ -65,7 +65,7 @@ def login():
         user = User()
         user.id = username
         login_user(user)
-        return redirect(url_for('search'))
+        return redirect(url_for('index'))
     return render_template('login.html', message="Username or password was wrong. Please try again.", alert_type="alert-danger")
 
 @login_manager.unauthorized_handler
@@ -77,16 +77,15 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-@application.route('/add')
-@login_required
-def index():
-    return render_template('add-product.html')
-
 @application.route('/')
 @login_required
-def search():
+def index():
     return render_template('search.html')
 
+@application.route('/add')
+@login_required
+def add():
+    return render_template('add-product.html')
 
 @application.route('/edit')
 @login_required

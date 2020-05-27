@@ -34,9 +34,6 @@ $(function() {
         case "/fontfinder":
             update_fonts();
             break;
-        case "/login":
-            login()
-            break;
 
     }
 
