@@ -150,7 +150,7 @@ def product(item_id):
 
 @application.route('/api/paths', methods=['GET'])
 def paths():
-    return {'root_url':CONFIG.ROOT_URL, 'bucket_url':CONFIG.BUCKET_URL}
+    return {'bucket_url':CONFIG.BUCKET_URL}
 
 
 if __name__ == '__main__':
