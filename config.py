@@ -1,8 +1,8 @@
 class ImageConf:
-    PNG_HEIGHT = 800
-    PNG_WIDTH = 800
-    VECTOR_MIN_WIDTH = 2000
-    VECTOR_MIN_HEIGHT = 2000
+    PNG_HEIGHT = 1500
+    PNG_WIDTH = 1500
+    VECTOR_MIN_WIDTH = 2500
+    VECTOR_MIN_HEIGHT = 2500
     VECTOR_FORMATS = ('.eps', '.pdf', '.png')
 
 
