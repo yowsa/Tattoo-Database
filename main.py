@@ -125,9 +125,6 @@ def search_all():
     search_result = product_manager.get_all_products()
     return search_result
 
-@application.route('/api/env', methods=['GET'])
-def env():
-    return login_config.ENV
 
 @application.route('/api/search/<word>', methods=['POST'])
 def search_word(word):
