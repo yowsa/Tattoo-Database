@@ -20,6 +20,16 @@ body {
     font-style: 700;
 }
 
+@media (max-width: 575.98px) {
+    h1.logo {
+        color: black;
+        font-size: 40px;
+        letter-spacing: 12px;
+        margin-left: -4px;
+        padding-bottom: 53px;
+    }
+}
+
 h1.logo {
     color: black;
     font-size: 60px;
